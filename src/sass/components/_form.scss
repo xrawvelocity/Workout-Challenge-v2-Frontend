@@ -1,0 +1,37 @@
+.form {
+    @include centerFlex(column, center, flex-start);
+    position: absolute;
+    right: 5rem;
+    margin-top: 10rem;
+
+    &-input {
+        border: none;
+        font-size: 3rem;
+        padding: 1rem 1.5rem;
+        margin: 1rem 0 3rem;
+        width: 80%;
+    }
+
+    &-label {
+        font-size: 3rem;
+    }
+
+    &-button {
+        @extend .landing-heading-btn;
+        margin-top: 3rem;
+        font-weight: 700;
+    }
+
+    &-member {
+        vertical-align: middle;
+        padding-bottom: 2rem;
+        padding-left: 3rem;
+        font-size: 2rem;
+        display: inline-block;
+        width: 220px;
+
+        & span {
+            display: inline-block;
+        }
+    }
+}

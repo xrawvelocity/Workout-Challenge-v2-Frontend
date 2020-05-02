@@ -1,0 +1,58 @@
+.landing {
+    @include centerFlex(row, space-between);
+    height: 100vh;
+    color: #ddd;
+
+    &-heading {
+        @include centerFlex(column);
+        align-items: flex-start;
+        text-transform: uppercase;
+        font-size: 4rem;
+        font-weight: 700;
+        letter-spacing: 1rem;
+        position: absolute;
+        right: 10rem;
+        margin-top: 10rem;
+
+        & span {
+            display: block;
+            margin: 2rem 0rem 0rem 0rem;
+        }
+
+        &-btn,
+        &-btn:link,
+        &-btn:active,
+        &-btn:visited {
+            border: none;
+            border-radius: 2px;
+            padding: 1rem 2rem;
+            font-size: 3rem;
+            background-color: lawngreen;
+            color: black;
+            margin-top: 5rem;
+            transition: all .3s ease-out;
+            text-decoration: none;
+            text-transform: none;
+            letter-spacing: normal;
+
+            &:hover {
+                cursor: pointer;
+                background-color: #69d100;
+                box-shadow: 0rem 0rem .5rem lawngreen;
+            }
+        }
+    }
+
+    &-image {
+        height: 100%;
+        width: 75%;
+        clip-path: polygon(0 0, 100% 0, 100% 0%, 50% 100%, 0 100%);
+        position: absolute;
+        & img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+footer {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #ccc;
+  margin-bottom: 5rem;
+  font-size: 1.6rem;
+  & > *:not(:last-child) {
+    margin-right: 1rem;
+  }
+  & a {
+    color: lawngreen;
+  }
+}

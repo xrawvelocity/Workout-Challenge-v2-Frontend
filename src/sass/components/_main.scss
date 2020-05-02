@@ -1,0 +1,129 @@
+.main-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.main-btns {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 20rem 30% 10rem;
+  font-size: 3rem;
+}
+
+.main-btn {
+  background-color: lawngreen;
+  color: #000;
+  padding: 1.5rem 2.5rem;
+  border-radius: 2px;
+  margin-top: 1rem;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(95, 190, 0);
+  }
+
+  &__hidden {
+    display: none;
+    visibility: hidden;
+  }
+}
+
+.main-current {
+  color: #ddd;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  margin-left: 10rem;
+  margin-right: -10rem;
+  width: 500px;
+  text-align: center;
+
+  &__saved {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  &__saved > * {
+    margin-bottom: 1rem;
+  }
+
+  & h2 {
+    margin-bottom: 2rem;
+  }
+
+  & .day-btn {
+    margin-top: 2rem;
+    align-self: center;
+  }
+
+  &__hidden {
+    display: none;
+    visibility: hidden;
+  }
+}
+
+.main-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+
+  &--group:not(:last-child) {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+
+  &--group input {
+    width: 100px;
+    margin-left: 3rem;
+    border: none;
+    background-color: #333;
+    border-radius: 2px;
+    color: #ddd;
+    padding: 1rem 0.3rem 1rem 1rem;
+  }
+
+  & .day-btn {
+    margin-top: 2rem;
+    align-self: center;
+  }
+}
+
+.main-started {
+  align-self: center;
+  font-size: 3rem;
+  color: #ddd;
+  margin-bottom: 4rem;
+
+  &:hover {
+    cursor: default;
+  }
+
+  &__hidden {
+    display: none;
+    visibility: hidden;
+  }
+}
+
+.main-finished {
+  align-self: center;
+  font-size: 3rem;
+  color: #ddd;
+  margin-bottom: 4rem;
+  &:hover {
+    cursor: default;
+  }
+
+  &__hidden {
+    display: none;
+    visibility: hidden;
+  }
+}
