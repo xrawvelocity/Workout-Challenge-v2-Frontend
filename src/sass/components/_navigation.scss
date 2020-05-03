@@ -1,6 +1,6 @@
 nav {
   padding: 2rem 15rem;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,.5);
   color: aliceblue;
   position: fixed;
   top: 0;
@@ -36,7 +36,7 @@ nav ul {
 }
 
 .title-green {
-  color: lawngreen !important;
+  color: $green !important;
   letter-spacing: 4.5px;
 }
 
@@ -46,16 +46,16 @@ nav ul {
   margin: 3rem;
   font-size: 3rem;
   padding-bottom: 0.7rem;
-  border-bottom: 1px solid lawngreen;
+  border-bottom: 1px solid $green;
 }
 
 .link:hover {
   cursor: pointer;
-  color: lawngreen;
+  color: $green;
 }
 
 .selected {
-  color: lawngreen !important;
+  color: $green !important;
 }
 
 .selected:hover {
@@ -75,7 +75,7 @@ nav ul {
   color: #ddd;
   transition: all .3s ease-out;
   &:hover {
-    color: lawngreen;
+    color: $green;
     
   }
 }

@@ -57,10 +57,10 @@ export default class Header extends Component {
                   <h1 class="progress-text">{`${this.props.progress}%`}</h1>
                 </div>
                 <Link className="nav-link" to="/login">
-                  Log In
+                  {/* Log In */}
                 </Link>
                 <Link className="nav-link" to="/signup">
-                  Sign Up
+                  Log Out
                 </Link>
               </Fragment>
             )}

@@ -5,12 +5,7 @@
 
 html {
   font-size: 62.5%;
-  background-color: #111;
-  background-image: linear-gradient(#0c150c, #0c170c);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+  background-color: #14110F;
   scroll-behavior: smooth; }
 
 body {
@@ -19,11 +14,11 @@ body {
 
 ::-moz-selection {
   background-color: #444;
-  color: lawngreen; }
+  color: #7cfc00; }
 
 ::selection {
   background-color: #444;
-  color: lawngreen; }
+  color: #7cfc00; }
 
 body::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -39,7 +34,7 @@ body::-webkit-scrollbar-thumb {
   border-radius: 2px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: lawngreen; }
+  background-color: #7cfc00; }
 
 nav {
   padding: 2rem 15rem;
@@ -74,7 +69,7 @@ nav ul {
   cursor: pointer; }
 
 .title-green {
-  color: lawngreen !important;
+  color: #7cfc00 !important;
   letter-spacing: 4.5px; }
 
 .link,
@@ -83,14 +78,14 @@ nav ul {
   margin: 3rem;
   font-size: 3rem;
   padding-bottom: 0.7rem;
-  border-bottom: 1px solid lawngreen; }
+  border-bottom: 1px solid #7cfc00; }
 
 .link:hover {
   cursor: pointer;
-  color: lawngreen; }
+  color: #7cfc00; }
 
 .selected {
-  color: lawngreen !important; }
+  color: #7cfc00 !important; }
 
 .selected:hover {
   cursor: default; }
@@ -109,7 +104,7 @@ nav ul {
   .nav-link:link:hover,
   .nav-link:active:hover,
   .nav-link:visited:hover {
-    color: lawngreen; }
+    color: #7cfc00; }
 
 .progress {
   display: flex;
@@ -273,6 +268,153 @@ nav ul {
       width: 100%;
       object-fit: cover;
       object-position: center; }
+
+.home {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 2.6rem;
+  color: #eee;
+  margin-top: 10%; }
+  .home-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 10rem 0 0 10rem; }
+    .home-nav > * {
+      transition: all 0.3s ease-out; }
+    .home-nav > *:hover {
+      color: #B80C09;
+      cursor: pointer; }
+    .home-nav > *:not(:last-child) {
+      margin-bottom: 3rem; }
+  .home-feed {
+    width: 45%; }
+    .home-feed-posts {
+      display: flex;
+      flex-direction: column; }
+      .home-feed-posts > *:not(:first-child) {
+        margin: 3rem auto 0; }
+      .home-feed-posts-card {
+        display: flex;
+        background-color: rgba(200, 200, 200, 0.5);
+        border-radius: 3px;
+        padding: 1rem 2rem; }
+        .home-feed-posts-card-avatar {
+          padding-right: 3rem; }
+          .home-feed-posts-card-avatar-img {
+            border-radius: 100px;
+            height: 70px;
+            width: auto;
+            object-fit: contain; }
+        .home-feed-posts-card-content {
+          display: flex;
+          flex-direction: column;
+          padding-right: 6rem; }
+          .home-feed-posts-card-content-top {
+            display: flex; }
+            .home-feed-posts-card-content-top_username {
+              color: #ccc;
+              padding: 0 1rem; }
+          .home-feed-posts-card-content-middle {
+            padding: 2rem 0; }
+          .home-feed-posts-card-content-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem; }
+            .home-feed-posts-card-content-bottom > * {
+              transition: all 0.3s ease-out; }
+            .home-feed-posts-card-content-bottom > *:hover {
+              color: #7cfc00;
+              cursor: pointer; }
+  .home-other {
+    width: 20%;
+    margin-right: 5rem; }
+    .home-other-search {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 10px;
+      width: 38.5rem;
+      padding: 0.5rem 0;
+      margin-bottom: 2rem; }
+      .home-other-search_icon {
+        height: 30px;
+        width: auto;
+        color: #333;
+        padding: 0 1rem; }
+      .home-other-search_input {
+        overflow: hidden;
+        border: none;
+        background-color: transparent;
+        padding: 0.5rem 0.75rem;
+        font-size: 2rem;
+        width: 80%;
+        transition: all 0.3s ease-out; }
+        .home-other-search_input:hover {
+          background-color: #efefef; }
+        .home-other-search_input:focus {
+          outline: none;
+          background-color: #efefef; }
+    .home-other-workouts {
+      padding: 1rem 0;
+      font-size: 2.4rem; }
+      .home-other-workouts_title {
+        margin-bottom: 1.5rem;
+        font-size: 2.6rem; }
+      .home-other-workouts-card {
+        padding: 1rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(200, 200, 200, 0.5);
+        color: #ddd;
+        margin-bottom: 3rem;
+        border-radius: 3px; }
+        .home-other-workouts-card > *:not(:last-child) {
+          margin-bottom: 0.5rem; }
+        .home-other-workouts-card_type {
+          display: inline-flex; }
+        .home-other-workouts-card_author {
+          display: inline-flex;
+          padding-left: 0.75rem; }
+        .home-other-workouts-card_title {
+          color: #eee; }
+    .home-other-people_title {
+      margin-bottom: 1.5rem;
+      font-size: 2.6rem; }
+    .home-other-people-card {
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(200, 200, 200, 0.5);
+      color: #ddd;
+      margin-bottom: 3rem;
+      border-radius: 3px; }
+      .home-other-people-card-middle {
+        margin-left: -6rem;
+        margin-bottom: 1rem; }
+        .home-other-people-card-middle_username {
+          font-size: 2rem; }
+      .home-other-people-card-button > * {
+        border: none;
+        padding: 0.5rem 0.75rem;
+        font-size: 2rem;
+        border-radius: 2px; }
+      .home-other-people-card-button_follow {
+        transition: all 0.3s ease-out; }
+        .home-other-people-card-button_follow:hover {
+          background-color: #1976e0;
+          color: #eee;
+          cursor: pointer; }
+      .home-other-people-card-button_following {
+        background-color: #1976e0;
+        color: #eee;
+        transition: all 0.3s ease-out; }
+        .home-other-people-card-button_following:hover {
+          background-color: #B80C09;
+          color: #eee;
+          cursor: pointer; }
 
 .form {
   display: flex;

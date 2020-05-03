@@ -1,0 +1,230 @@
+.home {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 2.6rem;
+  color: #eee;
+  margin-top: 10%;
+
+  &-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 10rem 0 0 10rem;
+
+    & > * {
+      transition: all 0.3s ease-out;
+    }
+
+    & > *:hover {
+      color: $red;
+      cursor: pointer;
+    }
+
+    & > *:not(:last-child) {
+      margin-bottom: 3rem;
+    }
+  }
+  &-feed {
+    width: 45%;
+
+    &-posts {
+      display: flex;
+      flex-direction: column;
+
+      & > *:not(:first-child) {
+        margin: 3rem auto 0;
+      }
+
+      &-card {
+        display: flex;
+        background-color: rgba(200, 200, 200, 0.5);
+        border-radius: 3px;
+        padding: 1rem 2rem;
+
+        &-avatar {
+          padding-right: 3rem;
+          &-img {
+            border-radius: 100px;
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+          }
+        }
+        &-content {
+          display: flex;
+          flex-direction: column;
+          padding-right: 6rem;
+
+          &-top {
+            display: flex;
+
+            &_name {
+            }
+            &_username {
+              color: #ccc;
+              padding: 0 1rem;
+            }
+            &_time {
+            }
+          }
+          &-middle {
+            padding: 2rem 0;
+          }
+          &-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+
+            & > * {
+              transition: all 0.3s ease-out;
+            }
+
+            & > *:hover {
+              color: $green;
+              cursor: pointer;
+            }
+
+            &_like {
+            }
+            &_comment {
+            }
+            &_share {
+            }
+          }
+        }
+      }
+    }
+  }
+  &-other {
+    width: 20%;
+    margin-right: 5rem;
+
+    &-search {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 10px;
+      width: 38.5rem;
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+
+      &_icon {
+        height: 30px;
+        width: auto;
+        color: #333;
+        padding: 0 1rem;
+      }
+
+      &_input {
+        overflow: hidden;
+        border: none;
+        background-color: transparent;
+        padding: 0.5rem 0.75rem;
+        font-size: 2rem;
+        width: 80%;
+        transition: all 0.3s ease-out;
+
+        &:hover {
+          background-color: #efefef;
+        }
+
+        &:focus {
+          outline: none;
+          background-color: #efefef;
+        }
+      }
+    }
+    &-workouts {
+      padding: 1rem 0;
+      font-size: 2.4rem;
+
+      &_title {
+        margin-bottom: 1.5rem;
+        font-size: 2.6rem;
+      }
+
+      &-card {
+        padding: 1rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(200, 200, 200, 0.5);
+        color: #ddd;
+        margin-bottom: 3rem;
+        border-radius: 3px;
+
+        & > *:not(:last-child) {
+          margin-bottom: 0.5rem;
+        }
+
+        &_type {
+          display: inline-flex;
+        }
+        &_author {
+          display: inline-flex;
+          padding-left: 0.75rem;
+        }
+        &_title {
+          color: #eee;
+        }
+        &_likes {
+        }
+      }
+    }
+    &-people {
+      &_title {
+        margin-bottom: 1.5rem;
+        font-size: 2.6rem;
+      }
+
+      &-card {
+        padding: 1rem 1.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(200, 200, 200, 0.5);
+        color: #ddd;
+        margin-bottom: 3rem;
+        border-radius: 3px;
+
+        &-middle {
+          margin-left: -6rem;
+          margin-bottom: 1rem;
+
+          &_name {
+          }
+          &_username {
+            font-size: 2rem;
+          }
+        }
+        &-button {
+          & > * {
+            border: none;
+            padding: 0.5rem 0.75rem;
+            font-size: 2rem;
+            border-radius: 2px;
+          }
+
+          &_follow {
+            transition: all 0.3s ease-out;
+            &:hover {
+              background-color: $blue;
+              color: #eee;
+              cursor: pointer;
+            }
+          }
+          &_following {
+            background-color: $blue;
+            color: #eee;
+            transition: all 0.3s ease-out;
+            &:hover {
+              background-color: $red;
+              color: #eee;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}

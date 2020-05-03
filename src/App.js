@@ -4,12 +4,13 @@ import Home from "./components/home/Home";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Landing from "./components/home/Landing";
+import Workout from "./components/profile/Workout";
 
 export default class App extends Component {
   render() {
     return (
       <div>
-      { false ?
+      { true ?
         <Switch>
           <Route exact path="/" render={(props) => <Home {...props} />}></Route>
           <Route
@@ -22,6 +23,7 @@ export default class App extends Component {
             path="/signup"
             render={(props) => <Signup {...props} />}
           ></Route>
+          <Route exact path="/workout" render={(props) => <Workout {...props} />}></Route>
         </Switch>
         :
         <Switch>
@@ -36,6 +38,7 @@ export default class App extends Component {
             path="/signup"
             render={(props) => <Signup {...props} />}
           ></Route>
+          <Route exact path="/workout" render={(props) => <Workout {...props} />}></Route>
         </Switch>
       }
       </div>
