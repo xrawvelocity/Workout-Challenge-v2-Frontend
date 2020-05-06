@@ -15,9 +15,9 @@ export default class Header extends Component {
           <ul>
             {false ? (
               <Fragment>
-                <div class="progress">
-                  <div class="progress-bar" id="progress"></div>
-                  <h1 class="progress-text">{`${this.props.progress}%`}</h1>
+                <div className="progress">
+                  <div className="progress-bar" id="progress"></div>
+                  <h1 className="progress-text">{`${this.props.progress}%`}</h1>
                 </div>
                 <a href="#top">
                   <li
@@ -52,9 +52,9 @@ export default class Header extends Component {
               </Fragment>
             ) : (
               <Fragment>
-                <div class="progress progress__hidden">
-                  <div class="progress-bar" id="progress"></div>
-                  <h1 class="progress-text">{`${this.props.progress}%`}</h1>
+                <div className="progress progress__hidden">
+                  <div className="progress-bar" id="progress"></div>
+                  <h1 className="progress-text">{`${this.props.progress}%`}</h1>
                 </div>
                 <Link className="nav-link" to="/login">
                   {/* Log In */}

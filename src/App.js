@@ -10,9 +10,17 @@ export default class App extends Component {
   render() {
     return (
       <div>
-      { true ?
         <Switch>
-          <Route exact path="/" render={(props) => <Home {...props} />}></Route>
+          <Route
+            exact
+            path="/"
+            render={(props) => <Landing {...props} />}
+          ></Route>
+          <Route
+            exact
+            path="/home"
+            render={(props) => <Home {...props} />}
+          ></Route>
           <Route
             exact
             path="/login"
@@ -23,24 +31,12 @@ export default class App extends Component {
             path="/signup"
             render={(props) => <Signup {...props} />}
           ></Route>
-          <Route exact path="/workout" render={(props) => <Workout {...props} />}></Route>
-        </Switch>
-        :
-        <Switch>
-          <Route exact path="/" render={(props) => <Landing {...props} />}></Route>
           <Route
             exact
-            path="/login"
-            render={(props) => <Login {...props} />}
+            path="/workout"
+            render={(props) => <Workout {...props} />}
           ></Route>
-          <Route
-            exact
-            path="/signup"
-            render={(props) => <Signup {...props} />}
-          ></Route>
-          <Route exact path="/workout" render={(props) => <Workout {...props} />}></Route>
         </Switch>
-      }
       </div>
     );
   }

@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Header from "../partials/Header";
+import services from "../../services/index";
 
 export default class Login extends Component {
-  state = {};
+  state = {
+    email: "",
+    password: "",
+    loading: false,
+    errors: {},
+  };
 
   handleChange = (e) => {
     this.setState({
@@ -11,9 +17,24 @@ export default class Login extends Component {
     });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    alert(JSON.stringify(this.state));
+    const { email, password } = this.state;
+    this.setState({ loading: true });
+    await services
+      .logIn({ email, password })
+      .then((res) => {
+        console.log(res.data);
+        this.setState({ loading: false });
+        this.props.history.push("/home");
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        this.setState({
+          loading: false,
+          errors: err.response.data,
+        });
+      });
   };
 
   render() {
@@ -28,16 +49,16 @@ export default class Login extends Component {
 
             <form onSubmit={(e) => this.handleSubmit(e)} className="form">
               <label htmlFor="username" className="form-label">
-                Username
+                Email
               </label>
               <input
                 onChange={(e) => this.handleChange(e)}
-                type="text"
+                type="email"
                 className="form-input"
                 required
-                placeholder="GymJim93"
-                name="username"
-                value={this.state.username}
+                placeholder="gymjim93@email.com"
+                name="email"
+                value={this.state.email}
               />
               <label htmlFor="password" className="form-label">
                 Password
@@ -51,10 +72,19 @@ export default class Login extends Component {
                 name="password"
                 value={this.state.password}
               />
+              {this.state.errors.general && (
+                <div className="form-error">{this.state.errors.general}</div>
+              )}
               <div>
-                <button type="submit" className="form-button">
-                  Log In
-                </button>
+                {!this.state.loading ? (
+                  <button type="submit" className="form-button">
+                    Log In
+                  </button>
+                ) : (
+                  <button disabled type="submit" className="form-button">
+                    <div className="form-button_loading"></div>
+                  </button>
+                )}
                 <div className="form-member">
                   <span>Not a member?</span>
                   <span>

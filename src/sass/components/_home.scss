@@ -16,7 +16,7 @@
     }
 
     & > *:hover {
-      color: $red;
+      color: $green;
       cursor: pointer;
     }
 
@@ -40,6 +40,7 @@
         background-color: rgba(200, 200, 200, 0.5);
         border-radius: 3px;
         padding: 1rem 2rem;
+        min-width: 900px;
 
         &-avatar {
           padding-right: 3rem;
@@ -72,11 +73,12 @@
           }
           &-bottom {
             display: flex;
-            justify-content: space-between;
+            justify-content: start;
             padding-top: 1rem;
 
             & > * {
               transition: all 0.3s ease-out;
+              padding-right: 3rem;
             }
 
             & > *:hover {
@@ -89,6 +91,46 @@
             &_comment {
             }
             &_share {
+            }
+          }
+          &-post {
+            width: 100%;
+            &_form {
+              display: flex;
+              height: 100%;
+              width: 100%;
+
+              &-input {
+                height: 100%;
+                width: 100%;
+                border: none;
+                background-color: transparent;
+                color: #111;
+                font-size: 2rem;
+                transition: all 0.3s ease-out;
+                &:required {
+                  box-shadow: none;
+                }
+                &:hover,
+                &:focus {
+                  cursor: text;
+                  background-color: rgba(200, 200, 200, 0.2);
+                }
+              }
+              &-button {
+                border: none;
+                padding: 1rem 1.5rem;
+                border-radius: 3px;
+                text-transform: uppercase;
+                background-color: #eee;
+                font-size: 2.4rem;
+                transition: all 0.3s ease-out;
+
+                &:hover {
+                  background-color: #fff;
+                  cursor: pointer;
+                }
+              }
             }
           }
         }
@@ -218,7 +260,7 @@
             color: #eee;
             transition: all 0.3s ease-out;
             &:hover {
-              background-color: $red;
+              background-color: $green;
               color: #eee;
               cursor: pointer;
             }

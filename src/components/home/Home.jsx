@@ -1,42 +1,107 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Header from "../partials/Header";
+import services from "./../../services/index";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 export default class Home extends Component {
-  showPosts = (name, username, time, content) => {
+  state = {};
+
+  async componentDidMount() {
+    console.log("yes");
+    let posts = await services.getAllPosts();
+    console.log("test", posts);
+    this.setState({
+      allPosts: posts.data.sort((a, b) => {
+        return Date.parse(b.createdAt) - Date.parse(a.createdAt);
+      }),
+    });
+    console.log(this.state);
+  }
+
+  showEmptyPost = () => {
     return (
       <div className="home-feed-posts-card">
         <div className="home-feed-posts-card-avatar">
           <img
-            src="./img/avatar.jpg"
+            src="./img/userdefault.png"
             alt="avatar"
             className="home-feed-posts-card-avatar-img"
           />
         </div>
         <div className="home-feed-posts-card-content">
           <div className="home-feed-posts-card-content-top">
-            <div className="home-feed-posts-card-content-top_name">{name}</div>
-            <div className="home-feed-posts-card-content-top_username">
-              {username}
-            </div>
-            <div className="home-feed-posts-card-content-top_time">
-              &bull; {time}
-            </div>
+            <div className="home-feed-posts-card-content-top_name"></div>
+            <div className="home-feed-posts-card-content-top_username"></div>
+            <div className="home-feed-posts-card-content-top_time"></div>
           </div>
           <div className="home-feed-posts-card-content-middle">
-            <div>{content}</div>
+            <div>Loading...</div>
           </div>
           <div className="home-feed-posts-card-content-bottom">
-            <div className="home-feed-posts-card-content-bottom_like">Like</div>
-            <div className="home-feed-posts-card-content-bottom_comment">
-              Comment
-            </div>
-            <div className="home-feed-posts-card-content-bottom_share">
-              Share
-            </div>
+            <div className="home-feed-posts-card-content-bottom_like"></div>
+            <div className="home-feed-posts-card-content-bottom_comment"></div>
+            <div className="home-feed-posts-card-content-bottom_share"></div>
           </div>
         </div>
       </div>
     );
+  };
+
+  showPosts = () => {
+    if (this.state.allPosts) {
+      dayjs.extend(relativeTime);
+      return this.state.allPosts.map((post) => {
+        return (
+          <div key={post.postId} className="home-feed-posts-card">
+            <div className="home-feed-posts-card-avatar">
+              <img
+                src={post.userImage}
+                alt="avatar"
+                className="home-feed-posts-card-avatar-img"
+              />
+            </div>
+            <div className="home-feed-posts-card-content">
+              <div className="home-feed-posts-card-content-top">
+                <div className="home-feed-posts-card-content-top_name">
+                  {post.userHandle}
+                </div>
+                <div className="home-feed-posts-card-content-top_username">
+                  @{post.userHandle}
+                </div>
+                <div className="home-feed-posts-card-content-top_time">
+                  &bull; {dayjs(post.createdAt).fromNow()}
+                </div>
+              </div>
+              <div className="home-feed-posts-card-content-middle">
+                <div>{post.body}</div>
+              </div>
+              <div className="home-feed-posts-card-content-bottom">
+                <div className="home-feed-posts-card-content-bottom_like">
+                  Like
+                </div>
+                <div className="home-feed-posts-card-content-bottom_comment">
+                  Comment
+                </div>
+                <div className="home-feed-posts-card-content-bottom_share">
+                  Share
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      });
+    } else {
+      return (
+        <Fragment>
+          {this.showEmptyPost()}
+          {this.showEmptyPost()}
+          {this.showEmptyPost()}
+          {this.showEmptyPost()}
+          {this.showEmptyPost()}
+        </Fragment>
+      );
+    }
   };
 
   showWorkouts = (type, author, title, likes) => {
@@ -50,6 +115,21 @@ export default class Home extends Component {
         <div className="home-other-workouts-card_likes">Likes: {likes}</div>
       </div>
     );
+  };
+
+  handleChange = (e) => {
+    console.log(e.target.name, e.target.value);
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  submitPost = async (e) => {
+    e.preventDefault();
+    await services.createPost({
+      body: this.state.body,
+    });
+    this.setState({body: ''})
   };
 
   render() {
@@ -76,42 +156,38 @@ export default class Home extends Component {
           </section>
           <section className="home-feed">
             <div className="home-feed-posts">
-              {this.showPosts(
-                "Victor",
-                "@victorworkout1",
-                "16h",
-                `Has anyone heard of this new trend that says to only eat One Meal A Day (OMAD)?`
-              )}
-              {this.showPosts(
-                "Pepe",
-                "@pepeworkout2",
-                "18h",
-                `Is doing yoga before working out better than doing it after?`
-              )}
-              {this.showPosts(
-                "Jose",
-                "@joseworkout3",
-                "19h",
-                `An easy way to do at least 100 pushups per day is to split them into small sets throughout the day to make it easy to develop the habit.`
-              )}
-              {this.showPosts(
-                "Juan",
-                "@juanworkout4",
-                "20h",
-                `Sometimes I don't want to workout... that's when it's more crucial that I do, comfort is your enemy.`
-              )}
-              {this.showPosts(
-                "Jose",
-                "@joseworkout3",
-                "19h",
-                `An easy way to do at least 100 pushups per day is to split them into small sets throughout the day to make it easy to develop the habit.`
-              )}
-              {this.showPosts(
-                "Jose",
-                "@joseworkout3",
-                "19h",
-                `An easy way to do at least 100 pushups per day is to split them into small sets throughout the day to make it easy to develop the habit.`
-              )}
+              <div className="home-feed-posts-card">
+                <div className="home-feed-posts-card-avatar">
+                  <img
+                    src="./img/avatar.jpg"
+                    alt="avatar"
+                    className="home-feed-posts-card-avatar-img"
+                  />
+                </div>
+                <div className="home-feed-posts-card-content-post">
+                  <form
+                    className="home-feed-posts-card-content-post_form"
+                    onSubmit={(e) => this.submitPost(e)}
+                  >
+                    <textarea
+                      className="home-feed-posts-card-content-post_form-input"
+                      onChange={(e) => this.handleChange(e)}
+                      type="text"
+                      name="body"
+                      value={this.state.body}
+                      placeholder="What's on your mind..."
+                      required
+                    />
+                    <button
+                      className="home-feed-posts-card-content-post_form-button"
+                      type="submit"
+                    >
+                      Post
+                    </button>
+                  </form>
+                </div>
+              </div>
+              {this.showPosts()}
             </div>
           </section>
           <section className="home-other">
@@ -128,7 +204,9 @@ export default class Home extends Component {
               />
             </div>
             <div className="home-other-workouts">
-              <h3 className="home-other-workouts_title">Recommended Workouts</h3>
+              <h3 className="home-other-workouts_title">
+                Recommended Workouts
+              </h3>
               {this.showWorkouts(
                 "Bodyweight",
                 "Victor",
@@ -141,7 +219,6 @@ export default class Home extends Component {
                 "Morning Yoga Routine",
                 "132"
               )}
-              
             </div>
             <div className="home-other-people">
               <h3 className="home-other-people_title">Who to follow</h3>

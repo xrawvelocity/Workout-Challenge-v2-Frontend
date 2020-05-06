@@ -21,7 +21,6 @@
 
         &-btn,
         &-btn:link,
-        &-btn:active,
         &-btn:visited {
             border: none;
             border-radius: 2px;
@@ -34,6 +33,7 @@
             text-decoration: none;
             text-transform: none;
             letter-spacing: normal;
+            min-width: 150px;
 
             &:hover {
                 cursor: pointer;
