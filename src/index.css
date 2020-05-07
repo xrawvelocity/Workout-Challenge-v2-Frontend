@@ -104,7 +104,8 @@ nav ul {
   .nav-link:link:hover,
   .nav-link:active:hover,
   .nav-link:visited:hover {
-    color: #7cfc00; }
+    color: #7cfc00;
+    cursor: pointer; }
 
 .progress {
   display: flex;
@@ -224,8 +225,9 @@ nav ul {
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  height: 100vh;
-  color: #ddd; }
+  height: 99.5vh;
+  color: #ddd;
+  overflow: hidden; }
   .landing-heading {
     display: flex;
     justify-content: center;
@@ -277,17 +279,23 @@ nav ul {
   color: #eee;
   margin-top: 10%; }
   .home-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin: 10rem 0 0 10rem; }
-    .home-nav > * {
-      transition: all 0.3s ease-out; }
-    .home-nav > *:hover {
-      color: #7cfc00;
-      cursor: pointer; }
-    .home-nav > *:not(:last-child) {
-      margin-bottom: 3rem; }
+    position: sticky; }
+    .home-nav_sticky {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-end;
+      position: sticky;
+      top: 200px;
+      margin: 10rem 0 0 10rem; }
+      .home-nav_sticky-selected {
+        color: #7cfc00; }
+      .home-nav_sticky > * {
+        transition: all 0.3s ease-out; }
+      .home-nav_sticky > *:hover {
+        color: #7cfc00;
+        cursor: pointer; }
+      .home-nav_sticky > *:not(:last-child) {
+        margin-bottom: 3rem; }
   .home-feed {
     width: 45%; }
     .home-feed-posts {
@@ -330,21 +338,28 @@ nav ul {
               color: #7cfc00;
               cursor: pointer; }
           .home-feed-posts-card-content-post {
-            width: 100%; }
+            width: 100%;
+            height: 120px; }
             .home-feed-posts-card-content-post_form {
               display: flex;
-              height: 100%;
+              justify-content: center;
+              align-items: center;
+              min-height: 100%;
               width: 100%; }
               .home-feed-posts-card-content-post_form-input {
-                height: 100%;
-                width: 100%;
+                height: 100px;
+                width: 90%;
                 border: none;
+                padding: 0.5rem 1rem;
                 background-color: transparent;
-                color: #111;
+                color: #fff;
+                resize: none;
                 font-size: 2rem;
                 transition: all 0.3s ease-out; }
                 .home-feed-posts-card-content-post_form-input:required {
                   box-shadow: none; }
+                .home-feed-posts-card-content-post_form-input::placeholder {
+                  color: #eee; }
                 .home-feed-posts-card-content-post_form-input:hover, .home-feed-posts-card-content-post_form-input:focus {
                   cursor: text;
                   background-color: rgba(200, 200, 200, 0.2); }
@@ -354,10 +369,12 @@ nav ul {
                 border-radius: 3px;
                 text-transform: uppercase;
                 background-color: #eee;
-                font-size: 2.4rem;
+                margin: 0 1rem;
+                font-size: 2rem;
                 transition: all 0.3s ease-out; }
                 .home-feed-posts-card-content-post_form-button:hover {
-                  background-color: #fff;
+                  background-color: #7cfc00;
+                  color: #14110F;
                   cursor: pointer; }
   .home-other {
     width: 20%;
@@ -448,6 +465,15 @@ nav ul {
           background-color: #7cfc00;
           color: #eee;
           cursor: pointer; }
+
+.messages-people {
+  width: 25%;
+  background-color: red; }
+
+.messages-list {
+  width: 40%;
+  margin-right: 5rem;
+  background-color: blue; }
 
 .form {
   display: flex;

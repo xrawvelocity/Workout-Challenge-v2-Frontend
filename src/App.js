@@ -1,42 +1,56 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import Home from "./components/home/Home";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Landing from "./components/home/Landing";
-import Workout from "./components/profile/Workout";
+import Main from "./components/home/Main";
+
+import jwtDecode from "jwt-decode";
+
+let authenticated;
+const token = localStorage.FBIdToken;
+if (token) {
+  const decodedToken = jwtDecode(token);
+  if (decodedToken.exp * 1000 < Date.now()) {
+    authenticated = false;
+    localStorage.removeItem("FBIdToken");
+    window.location.href = "/login";
+  } else {
+    authenticated = true;
+  }
+}
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={(props) => <Landing {...props} />}
-          ></Route>
-          <Route
-            exact
-            path="/home"
-            render={(props) => <Home {...props} />}
-          ></Route>
-          <Route
-            exact
-            path="/login"
-            render={(props) => <Login {...props} />}
-          ></Route>
-          <Route
-            exact
-            path="/signup"
-            render={(props) => <Signup {...props} />}
-          ></Route>
-          <Route
-            exact
-            path="/workout"
-            render={(props) => <Workout {...props} />}
-          ></Route>
-        </Switch>
+        {authenticated ? (
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={(props) => <Main {...props} />}
+            ></Route>
+          </Switch>
+        ) : (
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={(props) => <Landing {...props} />}
+            ></Route>
+            <Route
+              exact
+              path="/login"
+              render={(props) => <Login {...props} />}
+            ></Route>
+            <Route
+              exact
+              path="/signup"
+              render={(props) => <Signup {...props} />}
+            ></Route>
+          </Switch>
+        )}
       </div>
     );
   }

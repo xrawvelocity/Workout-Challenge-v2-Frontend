@@ -23,13 +23,14 @@ export default class Login extends Component {
     this.setState({ loading: true });
     await services
       .logIn({ email, password })
-      .then((res) => {
+      .then(async (res) => {
         console.log(res.data);
+        await localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
         this.setState({ loading: false });
-        this.props.history.push("/home");
+        window.location.href = "/";
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
         this.setState({
           loading: false,
           errors: err.response.data,

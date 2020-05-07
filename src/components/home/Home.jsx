@@ -1,18 +1,23 @@
 import React, { Component, Fragment } from "react";
-import Header from "../partials/Header";
 import services from "./../../services/index";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 
-export default class Home extends Component {
+//redux
+import { connect } from "react-redux";
+import { getAllPosts, getUserData } from "../../actions";
+
+class Home extends Component {
   state = {};
 
   async componentDidMount() {
-    console.log("yes");
-    let posts = await services.getAllPosts();
-    console.log("test", posts);
+    await this.props.getAllPosts();
+    await this.props.getUserData();
+
     this.setState({
-      allPosts: posts.data.sort((a, b) => {
+      sortedPosts: this.props.allPosts.data.sort((a, b) => {
         return Date.parse(b.createdAt) - Date.parse(a.createdAt);
       }),
     });
@@ -49,9 +54,9 @@ export default class Home extends Component {
   };
 
   showPosts = () => {
-    if (this.state.allPosts) {
+    if (this.state.sortedPosts) {
       dayjs.extend(relativeTime);
-      return this.state.allPosts.map((post) => {
+      return this.state.sortedPosts.map((post) => {
         return (
           <div key={post.postId} className="home-feed-posts-card">
             <div className="home-feed-posts-card-avatar">
@@ -77,14 +82,30 @@ export default class Home extends Component {
                 <div>{post.body}</div>
               </div>
               <div className="home-feed-posts-card-content-bottom">
-                <div className="home-feed-posts-card-content-bottom_like">
-                  Like
+                <div
+                  onClick={async () => {
+                    await services.likePost(post.postId);
+                    // .then(data=>console.log("liked", data))
+                    // .catch(err => {
+
+                    // })
+                    await this.props.getAllPosts();
+                    this.setState({
+                      sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                        return (
+                          Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                        );
+                      }),
+                    });
+                  }}
+                  className="home-feed-posts-card-content-bottom_like"
+                >
+                  {post.likeCount > 0 && post.likeCount}{" "}
+                  <FontAwesomeIcon icon={faHeart} />
                 </div>
                 <div className="home-feed-posts-card-content-bottom_comment">
-                  Comment
-                </div>
-                <div className="home-feed-posts-card-content-bottom_share">
-                  Share
+                  {post.commentCount > 0 && post.commentCount}{" "}
+                  <FontAwesomeIcon icon={faComment} />
                 </div>
               </div>
             </div>
@@ -118,7 +139,6 @@ export default class Home extends Component {
   };
 
   handleChange = (e) => {
-    console.log(e.target.name, e.target.value);
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -126,146 +146,137 @@ export default class Home extends Component {
 
   submitPost = async (e) => {
     e.preventDefault();
-    await services.createPost({
-      body: this.state.body,
+    await services
+      .createPost({
+        body: this.state.body,
+      })
+      .then((data) => console.log("success", data))
+      .catch((err) => {
+        localStorage.removeItem('FBIdToken')
+        window.location.href = "/login";
+      });
+    await this.props.getAllPosts();
+    this.setState({
+      sortedPosts: this.props.allPosts.data.sort((a, b) => {
+        return Date.parse(b.createdAt) - Date.parse(a.createdAt);
+      }),
     });
-    this.setState({body: ''})
+    this.setState({ body: "" });
   };
 
   render() {
     return (
-      <div>
-        <Header />
-        <main className="home">
-          <section className="home-nav">
-            <div>
-              <span>Home</span>
-            </div>
-            <div>
-              <span>Messages</span>
-            </div>
-            <div>
-              <span>Workouts</span>
-            </div>
-            <div>
-              <span>Profile</span>
-            </div>
-            <div>
-              <span>Post</span>
-            </div>
-          </section>
-          <section className="home-feed">
-            <div className="home-feed-posts">
-              <div className="home-feed-posts-card">
-                <div className="home-feed-posts-card-avatar">
-                  <img
-                    src="./img/avatar.jpg"
-                    alt="avatar"
-                    className="home-feed-posts-card-avatar-img"
+      <Fragment>
+        <section className="home-feed">
+          <div className="home-feed-posts">
+            <div className="home-feed-posts-card">
+              <div className="home-feed-posts-card-avatar">
+                <img
+                  src="./img/userdefault.png"
+                  alt="avatar"
+                  className="home-feed-posts-card-avatar-img"
+                />
+              </div>
+              <div className="home-feed-posts-card-content-post">
+                <form
+                  className="home-feed-posts-card-content-post_form"
+                  onSubmit={(e) => this.submitPost(e)}
+                >
+                  <textarea
+                    className="home-feed-posts-card-content-post_form-input"
+                    onChange={(e) => this.handleChange(e)}
+                    type="text"
+                    name="body"
+                    value={this.state.body}
+                    placeholder="What's on your mind..."
+                    required
                   />
-                </div>
-                <div className="home-feed-posts-card-content-post">
-                  <form
-                    className="home-feed-posts-card-content-post_form"
-                    onSubmit={(e) => this.submitPost(e)}
+                  <button
+                    className="home-feed-posts-card-content-post_form-button"
+                    type="submit"
                   >
-                    <textarea
-                      className="home-feed-posts-card-content-post_form-input"
-                      onChange={(e) => this.handleChange(e)}
-                      type="text"
-                      name="body"
-                      value={this.state.body}
-                      placeholder="What's on your mind..."
-                      required
-                    />
-                    <button
-                      className="home-feed-posts-card-content-post_form-button"
-                      type="submit"
-                    >
-                      Post
-                    </button>
-                  </form>
-                </div>
-              </div>
-              {this.showPosts()}
-            </div>
-          </section>
-          <section className="home-other">
-            <div className="home-other-search">
-              <img
-                src="./icons/searchIcon.png"
-                alt="search"
-                className="home-other-search_icon"
-              />
-              <input
-                type="text"
-                className="home-other-search_input"
-                placeholder="Search..."
-              />
-            </div>
-            <div className="home-other-workouts">
-              <h3 className="home-other-workouts_title">
-                Recommended Workouts
-              </h3>
-              {this.showWorkouts(
-                "Bodyweight",
-                "Victor",
-                "Simple Full Body Home Workout",
-                "121"
-              )}
-              {this.showWorkouts(
-                "Yoga",
-                "Amanda",
-                "Morning Yoga Routine",
-                "132"
-              )}
-            </div>
-            <div className="home-other-people">
-              <h3 className="home-other-people_title">Who to follow</h3>
-              <div className="home-other-people-card">
-                <div className="home-feed-posts-card-avatar">
-                  <img
-                    src="./img/avatar.jpg"
-                    alt="avatar"
-                    className="home-feed-posts-card-avatar-img"
-                  />
-                </div>
-                <div className="home-other-people-card-middle">
-                  <div className="home-other-people-card-middle_name">Pepe</div>
-                  <div className="home-other-people-card-middle_username">
-                    @pepeworkout2
-                  </div>
-                </div>
-                <div className="home-other-people-card-button">
-                  <button className="home-other-people-card-button_follow">
-                    Follow
+                    Post
                   </button>
-                </div>
-              </div>
-              <div className="home-other-people-card">
-                <div className="home-feed-posts-card-avatar">
-                  <img
-                    src="./img/avatar.jpg"
-                    alt="avatar"
-                    className="home-feed-posts-card-avatar-img"
-                  />
-                </div>
-                <div className="home-other-people-card-middle">
-                  <div className="home-other-people-card-middle_name">Jose</div>
-                  <div className="home-other-people-card-middle_username">
-                    @joseworkout3
-                  </div>
-                </div>
-                <div className="home-other-people-card-button">
-                  <button className="home-other-people-card-button_following">
-                    Following
-                  </button>
-                </div>
+                </form>
               </div>
             </div>
-          </section>
-        </main>
-      </div>
+            {this.showPosts()}
+          </div>
+        </section>
+        <section className="home-other">
+          <div className="home-other-search">
+            <img
+              src="./icons/searchIcon.png"
+              alt="search"
+              className="home-other-search_icon"
+            />
+            <input
+              type="text"
+              className="home-other-search_input"
+              placeholder="Search..."
+            />
+          </div>
+          <div className="home-other-workouts">
+            <h3 className="home-other-workouts_title">Recommended Workouts</h3>
+            {this.showWorkouts(
+              "Bodyweight",
+              "Victor",
+              "Simple Full Body Home Workout",
+              "121"
+            )}
+            {this.showWorkouts("Yoga", "Amanda", "Morning Yoga Routine", "132")}
+          </div>
+          <div className="home-other-people">
+            <h3 className="home-other-people_title">Who to follow</h3>
+            <div className="home-other-people-card">
+              <div className="home-feed-posts-card-avatar">
+                <img
+                  src="./img/avatar.jpg"
+                  alt="avatar"
+                  className="home-feed-posts-card-avatar-img"
+                />
+              </div>
+              <div className="home-other-people-card-middle">
+                <div className="home-other-people-card-middle_name">Pepe</div>
+                <div className="home-other-people-card-middle_username">
+                  @pepeworkout2
+                </div>
+              </div>
+              <div className="home-other-people-card-button">
+                <button className="home-other-people-card-button_follow">
+                  Follow
+                </button>
+              </div>
+            </div>
+            <div className="home-other-people-card">
+              <div className="home-feed-posts-card-avatar">
+                <img
+                  src="./img/avatar.jpg"
+                  alt="avatar"
+                  className="home-feed-posts-card-avatar-img"
+                />
+              </div>
+              <div className="home-other-people-card-middle">
+                <div className="home-other-people-card-middle_name">Jose</div>
+                <div className="home-other-people-card-middle_username">
+                  @joseworkout3
+                </div>
+              </div>
+              <div className="home-other-people-card-button">
+                <button className="home-other-people-card-button_following">
+                  Following
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Fragment>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return { allPosts: state.allPosts, userData: state.userData };
+};
+
+export default connect(mapStateToProps, { getAllPosts, getUserData })(Home);

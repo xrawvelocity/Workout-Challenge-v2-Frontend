@@ -1,7 +1,9 @@
 .landing {
     @include centerFlex(row, space-between);
-    height: 100vh;
+    height: 99.5vh;
     color: #ddd;
+    overflow: hidden;
+    
 
     &-heading {
         @include centerFlex(column);

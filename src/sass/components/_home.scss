@@ -6,22 +6,32 @@
   margin-top: 10%;
 
   &-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin: 10rem 0 0 10rem;
+    position: sticky;
 
-    & > * {
-      transition: all 0.3s ease-out;
-    }
+    &_sticky {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-end;
+      position: sticky;
+      top: 200px;
+      margin: 10rem 0 0 10rem;
 
-    & > *:hover {
-      color: $green;
-      cursor: pointer;
-    }
+      &-selected {
+        color: $green;
+      }
 
-    & > *:not(:last-child) {
-      margin-bottom: 3rem;
+      & > * {
+        transition: all 0.3s ease-out;
+      }
+
+      & > *:hover {
+        color: $green;
+        cursor: pointer;
+      }
+
+      & > *:not(:last-child) {
+        margin-bottom: 3rem;
+      }
     }
   }
   &-feed {
@@ -95,21 +105,30 @@
           }
           &-post {
             width: 100%;
+            height: 120px;
+
             &_form {
               display: flex;
-              height: 100%;
+              justify-content: center;
+              align-items: center;
+              min-height: 100%;
               width: 100%;
 
               &-input {
-                height: 100%;
-                width: 100%;
+                height: 100px;
+                width: 90%;
                 border: none;
+                padding: 0.5rem 1rem;
                 background-color: transparent;
-                color: #111;
+                color: #fff;
+                resize: none;
                 font-size: 2rem;
                 transition: all 0.3s ease-out;
                 &:required {
                   box-shadow: none;
+                }
+                &::placeholder {
+                  color: #eee;
                 }
                 &:hover,
                 &:focus {
@@ -123,11 +142,13 @@
                 border-radius: 3px;
                 text-transform: uppercase;
                 background-color: #eee;
-                font-size: 2.4rem;
+                margin: 0 1rem;
+                font-size: 2rem;
                 transition: all 0.3s ease-out;
 
                 &:hover {
-                  background-color: #fff;
+                  background-color: $green;
+                  color: $black;
                   cursor: pointer;
                 }
               }
