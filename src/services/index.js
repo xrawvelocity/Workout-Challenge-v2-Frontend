@@ -35,8 +35,23 @@ const services = {
   signUp: async (data) => {
     return await service.post("/signup", data);
   },
+
   getUserData: async () => {
     return await service.get("/user", {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
+  editUserData: async (data) => {
+    return await service.post("/user", data, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
+  uploadUserAvatar: async (data) => {
+    return await service.post("/user/image", data, {
       headers: {
         Authorization: localStorage.FBIdToken,
       },

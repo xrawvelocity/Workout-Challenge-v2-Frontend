@@ -10,6 +10,7 @@ import {
   faComments,
 } from "@fortawesome/free-solid-svg-icons";
 import Messages from "./Messages";
+import Profile from "../profile/Profile";
 
 export default class Main extends Component {
   state = {
@@ -23,6 +24,7 @@ export default class Main extends Component {
       return <Messages />;
     } else if (this.state.selected === "workouts") {
     } else if (this.state.selected === "profile") {
+        return <Profile />
     } else if (this.state.selected === "post") {
     }
   };

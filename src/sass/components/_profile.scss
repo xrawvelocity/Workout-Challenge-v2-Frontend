@@ -1,0 +1,122 @@
+.profile {
+  width: 70%;
+  // background-color: #333;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+
+  &-top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 5rem;
+    &-left {
+      display: flex;
+      align-items: center;
+
+      &-avatar {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+
+        
+
+        &_image {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+            z-index: -20;
+        }
+
+        &_change {
+          background-color: rgba(34, 34, 34, 0.8);
+          color: #fff;
+          font-weight: 700;
+          font-size: 1.2rem;
+          text-transform: uppercase;
+          padding: 2rem auto;
+          transform: translateY(-6rem);
+          transition: all 0.2s ease-in-out;
+          z-index: 100;
+
+          &-form {
+            padding: 1rem 2.5rem 3rem;
+            &--input {
+              display: none;
+              &:hover {
+                cursor: pointer;
+              }
+            }
+            &--label {
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+      &-username {
+        padding: 0 3rem;
+      }
+    }
+    &-right {
+      &-edit {
+        border: none;
+        font-size: 2rem;
+        color: #111;
+        padding: 0.5rem 0.75rem;
+        transition: all 0.3s ease-out;
+
+        &:hover {
+          background-color: $green;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  &-info {
+    display: flex;
+    flex-direction: column;
+
+    &_edit {
+      @extend .form-input;
+      background-color: #333;
+      color: #eee;
+      font-size: 2rem !important;
+      width: 70%;
+    }
+
+    &-bio {
+      padding-bottom: 5rem;
+    }
+
+    &-other {
+      display: flex;
+      font-size: 2rem;
+
+      &_edit {
+        display: flex;
+        font-size: 2rem;
+        flex-direction: column;
+      }
+
+      &-location {
+      }
+
+      &-website {
+        padding-left: 3rem;
+        &-link {
+          color: dodgerblue;
+        }
+      }
+
+      &-joined {
+        padding-left: 3rem;
+      }
+    }
+  }
+  &-content {
+    margin-top: 10rem;
+  }
+}

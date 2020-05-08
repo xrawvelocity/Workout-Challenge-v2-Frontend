@@ -4,9 +4,11 @@
   font-size: 2.6rem;
   color: #eee;
   margin-top: 10%;
+  margin-left: 10%;
 
   &-nav {
-    position: sticky;
+    position: fixed;
+    left: 10px;
 
     &_sticky {
       display: inline-flex;
@@ -14,7 +16,7 @@
       align-items: flex-end;
       position: sticky;
       top: 200px;
-      margin: 10rem 0 0 10rem;
+      margin: 10rem 0 0 15rem;
 
       &-selected {
         color: $green;
@@ -41,9 +43,9 @@
       display: flex;
       flex-direction: column;
 
-      & > *:not(:first-child) {
-        margin: 3rem auto 0;
-      }
+      // & > *:not(:first-child) {
+      //   margin: 3rem auto 0;
+      // }
 
       &-card {
         display: flex;
@@ -51,14 +53,23 @@
         border-radius: 3px;
         padding: 1rem 2rem;
         min-width: 900px;
+        margin: 0rem auto 3rem;
 
         &-avatar {
-          padding-right: 3rem;
+          margin-right: 3rem;
+          border-radius: 50%;
+          border: none;
+          height: 70px;
+          min-width: 70px;
+          max-width: 70px;
+          background-color: #ccc;
+          overflow: hidden;
+          display: block;
+
           &-img {
-            border-radius: 100px;
-            height: 70px;
-            width: auto;
-            object-fit: contain;
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
           }
         }
         &-content {
@@ -159,8 +170,7 @@
     }
   }
   &-other {
-    width: 20%;
-    margin-right: 5rem;
+    // margin-right: 5rem;
 
     &-search {
       display: flex;

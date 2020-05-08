@@ -13,8 +13,21 @@ class Home extends Component {
   state = {};
 
   async componentDidMount() {
-    await this.props.getAllPosts();
-    await this.props.getUserData();
+    await this.props
+      .getAllPosts()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.code);
+      });
+    await this.props.getUserData()
+    .then(data => {
+      console.log(data)
+    })
+    .catch(err => {
+      console.log(err.code)
+    })
 
     this.setState({
       sortedPosts: this.props.allPosts.data.sort((a, b) => {
@@ -22,6 +35,7 @@ class Home extends Component {
       }),
     });
     console.log(this.state);
+    console.log(this.props);
   }
 
   showEmptyPost = () => {
@@ -85,10 +99,6 @@ class Home extends Component {
                 <div
                   onClick={async () => {
                     await services.likePost(post.postId);
-                    // .then(data=>console.log("liked", data))
-                    // .catch(err => {
-
-                    // })
                     await this.props.getAllPosts();
                     this.setState({
                       sortedPosts: this.props.allPosts.data.sort((a, b) => {
@@ -114,13 +124,10 @@ class Home extends Component {
       });
     } else {
       return (
-        <Fragment>
-          {this.showEmptyPost()}
-          {this.showEmptyPost()}
-          {this.showEmptyPost()}
-          {this.showEmptyPost()}
-          {this.showEmptyPost()}
-        </Fragment>
+        <div
+          style={{ fontSize: 50, marginTop: 125, marginLeft: 450 }}
+          className="form-button_loading"
+        ></div>
       );
     }
   };
@@ -152,7 +159,7 @@ class Home extends Component {
       })
       .then((data) => console.log("success", data))
       .catch((err) => {
-        localStorage.removeItem('FBIdToken')
+        localStorage.removeItem("FBIdToken");
         window.location.href = "/login";
       });
     await this.props.getAllPosts();
@@ -163,6 +170,7 @@ class Home extends Component {
     });
     this.setState({ body: "" });
   };
+  
 
   render() {
     return (
@@ -172,7 +180,7 @@ class Home extends Component {
             <div className="home-feed-posts-card">
               <div className="home-feed-posts-card-avatar">
                 <img
-                  src="./img/userdefault.png"
+                  src={this.props.userData ? this.props.userData.data.credentials.imageUrl : "./img/userdefault.png"}
                   alt="avatar"
                   className="home-feed-posts-card-avatar-img"
                 />
@@ -187,6 +195,7 @@ class Home extends Component {
                     onChange={(e) => this.handleChange(e)}
                     type="text"
                     name="body"
+                    maxLength="300"
                     value={this.state.body}
                     placeholder="What's on your mind..."
                     required
