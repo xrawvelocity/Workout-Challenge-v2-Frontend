@@ -85,9 +85,6 @@ class Home extends Component {
                 <div className="home-feed-posts-card-content-top_name">
                   {post.userHandle}
                 </div>
-                <div className="home-feed-posts-card-content-top_username">
-                  @{post.userHandle}
-                </div>
                 <div className="home-feed-posts-card-content-top_time">
                   &bull; {dayjs(post.createdAt).fromNow()}
                 </div>

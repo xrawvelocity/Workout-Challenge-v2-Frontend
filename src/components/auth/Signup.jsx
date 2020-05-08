@@ -9,7 +9,6 @@ export default class Signup extends Component {
     password: "",
     confirmPassword: "",
     handle: "",
-    name: "",
     loading: false,
     errors: {},
   };
@@ -22,7 +21,7 @@ export default class Signup extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, name, password, confirmPassword, handle } = this.state;
+    const { email, password, confirmPassword, handle } = this.state;
     this.setState({ loading: true });
     await services
       .signUp({ email, password, confirmPassword, handle })
@@ -81,21 +80,6 @@ export default class Signup extends Component {
                 placeholder="GymJim93"
                 name="handle"
                 value={this.state.handle}
-              />
-              <label htmlFor="name" className="form-label">
-                Display Name
-              </label>
-              {this.state.errors.name && (
-                <div className="form-error">{this.state.errors.name}</div>
-              )}
-              <input
-                onChange={(e) => this.handleChange(e)}
-                type="text"
-                className="form-input"
-                required
-                placeholder="Jim Smith"
-                name="name"
-                value={this.state.name}
               />
               <label htmlFor="password" className="form-label">
                 Password

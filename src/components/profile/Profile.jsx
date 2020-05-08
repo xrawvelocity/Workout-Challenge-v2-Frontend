@@ -61,9 +61,6 @@ class Profile extends Component {
                 <div className="home-feed-posts-card-content-top_name">
                   {post.userHandle}
                 </div>
-                <div className="home-feed-posts-card-content-top_username">
-                  @{post.userHandle}
-                </div>
                 <div className="home-feed-posts-card-content-top_time">
                   &bull; {dayjs(post.createdAt).fromNow()}
                 </div>
@@ -145,7 +142,7 @@ class Profile extends Component {
                     />
                   </div>
                   <div className="profile-top-left-username">
-                    @{this.props.userData.credentials.handle}
+                    {this.props.userData.credentials.handle}
                   </div>
                 </div>
                 <div className="profile-top-right">
