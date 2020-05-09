@@ -7,6 +7,9 @@ const services = {
   getAllPosts: async () => {
     return await service.get("/posts");
   },
+  getOnePost: async (postId) => {
+    return await service.get(`/post/${postId}`);
+  },
   createPost: async (data) => {
     return await service.post("/posts", data, {
       headers: {
@@ -23,6 +26,13 @@ const services = {
   },
   unlikePost: async (postId) => {
     return await service.get(`/post/${postId}/unlike`, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
+  addComment: async (postId, data) => {
+    return await service.post(`/post/${postId}/comment`, data, {
       headers: {
         Authorization: localStorage.FBIdToken,
       },

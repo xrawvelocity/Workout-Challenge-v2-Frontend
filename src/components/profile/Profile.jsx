@@ -18,7 +18,11 @@ class Profile extends Component {
     loading: false,
     empty: false,
     edit: false,
-    info: {},
+    info: {
+      bio: "",
+      website: "",
+      location: "",
+    },
   };
 
   async componentDidMount() {
@@ -30,7 +34,9 @@ class Profile extends Component {
       await this.setState({
         sortedPosts: this.props.allPosts.data
           .filter((post) => {
-            return post.userHandle === this.props.userData.credentials.handle;
+            return (
+              post.userHandle === this.props.userData.data.credentials.handle
+            );
           })
           .sort((a, b) => {
             return Date.parse(b.createdAt) - Date.parse(a.createdAt);
@@ -42,6 +48,12 @@ class Profile extends Component {
     }
     console.log(this.props);
   }
+
+  hasLiked = (postId) => {
+    return this.props.userData.data.likes.some((like) => {
+      return like.postId === postId;
+    });
+  };
 
   showPosts = () => {
     if (this.state.sortedPosts) {
@@ -69,26 +81,70 @@ class Profile extends Component {
                 <div>{post.body}</div>
               </div>
               <div className="home-feed-posts-card-content-bottom">
-                <div
-                  onClick={async () => {
-                    await services.likePost(post.postId);
-                    await this.props.getAllPosts();
-                    this.setState({
-                      sortedPosts: this.props.allPosts.data.sort((a, b) => {
-                        return (
-                          Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                        );
-                      }),
-                    });
-                  }}
-                  className="home-feed-posts-card-content-bottom_like"
-                >
-                  {post.likeCount > 0 && post.likeCount}{" "}
-                  <FontAwesomeIcon icon={faHeart} />
-                </div>
-                <div className="home-feed-posts-card-content-bottom_comment">
-                  {post.commentCount > 0 && post.commentCount}{" "}
-                  <FontAwesomeIcon icon={faComment} />
+                {this.hasLiked(post.postId) ? (
+                  <div
+                    onClick={async () => {
+                      await services.unlikePost(post.postId);
+                      await this.props.getAllPosts();
+                      await this.props.getUserData();
+                      this.setState({
+                        sortedPosts: this.props.allPosts.data
+                          .filter((post) => {
+                            return (
+                              post.userHandle ===
+                              this.props.userData.data.credentials.handle
+                            );
+                          })
+                          .sort((a, b) => {
+                            return (
+                              Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                            );
+                          }),
+                      });
+                    }}
+                  >
+                    {post.likeCount}{" "}
+                    <FontAwesomeIcon
+                      className="home-feed-posts-card-content-bottom_liked"
+                      icon={faHeart}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    onClick={async () => {
+                      await services
+                        .likePost(post.postId)
+                        .then((data) => console.log(data))
+                        .catch((err) => console.log(err));
+                      await this.props.getAllPosts();
+                      await this.props.getUserData();
+                      this.setState({
+                        sortedPosts: this.props.allPosts.data
+                          .filter((post) => {
+                            return (
+                              post.userHandle ===
+                              this.props.userData.data.credentials.handle
+                            );
+                          })
+                          .sort((a, b) => {
+                            return (
+                              Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                            );
+                          }),
+                      });
+                    }}
+                  >
+                    {post.likeCount}{" "}
+                    <FontAwesomeIcon
+                      className="home-feed-posts-card-content-bottom_like"
+                      icon={faHeart}
+                    />
+                  </div>
+                )}
+
+                <div>
+                  {post.commentCount}{" "}
+                  <FontAwesomeIcon className="home-feed-posts-card-content-bottom_comment" icon={faComment} />
                 </div>
               </div>
             </div>
@@ -107,27 +163,30 @@ class Profile extends Component {
     await uploadData.append("imageUrl", e.target.files[0]);
 
     try {
-      await services.uploadUserAvatar(uploadData)
-      .then(data => console.log(data));
+      await services
+        .uploadUserAvatar(uploadData)
+        .then((data) => console.log(data));
       await this.props.getUserData();
       await this.props.getAllPosts();
       await this.setState({
         sortedPosts: this.props.allPosts.data
           .filter((post) => {
-            return post.userHandle === this.props.userData.credentials.handle;
+            return (
+              post.userHandle === this.props.userData.data.credentials.handle
+            );
           })
           .sort((a, b) => {
             return Date.parse(b.createdAt) - Date.parse(a.createdAt);
           }),
       });
-      console.log(this.state)
+      console.log(this.state);
     } catch (err) {
       console.log("*****", err.message);
     }
   };
 
   render() {
-    return (
+    return this.props.userData ? (
       <Fragment>
         <section className="profile">
           {!this.state.edit ? (
@@ -137,12 +196,12 @@ class Profile extends Component {
                   <div className="profile-top-left-avatar">
                     <img
                       className="profile-top-left-avatar_image"
-                      src={this.props.userData.credentials.imageUrl}
+                      src={this.props.userData.data.credentials.imageUrl}
                       alt="avatar"
                     />
                   </div>
                   <div className="profile-top-left-username">
-                    {this.props.userData.credentials.handle}
+                    {this.props.userData.data.credentials.handle}
                   </div>
                 </div>
                 <div className="profile-top-right">
@@ -157,32 +216,32 @@ class Profile extends Component {
                 </div>
               </div>
               <div className="profile-info">
-                {this.props.userData.credentials.bio && (
+                {this.props.userData.data.credentials.bio && (
                   <div className="profile-info-bio">
-                    {this.props.userData.credentials.bio}
+                    {this.props.userData.data.credentials.bio}
                   </div>
                 )}
                 <div className="profile-info-other">
                   <div className="profile-info-other-location">
-                    {this.props.userData.credentials.location && (
+                    {this.props.userData.data.credentials.location && (
                       <Fragment>
                         <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
-                        {this.props.userData.credentials.location}
+                        {this.props.userData.data.credentials.location}
                       </Fragment>
                     )}
                   </div>
                   <div className="profile-info-other-website">
-                    {this.props.userData.credentials.website && (
+                    {this.props.userData.data.credentials.website && (
                       <Fragment>
                         <FontAwesomeIcon icon={faLink} />{" "}
                         <a
                           className="profile-info-other-website-link"
-                          href={this.props.userData.credentials.website}
+                          href={this.props.userData.data.credentials.website}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           {
-                            this.props.userData.credentials.website.split(
+                            this.props.userData.data.credentials.website.split(
                               "//"
                             )[1]
                           }
@@ -193,7 +252,7 @@ class Profile extends Component {
                   <div className="profile-info-other-joined">
                     <FontAwesomeIcon icon={faCalendarAlt} /> Joined{" "}
                     {new Date(
-                      Date.parse(this.props.userData.credentials.createdAt)
+                      Date.parse(this.props.userData.data.credentials.createdAt)
                     )
                       .toDateString()
                       .substr(4)}
@@ -209,7 +268,7 @@ class Profile extends Component {
                   <div className="profile-top-left-avatar">
                     <img
                       className="profile-top-left-avatar_image"
-                      src={this.props.userData.credentials.imageUrl}
+                      src={this.props.userData.data.credentials.imageUrl}
                       alt="avatar"
                     />
                     <div className="profile-top-left-avatar_change">
@@ -232,16 +291,16 @@ class Profile extends Component {
                     </div>
                   </div>
                   <div className="profile-top-left-username">
-                    @{this.props.userData.credentials.handle}
+                    @{this.props.userData.data.credentials.handle}
                   </div>
                 </div>
                 <div className="profile-top-right">
                   <button
                     onClick={async () => {
                       console.log("before", this.state.info);
+
                       try {
                         await services.editUserData(this.state.info);
-                        // this.forceUpdate();
                         console.log(this.state);
                       } catch (err) {
                         console.error(err);
@@ -325,12 +384,12 @@ class Profile extends Component {
         </section>
         <section></section>
       </Fragment>
-    );
+    ) : null;
   }
 }
 
 const mapStateToProps = (state) => {
-  return { userData: state.userData.data, allPosts: state.allPosts };
+  return { userData: state.userData, allPosts: state.allPosts };
 };
 
 export default connect(mapStateToProps, { getUserData, getAllPosts })(Profile);

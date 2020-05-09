@@ -21,18 +21,13 @@ nav ul {
   justify-content: space-between;
 }
 
-.title,
-.title:link,
-.title:visited {
+.title {
   text-decoration: none;
   color: #ddd;
   font-size: 4rem;
   margin-right: -10rem;
   text-transform: uppercase;
-}
-
-.title:hover {
-  cursor: pointer;
+  display: inline;
 }
 
 .title-green {

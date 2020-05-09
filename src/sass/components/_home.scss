@@ -18,8 +18,28 @@
       top: 200px;
       margin: 10rem 0 0 15rem;
 
-      &-selected {
-        color: $green;
+      &_default {
+        &,
+        &:link,
+        &:visited {
+          color: #eee;
+          text-decoration: none;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &_selected {
+        &,
+        &:link,
+        &:visited {
+          color: $green;
+          text-decoration: none;
+        }
+        &:focus {
+          outline: none;
+        }
       }
 
       & > * {
@@ -48,12 +68,26 @@
       // }
 
       &-card {
+
+        &,
+        &:link,
+        &:visited {
+          color: #eee;
+          text-decoration: none;
+        }
+
         display: flex;
         background-color: rgba(200, 200, 200, 0.5);
         border-radius: 3px;
         padding: 1rem 2rem;
         min-width: 900px;
         margin: 0rem auto 3rem;
+        transition: all .3s ease-out;
+
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(200, 200, 200, 0.6);
+        }
 
         &-avatar {
           margin-right: 3rem;
@@ -81,11 +115,9 @@
             display: flex;
 
             &_name {
+              padding-right: 1rem;
             }
-            &_username {
-              color: #ccc;
-              padding: 0 1rem;
-            }
+            
             &_time {
             }
           }
@@ -98,21 +130,42 @@
             padding-top: 1rem;
 
             & > * {
-              transition: all 0.3s ease-out;
               padding-right: 3rem;
             }
 
-            & > *:hover {
-              color: $green;
-              cursor: pointer;
+            &_like {
+              transition: all .1s ease-out;
+              &:hover {
+                color: #d22;
+                cursor: pointer;
+              }
+              &:active {
+                animation: like .6s ease-out;
+                animation-fill-mode: both;
+              }
             }
 
-            &_like {
+            &_liked {
+              transition: all .1s ease-out;
+              color: #d22;
+              &:hover {
+                color: #a22;
+                cursor: pointer;
+              }
+              &:active {
+                animation: unlike .6s ease-out;
+                animation-fill-mode: both;
+              }
             }
             &_comment {
+              transition: all .1s ease-out;
+
+              &:hover {
+                color: rgb(39, 116, 240);
+                cursor: pointer;
+              }
             }
-            &_share {
-            }
+            
           }
           &-post {
             width: 100%;
@@ -299,5 +352,28 @@
         }
       }
     }
+  }
+}
+
+@keyframes like {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(.75);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes unlike {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(.75);
+  }
+  100% {
+    transform: scale(1);
   }
 }

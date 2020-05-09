@@ -8,6 +8,7 @@ import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 //redux
 import { connect } from "react-redux";
 import { getAllPosts, getUserData } from "../../actions";
+import { Link } from "react-router-dom";
 
 class Home extends Component {
   state = {};
@@ -21,13 +22,14 @@ class Home extends Component {
       .catch((err) => {
         console.log(err.code);
       });
-    await this.props.getUserData()
-    .then(data => {
-      console.log(data)
-    })
-    .catch(err => {
-      console.log(err.code)
-    })
+    await this.props
+      .getUserData()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.code);
+      });
 
     this.setState({
       sortedPosts: this.props.allPosts.data.sort((a, b) => {
@@ -38,33 +40,10 @@ class Home extends Component {
     console.log(this.props);
   }
 
-  showEmptyPost = () => {
-    return (
-      <div className="home-feed-posts-card">
-        <div className="home-feed-posts-card-avatar">
-          <img
-            src="./img/userdefault.png"
-            alt="avatar"
-            className="home-feed-posts-card-avatar-img"
-          />
-        </div>
-        <div className="home-feed-posts-card-content">
-          <div className="home-feed-posts-card-content-top">
-            <div className="home-feed-posts-card-content-top_name"></div>
-            <div className="home-feed-posts-card-content-top_username"></div>
-            <div className="home-feed-posts-card-content-top_time"></div>
-          </div>
-          <div className="home-feed-posts-card-content-middle">
-            <div>Loading...</div>
-          </div>
-          <div className="home-feed-posts-card-content-bottom">
-            <div className="home-feed-posts-card-content-bottom_like"></div>
-            <div className="home-feed-posts-card-content-bottom_comment"></div>
-            <div className="home-feed-posts-card-content-bottom_share"></div>
-          </div>
-        </div>
-      </div>
-    );
+  hasLiked = (postId) => {
+    return this.props.userData.data.likes.some((like) => {
+      return like.postId === postId;
+    });
   };
 
   showPosts = () => {
@@ -72,14 +51,14 @@ class Home extends Component {
       dayjs.extend(relativeTime);
       return this.state.sortedPosts.map((post) => {
         return (
-          <div key={post.postId} className="home-feed-posts-card">
-            <div className="home-feed-posts-card-avatar">
+          <Link to={`/post/${post.postId}`} key={post.postId} className="home-feed-posts-card">
+            <Link to={post.userHandle === this.props.userData.data.credentials.handle ? "/profile" : `/profile/${post.userHandle}`} className="home-feed-posts-card-avatar">
               <img
                 src={post.userImage}
                 alt="avatar"
                 className="home-feed-posts-card-avatar-img"
               />
-            </div>
+            </Link>
             <div className="home-feed-posts-card-content">
               <div className="home-feed-posts-card-content-top">
                 <div className="home-feed-posts-card-content-top_name">
@@ -93,30 +72,62 @@ class Home extends Component {
                 <div>{post.body}</div>
               </div>
               <div className="home-feed-posts-card-content-bottom">
-                <div
-                  onClick={async () => {
-                    await services.likePost(post.postId);
-                    await this.props.getAllPosts();
-                    this.setState({
-                      sortedPosts: this.props.allPosts.data.sort((a, b) => {
-                        return (
-                          Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                        );
-                      }),
-                    });
-                  }}
-                  className="home-feed-posts-card-content-bottom_like"
-                >
-                  {post.likeCount > 0 && post.likeCount}{" "}
-                  <FontAwesomeIcon icon={faHeart} />
-                </div>
-                <div className="home-feed-posts-card-content-bottom_comment">
-                  {post.commentCount > 0 && post.commentCount}{" "}
-                  <FontAwesomeIcon icon={faComment} />
+                {this.hasLiked(post.postId) ? (
+                  <div
+                    onClick={async () => {
+                      await services.unlikePost(post.postId);
+                      await this.props.getAllPosts();
+                      await this.props.getUserData();
+                      this.setState({
+                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                          return (
+                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                          );
+                        }),
+                      });
+                    }}
+                  >
+                    {post.likeCount}{" "}
+                    <FontAwesomeIcon
+                      className="home-feed-posts-card-content-bottom_liked"
+                      icon={faHeart}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    onClick={async () => {
+                      await services
+                        .likePost(post.postId)
+                        .then((data) => console.log(data))
+                        .catch((err) => console.log(err));
+                      await this.props.getAllPosts();
+                      await this.props.getUserData();
+                      this.setState({
+                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                          return (
+                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                          );
+                        }),
+                      });
+                    }}
+                  >
+                    {post.likeCount}{" "}
+                    <FontAwesomeIcon
+                      className="home-feed-posts-card-content-bottom_like"
+                      icon={faHeart}
+                    />
+                  </div>
+                )}
+                <div>
+                  {post.commentCount}{" "}
+                  <FontAwesomeIcon
+                    className="home-feed-posts-card-content-bottom_comment"
+                    icon={faComment}
+                  />
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         );
       });
     } else {
@@ -167,17 +178,20 @@ class Home extends Component {
     });
     this.setState({ body: "" });
   };
-  
 
   render() {
-    return (
+    return this.props.allPosts ? (
       <Fragment>
         <section className="home-feed">
           <div className="home-feed-posts">
             <div className="home-feed-posts-card">
               <div className="home-feed-posts-card-avatar">
                 <img
-                  src={this.props.userData ? this.props.userData.data.credentials.imageUrl : "./img/userdefault.png"}
+                  src={
+                    this.props.userData
+                      ? this.props.userData.data.credentials.imageUrl
+                      : "./img/userdefault.png"
+                  }
                   alt="avatar"
                   className="home-feed-posts-card-avatar-img"
                 />
@@ -277,7 +291,7 @@ class Home extends Component {
           </div>
         </section>
       </Fragment>
-    );
+    ) : null;
   }
 }
 

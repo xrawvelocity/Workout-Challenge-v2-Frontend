@@ -56,17 +56,13 @@ nav ul {
   align-items: center;
   justify-content: space-between; }
 
-.title,
-.title:link,
-.title:visited {
+.title {
   text-decoration: none;
   color: #ddd;
   font-size: 4rem;
   margin-right: -10rem;
-  text-transform: uppercase; }
-
-.title:hover {
-  cursor: pointer; }
+  text-transform: uppercase;
+  display: inline; }
 
 .title-green {
   color: #7cfc00 !important;
@@ -289,8 +285,16 @@ nav ul {
       position: sticky;
       top: 200px;
       margin: 10rem 0 0 15rem; }
-      .home-nav_sticky-selected {
-        color: #7cfc00; }
+      .home-nav_sticky_default, .home-nav_sticky_default:link, .home-nav_sticky_default:visited {
+        color: #eee;
+        text-decoration: none; }
+      .home-nav_sticky_default:focus {
+        outline: none; }
+      .home-nav_sticky_selected, .home-nav_sticky_selected:link, .home-nav_sticky_selected:visited {
+        color: #7cfc00;
+        text-decoration: none; }
+      .home-nav_sticky_selected:focus {
+        outline: none; }
       .home-nav_sticky > * {
         transition: all 0.3s ease-out; }
       .home-nav_sticky > *:hover {
@@ -309,7 +313,14 @@ nav ul {
         border-radius: 3px;
         padding: 1rem 2rem;
         min-width: 900px;
-        margin: 0rem auto 3rem; }
+        margin: 0rem auto 3rem;
+        transition: all .3s ease-out; }
+        .home-feed-posts-card, .home-feed-posts-card:link, .home-feed-posts-card:visited {
+          color: #eee;
+          text-decoration: none; }
+        .home-feed-posts-card:hover {
+          cursor: pointer;
+          background-color: rgba(200, 200, 200, 0.6); }
         .home-feed-posts-card-avatar {
           margin-right: 3rem;
           border-radius: 50%;
@@ -330,9 +341,8 @@ nav ul {
           padding-right: 6rem; }
           .home-feed-posts-card-content-top {
             display: flex; }
-            .home-feed-posts-card-content-top_username {
-              color: #ccc;
-              padding: 0 1rem; }
+            .home-feed-posts-card-content-top_name {
+              padding-right: 1rem; }
           .home-feed-posts-card-content-middle {
             padding: 2rem 0; }
           .home-feed-posts-card-content-bottom {
@@ -340,11 +350,29 @@ nav ul {
             justify-content: start;
             padding-top: 1rem; }
             .home-feed-posts-card-content-bottom > * {
-              transition: all 0.3s ease-out;
               padding-right: 3rem; }
-            .home-feed-posts-card-content-bottom > *:hover {
-              color: #7cfc00;
-              cursor: pointer; }
+            .home-feed-posts-card-content-bottom_like {
+              transition: all .1s ease-out; }
+              .home-feed-posts-card-content-bottom_like:hover {
+                color: #d22;
+                cursor: pointer; }
+              .home-feed-posts-card-content-bottom_like:active {
+                animation: like .6s ease-out;
+                animation-fill-mode: both; }
+            .home-feed-posts-card-content-bottom_liked {
+              transition: all .1s ease-out;
+              color: #d22; }
+              .home-feed-posts-card-content-bottom_liked:hover {
+                color: #a22;
+                cursor: pointer; }
+              .home-feed-posts-card-content-bottom_liked:active {
+                animation: unlike .6s ease-out;
+                animation-fill-mode: both; }
+            .home-feed-posts-card-content-bottom_comment {
+              transition: all .1s ease-out; }
+              .home-feed-posts-card-content-bottom_comment:hover {
+                color: #2774f0;
+                cursor: pointer; }
           .home-feed-posts-card-content-post {
             width: 100%;
             height: 120px; }
@@ -470,6 +498,22 @@ nav ul {
         background-color: #7cfc00;
         color: #eee;
         cursor: pointer; }
+
+@keyframes like {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(0.75); }
+  100% {
+    transform: scale(1); } }
+
+@keyframes unlike {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(0.75); }
+  100% {
+    transform: scale(1); } }
 
 .messages-people {
   width: 25%;

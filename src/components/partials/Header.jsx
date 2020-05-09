@@ -12,10 +12,10 @@ export default class Header extends Component {
       <nav>
         <div className="nav">
           <div>
-            <Link to="/" className="title">
+            <div className="title">
               <span className="title-green">Workout</span>{" "}
               <span> Challenge</span>
-            </Link>
+            </div>
           </div>
           <ul>
             {localStorage.getItem("FBIdToken") ? (
