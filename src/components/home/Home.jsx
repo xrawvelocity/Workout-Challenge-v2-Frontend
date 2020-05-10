@@ -51,30 +51,44 @@ class Home extends Component {
       dayjs.extend(relativeTime);
       return this.state.sortedPosts.map((post) => {
         return (
-          <Link to={`/post/${post.postId}`} key={post.postId} className="home-feed-posts-card">
-            <Link to={post.userHandle === this.props.userData.data.credentials.handle ? "/profile" : `/profile/${post.userHandle}`} className="home-feed-posts-card-avatar">
+          <div key={post.postId} className="home-feed-posts-card">
+            <Link
+              to={
+                post.userHandle === this.props.userData.data.credentials.handle
+                  ? "/profile"
+                  : `/profile/${post.userHandle}`
+              }
+              className="home-feed-posts-card-avatar"
+            >
               <img
                 src={post.userImage}
                 alt="avatar"
                 className="home-feed-posts-card-avatar-img"
               />
             </Link>
-            <div className="home-feed-posts-card-content">
-              <div className="home-feed-posts-card-content-top">
-                <div className="home-feed-posts-card-content-top_name">
-                  {post.userHandle}
+            <div>
+              <Link
+                to={`/post/${post.postId}`}
+                className="home-feed-posts-card-content"
+              >
+                <div className="home-feed-posts-card-content-top">
+                  <div className="home-feed-posts-card-content-top_name">
+                    {post.userHandle}
+                  </div>
+                  <div className="home-feed-posts-card-content-top_time">
+                    &bull; {dayjs(post.createdAt).fromNow()}
+                  </div>
                 </div>
-                <div className="home-feed-posts-card-content-top_time">
-                  &bull; {dayjs(post.createdAt).fromNow()}
+                <div className="home-feed-posts-card-content-middle">
+                  <div>{post.body}</div>
                 </div>
-              </div>
-              <div className="home-feed-posts-card-content-middle">
-                <div>{post.body}</div>
-              </div>
+              </Link>
+
               <div className="home-feed-posts-card-content-bottom">
                 {this.hasLiked(post.postId) ? (
                   <div
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       await services.unlikePost(post.postId);
                       await this.props.getAllPosts();
                       await this.props.getUserData();
@@ -95,7 +109,8 @@ class Home extends Component {
                   </div>
                 ) : (
                   <div
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       await services
                         .likePost(post.postId)
                         .then((data) => console.log(data))
@@ -120,14 +135,16 @@ class Home extends Component {
                 )}
                 <div>
                   {post.commentCount}{" "}
-                  <FontAwesomeIcon
-                    className="home-feed-posts-card-content-bottom_comment"
-                    icon={faComment}
-                  />
+                  <Link className="home-feed-posts-card-content-bottom_comment-parent" to={`/post/${post.postId}`}>
+                    <FontAwesomeIcon
+                      className="home-feed-posts-card-content-bottom_comment"
+                      icon={faComment}
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
         );
       });
     } else {

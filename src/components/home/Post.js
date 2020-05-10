@@ -8,10 +8,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 //redux
 import { connect } from "react-redux";
 import { getOnePost, getUserData } from "../../actions";
+import { Link } from "react-router-dom";
 
 class Post extends Component {
   state = {
     loading: false,
+    comment: false,
     body: "",
   };
 
@@ -39,14 +41,22 @@ class Post extends Component {
     return this.state.onePost.data.comments.map((comment) => {
       return (
         <div className="home-feed-posts-card">
-          <div className="home-feed-posts-card-avatar">
-            <img
-              src={comment.userImage}
-              alt="avatar"
-              className="home-feed-posts-card-avatar-img"
-            />
-          </div>
-          <div className="home-feed-posts-card-content">
+          <Link
+              to={
+                comment.userHandle ===
+                this.props.userData.data.credentials.handle
+                  ? "/profile"
+                  : `/profile/${comment.userHandle}`
+              }
+              className="home-feed-posts-card-avatar"
+            >
+              <img
+                src={comment.userImage}
+                alt="avatar"
+                className="home-feed-posts-card-avatar-img"
+              />
+            </Link>
+          <div className="home-feed-posts-card-content_comment">
             <div className="home-feed-posts-card-content-top">
               <div className="home-feed-posts-card-content-top_name">
                 {comment.userHandle}
@@ -88,36 +98,50 @@ class Post extends Component {
       <section style={{ width: "60%" }} className="home-feed">
         <div className="home-feed-posts">
           <div className="home-feed-posts-card">
-            <div className="home-feed-posts-card-avatar">
+            <Link
+              to={
+                this.state.onePost.data.userHandle ===
+                this.props.userData.data.credentials.handle
+                  ? "/profile"
+                  : `/profile/${this.state.onePost.data.userHandle}`
+              }
+              className="home-feed-posts-card-avatar"
+            >
               <img
                 src={this.state.onePost.data.userImage}
                 alt="avatar"
                 className="home-feed-posts-card-avatar-img"
               />
-            </div>
-            <div className="home-feed-posts-card-content">
-              <div className="home-feed-posts-card-content-top">
-                <div className="home-feed-posts-card-content-top_name">
-                  {this.state.onePost.data.userHandle}
+            </Link>
+            <div>
+              <div className="home-feed-posts-card-content_comment">
+                <div className="home-feed-posts-card-content-top">
+                  <div className="home-feed-posts-card-content-top_name">
+                    {this.state.onePost.data.userHandle}
+                  </div>
+                  <div className="home-feed-posts-card-content-top_time">
+                    &bull; {dayjs(this.state.onePost.data.createdAt).fromNow()}
+                  </div>
                 </div>
-                <div className="home-feed-posts-card-content-top_time">
-                  &bull; {dayjs(this.state.onePost.data.createdAt).fromNow()}
+                <div className="home-feed-posts-card-content-middle">
+                  <div>{this.state.onePost.data.body}</div>
                 </div>
               </div>
-              <div className="home-feed-posts-card-content-middle">
-                <div>{this.state.onePost.data.body}</div>
-              </div>
+
               <div className="home-feed-posts-card-content-bottom">
                 {this.hasLiked(this.state.onePost.data.postId) ? (
                   <div
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       await services.unlikePost(this.state.onePost.data.postId);
-                      await this.props.getOnePost(
-                        this.props.match.params.postId
-                      );
+                      await this.props.getAllPosts();
                       await this.props.getUserData();
-                      await this.setState({
-                        onePost: this.props.onePost,
+                      this.setState({
+                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                          return (
+                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                          );
+                        }),
                       });
                     }}
                   >
@@ -129,17 +153,20 @@ class Post extends Component {
                   </div>
                 ) : (
                   <div
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       await services
                         .likePost(this.state.onePost.data.postId)
                         .then((data) => console.log(data))
                         .catch((err) => console.log(err));
-                      await this.props.getOnePost(
-                        this.props.match.params.postId
-                      );
+                      await this.props.getAllPosts();
                       await this.props.getUserData();
-                      await this.setState({
-                        onePost: this.props.onePost,
+                      this.setState({
+                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                          return (
+                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                          );
+                        }),
                       });
                     }}
                   >
@@ -150,19 +177,19 @@ class Post extends Component {
                     />
                   </div>
                 )}
-
                 <div>
                   {this.state.onePost.data.commentCount}{" "}
                   <FontAwesomeIcon
-                    className="home-feed-posts-card-content-bottom_comment"
+                    className="home-feed-posts-card-content-bottom_comment-post"
                     icon={faComment}
                   />
                 </div>
               </div>
-              <div>
-                <input
+              <div className="home-feed-posts-card-content-bottom_comment-form">
+                <textarea
                   onChange={(e) => this.handleComment(e)}
                   type="text"
+                  maxLength="200"
                   value={this.state.body}
                   placeholder="Say what you think..."
                   className="home-feed-posts-card-content-bottom_comment-input"
@@ -176,6 +203,7 @@ class Post extends Component {
               </div>
             </div>
           </div>
+
           {this.showComments()}
         </div>
       </section>

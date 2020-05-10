@@ -68,10 +68,10 @@
       // }
 
       &-card {
-
         &,
         &:link,
         &:visited {
+          z-index: 2;
           color: #eee;
           text-decoration: none;
         }
@@ -82,12 +82,7 @@
         padding: 1rem 2rem;
         min-width: 900px;
         margin: 0rem auto 3rem;
-        transition: all .3s ease-out;
-
-        &:hover {
-          cursor: pointer;
-          background-color: rgba(200, 200, 200, 0.6);
-        }
+        transition: all 0.3s ease-out;
 
         &-avatar {
           margin-right: 3rem;
@@ -109,7 +104,30 @@
         &-content {
           display: flex;
           flex-direction: column;
-          padding-right: 6rem;
+          padding: 2rem 3rem;
+          width: 700px;
+
+          &,
+          &:link,
+          &:visited {
+            color: #eee;
+            text-decoration: none;
+            background-color: rgba(200, 200, 200, 0.1);
+            border-radius: 3px;
+            transition: all 0.2s ease-out;
+          }
+
+          &:hover {
+            cursor: pointer;
+            background-color: rgba(200, 200, 200, 0.2);
+          }
+
+          &_comment {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 0rem;
+            width: 700px;
+          }
 
           &-top {
             display: flex;
@@ -117,7 +135,7 @@
             &_name {
               padding-right: 1rem;
             }
-            
+
             &_time {
             }
           }
@@ -125,47 +143,109 @@
             padding: 2rem 0;
           }
           &-bottom {
-            display: flex;
+            display: inline-flex;
             justify-content: start;
             padding-top: 1rem;
+            width: 130px;
+            z-index: 10000;
 
-            & > * {
+            & > *:not(:last-child()) {
               padding-right: 3rem;
             }
 
             &_like {
-              transition: all .1s ease-out;
+              transition: all 0.1s ease-out;
               &:hover {
                 color: #d22;
                 cursor: pointer;
               }
               &:active {
-                animation: like .6s ease-out;
+                animation: like 0.6s ease-out;
                 animation-fill-mode: both;
               }
             }
 
             &_liked {
-              transition: all .1s ease-out;
+              transition: all 0.1s ease-out;
               color: #d22;
               &:hover {
                 color: #a22;
                 cursor: pointer;
               }
               &:active {
-                animation: unlike .6s ease-out;
+                animation: unlike 0.6s ease-out;
                 animation-fill-mode: both;
               }
             }
             &_comment {
-              transition: all .1s ease-out;
+              transition: all 0.1s ease-out;
+
+              &-post {
+                color: rgb(29, 161, 242);
+              }
 
               &:hover {
-                color: rgb(39, 116, 240);
+                color: rgb(29, 161, 242);
                 cursor: pointer;
               }
+              &-parent {
+                &,
+                &:link,
+                &:visited {
+                  color: #eee;
+                  text-decoration: none;
+                }
+              }
+
+              &-form {
+                display: flex;
+                align-items: center;
+                margin-top: 3rem;
+
+                &_hidden {
+                  display: none;
+                }
+              }
+
+              &-input {
+                height: 70px;
+                width: 90%;
+                border: none;
+                padding: 0.5rem 1rem;
+                background-color: #333;
+                color: #fff;
+                resize: none;
+                font-size: 2rem;
+                transition: all 0.3s ease-out;
+                &:required {
+                  box-shadow: none;
+                }
+                &::placeholder {
+                  color: #eee;
+                }
+                &:hover,
+                &:focus {
+                  cursor: text;
+                  background-color: #222;
+                }
+              }
+              &-button {
+                border: none;
+                padding: 1rem 1.5rem;
+                border-radius: 3px;
+                text-transform: uppercase;
+                background-color: #eee;
+                margin: 0 0 0 3rem;
+                font-size: 2rem;
+                transition: all 0.3s ease-out;
+
+                &:hover {
+                  background-color: $green;
+                  color: $black;
+                  cursor: pointer;
+                }
+              }
             }
-            
           }
           &-post {
             width: 100%;
@@ -317,8 +397,6 @@
           margin-left: -6rem;
           margin-bottom: 1rem;
 
-          &_name {
-          }
           &_username {
             font-size: 2rem;
           }
@@ -360,7 +438,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(.75);
+    transform: scale(0.75);
   }
   100% {
     transform: scale(1);
@@ -371,7 +449,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(.75);
+    transform: scale(0.75);
   }
   100% {
     transform: scale(1);

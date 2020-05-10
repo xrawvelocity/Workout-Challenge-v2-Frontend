@@ -15,7 +15,6 @@ export default class Main extends Component {
   };
 
   render() {
-    console.log(window.history);
     return (
       <Fragment>
         <section className="home-nav">
