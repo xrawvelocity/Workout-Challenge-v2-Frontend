@@ -81,7 +81,8 @@
         border-radius: 3px;
         padding: 1rem 2rem;
         min-width: 900px;
-        margin: 0rem auto 3rem;
+        max-width: 900px;
+        margin: 0rem .5rem 3rem;
         transition: all 0.3s ease-out;
 
         &-avatar {
@@ -181,7 +182,7 @@
               transition: all 0.1s ease-out;
 
               &-post {
-                color: rgb(29, 161, 242);
+                color: #eee;
               }
 
               &:hover {

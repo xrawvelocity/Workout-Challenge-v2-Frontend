@@ -7,6 +7,7 @@ import Main from "./components/home/Main";
 
 import jwtDecode from "jwt-decode";
 import Profile from "./components/profile/Profile";
+import OtherProfile from "./components/profile/OtherProfile";
 import Workout from "./components/profile/Workout";
 import Header from "./components/partials/Header";
 import Home from "./components/home/Home";
@@ -49,6 +50,7 @@ export default class App extends Component {
                 ></Route>
                 <Route exact path="/workout" render={() => <Workout />}></Route>
                 <Route exact path="/profile" render={() => <Profile />}></Route>
+                <Route exact path="/profile/:username" render={(props) => <OtherProfile {...props} />}></Route>
                 <Route exact path="/post" render={() => <AddPost />}></Route>
                 <Route exact path="/post/:postId" render={(props) => <Post {...props} />}></Route>
               </Switch>

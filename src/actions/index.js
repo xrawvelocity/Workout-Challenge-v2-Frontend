@@ -29,3 +29,13 @@ export const getUserData = () => {
     });
   };
 };
+
+export const getOneUserData = (handle) => {
+  return async (dispatch) => {
+    const response = await services.getOneUserData(handle);
+    dispatch({
+      type: "GET_ONE_USER_DATA",
+      payload: response,
+    });
+  };
+};

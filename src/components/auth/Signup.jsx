@@ -33,6 +33,7 @@ export default class Signup extends Component {
       })
       .catch((err) => {
         console.log(err);
+        console.log(err)
         this.setState({
           loading: false,
           errors: err.response.data,

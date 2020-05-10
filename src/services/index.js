@@ -43,9 +43,13 @@ const services = {
     return await service.post("/login", data);
   },
   signUp: async (data) => {
+    console.log("zebra", data);
     return await service.post("/signup", data);
   },
 
+  getOneUserData: async (handle) => {
+    return await service.get(`/user/${handle}`);
+  },
   getUserData: async () => {
     return await service.get("/user", {
       headers: {

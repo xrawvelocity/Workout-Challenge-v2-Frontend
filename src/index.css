@@ -313,7 +313,8 @@ nav ul {
         border-radius: 3px;
         padding: 1rem 2rem;
         min-width: 900px;
-        margin: 0rem auto 3rem;
+        max-width: 900px;
+        margin: 0rem .5rem 3rem;
         transition: all 0.3s ease-out; }
         .home-feed-posts-card, .home-feed-posts-card:link, .home-feed-posts-card:visited {
           z-index: 2;
@@ -386,7 +387,7 @@ nav ul {
             .home-feed-posts-card-content-bottom_comment {
               transition: all 0.1s ease-out; }
               .home-feed-posts-card-content-bottom_comment-post {
-                color: #1da1f2; }
+                color: #eee; }
               .home-feed-posts-card-content-bottom_comment:hover {
                 color: #1da1f2;
                 cursor: pointer; }
@@ -752,7 +753,10 @@ nav ul {
       .profile-info-other-joined {
         padding-left: 3rem; }
   .profile-content {
-    margin-top: 10rem; }
+    margin-top: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; }
 
 .grid {
   display: grid;

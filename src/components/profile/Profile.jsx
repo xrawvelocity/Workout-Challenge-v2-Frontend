@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Link } from "react-router-dom";
 
 class Profile extends Component {
   state = {
@@ -61,45 +62,52 @@ class Profile extends Component {
       return this.state.sortedPosts.map((post) => {
         return (
           <div key={post.postId} className="home-feed-posts-card">
-            <div className="home-feed-posts-card-avatar">
+            <Link
+              to={
+                post.userHandle === this.props.userData.data.credentials.handle
+                  ? "/profile"
+                  : `/profile/${post.userHandle}`
+              }
+              className="home-feed-posts-card-avatar"
+            >
               <img
                 src={post.userImage}
                 alt="avatar"
                 className="home-feed-posts-card-avatar-img"
               />
-            </div>
-            <div className="home-feed-posts-card-content">
-              <div className="home-feed-posts-card-content-top">
-                <div className="home-feed-posts-card-content-top_name">
-                  {post.userHandle}
+            </Link>
+            <div>
+              <Link
+                to={`/post/${post.postId}`}
+                className="home-feed-posts-card-content"
+              >
+                <div className="home-feed-posts-card-content-top">
+                  <div className="home-feed-posts-card-content-top_name">
+                    {post.userHandle}
+                  </div>
+                  <div className="home-feed-posts-card-content-top_time">
+                    &bull; {dayjs(post.createdAt).fromNow()}
+                  </div>
                 </div>
-                <div className="home-feed-posts-card-content-top_time">
-                  &bull; {dayjs(post.createdAt).fromNow()}
+                <div className="home-feed-posts-card-content-middle">
+                  <div>{post.body}</div>
                 </div>
-              </div>
-              <div className="home-feed-posts-card-content-middle">
-                <div>{post.body}</div>
-              </div>
+              </Link>
+
               <div className="home-feed-posts-card-content-bottom">
                 {this.hasLiked(post.postId) ? (
                   <div
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       await services.unlikePost(post.postId);
                       await this.props.getAllPosts();
                       await this.props.getUserData();
                       this.setState({
-                        sortedPosts: this.props.allPosts.data
-                          .filter((post) => {
-                            return (
-                              post.userHandle ===
-                              this.props.userData.data.credentials.handle
-                            );
-                          })
-                          .sort((a, b) => {
-                            return (
-                              Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                            );
-                          }),
+                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                          return (
+                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                          );
+                        }),
                       });
                     }}
                   >
@@ -111,7 +119,8 @@ class Profile extends Component {
                   </div>
                 ) : (
                   <div
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       await services
                         .likePost(post.postId)
                         .then((data) => console.log(data))
@@ -119,18 +128,11 @@ class Profile extends Component {
                       await this.props.getAllPosts();
                       await this.props.getUserData();
                       this.setState({
-                        sortedPosts: this.props.allPosts.data
-                          .filter((post) => {
-                            return (
-                              post.userHandle ===
-                              this.props.userData.data.credentials.handle
-                            );
-                          })
-                          .sort((a, b) => {
-                            return (
-                              Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                            );
-                          }),
+                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                          return (
+                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                          );
+                        }),
                       });
                     }}
                   >
@@ -141,10 +143,17 @@ class Profile extends Component {
                     />
                   </div>
                 )}
-
                 <div>
                   {post.commentCount}{" "}
-                  <FontAwesomeIcon className="home-feed-posts-card-content-bottom_comment" icon={faComment} />
+                  <Link
+                    className="home-feed-posts-card-content-bottom_comment-parent"
+                    to={`/post/${post.postId}`}
+                  >
+                    <FontAwesomeIcon
+                      className="home-feed-posts-card-content-bottom_comment"
+                      icon={faComment}
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
