@@ -2,10 +2,6 @@ import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import { Line } from "rc-progress";
 
-import Header from "./../partials/Header";
-
-let curYear = new Date().getFullYear();
-
 let ids = JSON.parse(localStorage.getItem("ids"));
 
 if (!ids) ids = [0];
@@ -76,7 +72,6 @@ let addedSquats = localStorage.getItem("addedSquats");
   : (addedSquats = localStorage.getItem("addedSquats"));
 
 let done = ids.length - 1;
-console.log(done);
 export { done };
 
 export default class Workout extends Component {
@@ -288,12 +283,6 @@ export default class Workout extends Component {
   render() {
     return (
       <Fragment>
-        <Header
-          progress={(this.state.done * 100) / 20}
-          selectCount={() => this.setState({ selected: "count" })}
-          selectDay={() => this.setState({ selected: "day" })}
-          selected={this.state.selected}
-        />
         <main id="top">
           <div className="main-top">
             <section className="main-btns">
@@ -539,19 +528,7 @@ export default class Workout extends Component {
             {this.renderWorkouts()}
           </section>
         </main>
-        <footer>
-          <p>Copyright &copy; {curYear}</p>
-          <p>
-            Made by{" "}
-            <a
-              href="https://linkedin.com/in/victor--fernandez"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Victor Fernandez
-            </a>
-          </p>
-        </footer>
+        
       </Fragment>
     );
   }

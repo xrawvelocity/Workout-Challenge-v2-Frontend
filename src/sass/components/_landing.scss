@@ -28,7 +28,7 @@
             border-radius: 2px;
             padding: 1rem 2rem;
             font-size: 3rem;
-            background-color: lawngreen;
+            background-color: $green;
             color: black;
             margin-top: 5rem;
             transition: all .3s ease-out;
@@ -39,8 +39,8 @@
 
             &:hover {
                 cursor: pointer;
-                background-color: #69d100;
-                box-shadow: 0rem 0rem .5rem lawngreen;
+                
+                box-shadow: 0rem 0rem 1rem $green;
             }
         }
     }

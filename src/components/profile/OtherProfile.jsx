@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Link } from "react-router-dom";
 
 class OtherProfile extends Component {
   state = {
@@ -43,37 +44,68 @@ class OtherProfile extends Component {
     }
   };
 
+  hasFollowed = (handle) => {
+    console.log(this.props.userData);
+    if (this.props.userData.data.following) {
+      return this.props.userData.data.following.some((follow) => {
+        return follow.otherUser === handle;
+      });
+    }
+  };
+
   showPosts = () => {
     if (this.props.otherUserData && this.props.userData) {
       dayjs.extend(relativeTime);
       return this.props.otherUserData.data.posts.map((post) => {
         return (
           <div key={post.postId} className="home-feed-posts-card">
-            <div className="home-feed-posts-card-avatar">
+            <Link
+              to={
+                post.userHandle === this.props.userData.data.credentials.handle
+                  ? "/profile"
+                  : `/profile/${post.userHandle}`
+              }
+              className="home-feed-posts-card-avatar"
+            >
               <img
                 src={post.userImage}
                 alt="avatar"
                 className="home-feed-posts-card-avatar-img"
               />
-            </div>
-            <div className="home-feed-posts-card-content">
-              <div className="home-feed-posts-card-content-top">
-                <div className="home-feed-posts-card-content-top_name">
-                  {post.userHandle}
+            </Link>
+            <div>
+              <Link
+                to={`/post/${post.postId}`}
+                className="home-feed-posts-card-content"
+              >
+                <div className="home-feed-posts-card-content-top">
+                  <div className="home-feed-posts-card-content-top_name">
+                    @{post.userHandle}
+                  </div>
+                  <div className="home-feed-posts-card-content-top_time">
+                    &bull; {dayjs(post.createdAt).fromNow()}
+                  </div>
                 </div>
-                <div className="home-feed-posts-card-content-top_time">
-                  &bull; {dayjs(post.createdAt).fromNow()}
+                <div className="home-feed-posts-card-content-middle">
+                  <div>{post.body}</div>
                 </div>
-              </div>
-              <div className="home-feed-posts-card-content-middle">
-                <div>{post.body}</div>
-              </div>
+              </Link>
+
               <div className="home-feed-posts-card-content-bottom">
                 {this.hasLiked(post.postId) ? (
                   <div
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       await services.unlikePost(post.postId);
+                      await this.props.getAllPosts();
                       await this.props.getUserData();
+                      this.setState({
+                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                          return (
+                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                          );
+                        }),
+                      });
                     }}
                   >
                     {post.likeCount}{" "}
@@ -84,12 +116,21 @@ class OtherProfile extends Component {
                   </div>
                 ) : (
                   <div
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation();
                       await services
                         .likePost(post.postId)
                         .then((data) => console.log(data))
                         .catch((err) => console.log(err));
+                      await this.props.getAllPosts();
                       await this.props.getUserData();
+                      this.setState({
+                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
+                          return (
+                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                          );
+                        }),
+                      });
                     }}
                   >
                     {post.likeCount}{" "}
@@ -99,13 +140,17 @@ class OtherProfile extends Component {
                     />
                   </div>
                 )}
-
                 <div>
                   {post.commentCount}{" "}
-                  <FontAwesomeIcon
-                    className="home-feed-posts-card-content-bottom_comment"
-                    icon={faComment}
-                  />
+                  <Link
+                    className="home-feed-posts-card-content-bottom_comment-parent"
+                    to={`/post/${post.postId}`}
+                  >
+                    <FontAwesomeIcon
+                      className="home-feed-posts-card-content-bottom_comment"
+                      icon={faComment}
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -138,14 +183,37 @@ class OtherProfile extends Component {
                 </div>
               </div>
               <div className="profile-top-right">
-                <button
-                  onClick={() => {
-                    // this.setState({ edit: true });
-                  }}
-                  className="profile-top-right-edit"
-                >
-                  Follow
-                </button>
+                {this.hasFollowed(this.props.otherUserData.data.user.handle) ? (
+                  <button
+                    onClick={async () => {
+                      await services.unfollowUser(
+                        this.props.otherUserData.data.user.handle
+                      );
+                      await this.props.getUserData();
+                      await this.props.getOneUserData(
+                        this.props.match.params.username
+                      );
+                    }}
+                    className="profile-top-right-edit"
+                  >
+                    Unfollow
+                  </button>
+                ) : (
+                  <button
+                    onClick={async () => {
+                      await services.followUser(
+                        this.props.otherUserData.data.user.handle
+                      );
+                      await this.props.getUserData();
+                      await this.props.getOneUserData(
+                        this.props.match.params.username
+                      );
+                    }}
+                    className="profile-top-right-edit"
+                  >
+                    Follow
+                  </button>
+                )}
               </div>
             </div>
             <div className="profile-info">
@@ -193,6 +261,19 @@ class OtherProfile extends Component {
               </div>
             </div>
           </Fragment>
+
+          <div className="profile-info-other-follows">
+            <div className="profile-info-other-follows_following">
+              {this.props.otherUserData.data.following &&
+                this.props.otherUserData.data.following.length}{" "}
+              Following
+            </div>
+            <div className="profile-info-other-follows_followers">
+              {this.props.otherUserData.data.followers &&
+                this.props.otherUserData.data.followers.length}{" "}
+              Followers
+            </div>
+          </div>
 
           {this.state.empty ? (
             <div className="profile-content">No posts yet...</div>

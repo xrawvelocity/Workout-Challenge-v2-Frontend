@@ -1,5 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faRunning
+} from "@fortawesome/free-solid-svg-icons";
 
 export default class Header extends Component {
   logOut = async () => {
@@ -11,10 +15,11 @@ export default class Header extends Component {
     return (
       <nav>
         <div className="nav">
-          <div>
+          <div className="logo">
+            <FontAwesomeIcon className="logo-img" icon={faRunning} />
             <div className="title">
-              <span className="title-green">Workout</span>{" "}
-              <span> Challenge</span>
+              <span><span className="title-green">fit</span><span></span></span>
+              <span><span className="title-green"></span><span>social</span></span>
             </div>
           </div>
           <ul>

@@ -42,20 +42,19 @@ class Post extends Component {
       return (
         <div className="home-feed-posts-card">
           <Link
-              to={
-                comment.userHandle ===
-                this.props.userData.data.credentials.handle
-                  ? "/profile"
-                  : `/profile/${comment.userHandle}`
-              }
-              className="home-feed-posts-card-avatar"
-            >
-              <img
-                src={comment.userImage}
-                alt="avatar"
-                className="home-feed-posts-card-avatar-img"
-              />
-            </Link>
+            to={
+              comment.userHandle === this.props.userData.data.credentials.handle
+                ? "/profile"
+                : `/profile/${comment.userHandle}`
+            }
+            className="home-feed-posts-card-avatar"
+          >
+            <img
+              src={comment.userImage}
+              alt="avatar"
+              className="home-feed-posts-card-avatar-img"
+            />
+          </Link>
           <div className="home-feed-posts-card-content_comment">
             <div className="home-feed-posts-card-content-top">
               <div className="home-feed-posts-card-content-top_name">
@@ -134,14 +133,12 @@ class Post extends Component {
                     onClick={async (e) => {
                       e.stopPropagation();
                       await services.unlikePost(this.state.onePost.data.postId);
-                      await this.props.getAllPosts();
+                      await this.props.getOnePost(
+                        this.props.match.params.postId
+                      );
                       await this.props.getUserData();
-                      this.setState({
-                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
-                          return (
-                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                          );
-                        }),
+                      await this.setState({
+                        onePost: this.props.onePost,
                       });
                     }}
                   >
@@ -159,14 +156,12 @@ class Post extends Component {
                         .likePost(this.state.onePost.data.postId)
                         .then((data) => console.log(data))
                         .catch((err) => console.log(err));
-                      await this.props.getAllPosts();
+                      await this.props.getOnePost(
+                        this.props.match.params.postId
+                      );
                       await this.props.getUserData();
-                      this.setState({
-                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
-                          return (
-                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                          );
-                        }),
+                      await this.setState({
+                        onePost: this.props.onePost,
                       });
                     }}
                   >

@@ -83,7 +83,7 @@ class Profile extends Component {
               >
                 <div className="home-feed-posts-card-content-top">
                   <div className="home-feed-posts-card-content-top_name">
-                    {post.userHandle}
+                    @{post.userHandle}
                   </div>
                   <div className="home-feed-posts-card-content-top_time">
                     &bull; {dayjs(post.createdAt).fromNow()}
@@ -195,6 +195,7 @@ class Profile extends Component {
   };
 
   render() {
+    console.log(this.props.userData)
     return this.props.userData ? (
       <Fragment>
         <section className="profile">
@@ -384,6 +385,14 @@ class Profile extends Component {
               </div>
             </Fragment>
           )}
+          <div className="profile-info-other-follows">
+            <div className="profile-info-other-follows_following">
+                {this.props.userData.data.following && this.props.userData.data.following.length} Following
+            </div>
+            <div className="profile-info-other-follows_followers">
+                {this.props.userData.data.followers && this.props.userData.data.followers.length} Followers
+            </div>
+          </div>
 
           {this.state.empty ? (
             <div className="profile-content">No posts yet...</div>

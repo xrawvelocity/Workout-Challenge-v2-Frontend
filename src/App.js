@@ -12,6 +12,7 @@ import Workout from "./components/profile/Workout";
 import Header from "./components/partials/Header";
 import Home from "./components/home/Home";
 import Messages from "./components/home/Messages";
+import Notifications from "./components/home/Nofitications";
 import AddPost from "./components/profile/AddPost";
 import Post from "./components/home/Post";
 
@@ -53,6 +54,7 @@ export default class App extends Component {
                 <Route exact path="/profile/:username" render={(props) => <OtherProfile {...props} />}></Route>
                 <Route exact path="/post" render={() => <AddPost />}></Route>
                 <Route exact path="/post/:postId" render={(props) => <Post {...props} />}></Route>
+                <Route exact path="/notifications" render={(props) => <Notifications {...props} />}></Route>
               </Switch>
             </main>
           </Fragment>

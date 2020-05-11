@@ -1,6 +1,6 @@
 nav {
   padding: 2rem 15rem;
-  background-color: rgba(0,0,0,.5);
+  background-color: rgba(0, 0, 0, 0.5);
   color: aliceblue;
   position: fixed;
   top: 0;
@@ -21,18 +21,38 @@ nav ul {
   justify-content: space-between;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+  width: 15%;
+
+  &-img {
+    font-size: 8rem;
+    color: $black;
+    background-color: $green;
+    border-radius: 100%;
+    height: 5rem;
+    width: 5rem !important;
+    padding: 1rem;
+  }
+}
+
 .title {
   text-decoration: none;
   color: #ddd;
-  font-size: 4rem;
-  margin-right: -10rem;
-  text-transform: uppercase;
-  display: inline;
+  font-size: 3.6rem;
+  margin-left: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  // flex-direction: column;
 }
 
 .title-green {
   color: $green !important;
-  letter-spacing: 4.5px;
+}
+.title-white {
+  color: $white !important;
 }
 
 .link,
@@ -65,10 +85,10 @@ nav ul {
   // margin: 3rem;
   font-size: 3rem;
   padding: 1rem 2rem 0.7rem;
-  
+
   text-decoration: none;
   color: #ddd;
-  transition: all .3s ease-out;
+  transition: all 0.3s ease-out;
   &:hover {
     color: $green;
     cursor: pointer;

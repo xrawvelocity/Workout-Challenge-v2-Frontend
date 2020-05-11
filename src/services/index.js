@@ -71,6 +71,20 @@ const services = {
       },
     });
   },
+  followUser: async (handle) => {
+    return await service.get(`/user/${handle}/follow`, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
+  unfollowUser: async (handle) => {
+    return await service.get(`/user/${handle}/unfollow`, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
 };
 
 export default services;

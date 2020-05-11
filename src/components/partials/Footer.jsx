@@ -1,11 +1,23 @@
 import React, { Component } from 'react'
+let curYear = new Date().getFullYear();
+
 
 export default class Footer extends Component {
     render() {
         return (
-            <div>
-                
-            </div>
+            <footer>
+          <p>Copyright &copy; {curYear}</p>
+          <p>
+            Made by{" "}
+            <a
+              href="https://linkedin.com/in/victor--fernandez"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Victor Fernandez
+            </a>
+          </p>
+        </footer>
         )
     }
 }

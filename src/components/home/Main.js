@@ -6,13 +6,25 @@ import {
   faPen,
   faDumbbell,
   faComments,
+  faBell,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { getUserData } from "../../actions";
 
-export default class Main extends Component {
+class Main extends Component {
   state = {
     selected: "",
   };
+
+  async componentDidMount() {
+    await this.props.getUserData();
+    console.log(
+      this.props.userData.data.notifications.map((notification) => {
+        return notification.read;
+      }).length
+    );
+  }
 
   render() {
     return (
@@ -33,7 +45,8 @@ export default class Main extends Component {
                 });
               }}
             >
-              Home <FontAwesomeIcon icon={faHome} />
+              Home{" "}
+              <FontAwesomeIcon className="home-nav_sticky-icon" icon={faHome} />
             </Link>
 
             <Link
@@ -50,7 +63,45 @@ export default class Main extends Component {
                 });
               }}
             >
-              Messages <FontAwesomeIcon icon={faComments} />
+              Messages{" "}
+              <FontAwesomeIcon
+                className="home-nav_sticky-icon"
+                icon={faComments}
+              />
+            </Link>
+
+            <Link
+              className={
+                this.state.selected === "notifications" ||
+                window.location.pathname === "/notifications"
+                  ? "home-nav_sticky_selected"
+                  : "home-nav_sticky_default"
+              }
+              to="/notifications"
+              onClick={() => {
+                this.setState({
+                  selected: "notifications",
+                });
+              }}
+            >
+              Notifications{" "}
+              <div className="home-nav_sticky-notifications">
+                <FontAwesomeIcon
+                  className="home-nav_sticky-icon"
+                  icon={faBell}
+                ></FontAwesomeIcon>
+                {this.props.userData ? (
+                  <span className="home-nav_sticky-notifications_number">
+                    {
+                      this.props.userData.data.notifications.map(
+                        (notification) => {
+                          return notification.read;
+                        }
+                      ).length
+                    }
+                  </span>
+                ) : null}
+              </div>
             </Link>
 
             <Link
@@ -67,7 +118,11 @@ export default class Main extends Component {
                 });
               }}
             >
-              Workouts <FontAwesomeIcon icon={faDumbbell} />
+              Workouts{" "}
+              <FontAwesomeIcon
+                className="home-nav_sticky-icon"
+                icon={faDumbbell}
+              />
             </Link>
 
             <Link
@@ -84,7 +139,8 @@ export default class Main extends Component {
                 });
               }}
             >
-              Profile <FontAwesomeIcon icon={faUser} />
+              Profile{" "}
+              <FontAwesomeIcon className="home-nav_sticky-icon" icon={faUser} />
             </Link>
 
             <Link
@@ -101,7 +157,8 @@ export default class Main extends Component {
                 });
               }}
             >
-              Post <FontAwesomeIcon icon={faPen} />
+              Post{" "}
+              <FontAwesomeIcon className="home-nav_sticky-icon" icon={faPen} />
             </Link>
           </div>
         </section>
@@ -109,3 +166,9 @@ export default class Main extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return { userData: state.userData };
+};
+
+export default connect(mapStateToProps, { getUserData })(Main);
