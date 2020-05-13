@@ -38,7 +38,7 @@ class Post extends Component {
   };
 
   showComments = () => {
-    return this.state.onePost.data.comments.map((comment) => {
+    return this.state.onePost.data.comments.reverse().map((comment) => {
       return (
         <div className="home-feed-posts-card">
           <Link
@@ -97,6 +97,32 @@ class Post extends Component {
       <section style={{ width: "60%" }} className="home-feed">
         <div className="home-feed-posts">
           <div className="home-feed-posts-card">
+            <div className="home-feed-posts-card_menu">
+              <input
+                className="home-feed-posts-card_menu-input"
+                type="checkbox"
+              />
+              <div className="home-feed-posts-card_menu-dots">
+                <span>&bull;</span>
+                <span>&bull;</span>
+                <span>&bull;</span>
+              </div>
+              <div className="home-feed-posts-card_menu-close">
+                <span>&times;</span>
+              </div>
+              <div
+                onClick={async () => {
+                  console.log(this.state.onePost.data);
+                  await services.deleteOnePost(this.state.onePost.data.postId);
+                  window.location.href = "/";
+                }}
+                className="home-feed-posts-card_menu-dropdown"
+              >
+                <span className="home-feed-posts-card_menu-dropdown_delete">
+                  Delete post
+                </span>
+              </div>
+            </div>
             <Link
               to={
                 this.state.onePost.data.userHandle ===

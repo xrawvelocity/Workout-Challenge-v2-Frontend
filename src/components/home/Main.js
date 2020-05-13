@@ -15,15 +15,11 @@ import { getUserData } from "../../actions";
 class Main extends Component {
   state = {
     selected: "",
+    notificationsClicked: false,
   };
 
   async componentDidMount() {
     await this.props.getUserData();
-    console.log(
-      this.props.userData.data.notifications.map((notification) => {
-        return notification.read;
-      }).length
-    );
   }
 
   render() {
@@ -78,9 +74,10 @@ class Main extends Component {
                   : "home-nav_sticky_default"
               }
               to="/notifications"
-              onClick={() => {
-                this.setState({
+              onClick={async () => {
+                await this.setState({
                   selected: "notifications",
+                  notificationsClicked: true,
                 });
               }}
             >
@@ -90,16 +87,20 @@ class Main extends Component {
                   className="home-nav_sticky-icon"
                   icon={faBell}
                 ></FontAwesomeIcon>
-                {this.props.userData ? (
-                  <span className="home-nav_sticky-notifications_number">
-                    {
-                      this.props.userData.data.notifications.map(
-                        (notification) => {
-                          return notification.read;
-                        }
-                      ).length
+                {!this.state.notificationsClicked && this.props.userData ? (
+                  this.props.userData.data.notifications.filter(
+                    (notification) => {
+                      return notification.read === false;
                     }
-                  </span>
+                  ).length !== 0 ? (
+                    <span className="home-nav_sticky-notifications_number">
+                      {this.props.userData.data.notifications.filter(
+                        (notification) => {
+                          return notification.read === false;
+                        }
+                      ).length}
+                    </span>
+                  ) : null
                 ) : null}
               </div>
             </Link>

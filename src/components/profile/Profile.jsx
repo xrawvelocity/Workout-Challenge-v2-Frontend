@@ -29,7 +29,13 @@ class Profile extends Component {
   async componentDidMount() {
     await this.props.getUserData();
     await this.setState({ loading: true });
-    await this.props.getAllPosts();
+    await this.props
+      .getAllPosts()
+      .then((data) => console.log(data))
+      .catch((err) => {
+        console.error(err);
+        window.location.href = "/";
+      });
     if (this.props.allPosts) {
       await this.setState({ loading: false });
       await this.setState({
@@ -57,11 +63,42 @@ class Profile extends Component {
   };
 
   showPosts = () => {
+    console.log(this.state.sortedPosts);
     if (this.state.sortedPosts) {
       dayjs.extend(relativeTime);
       return this.state.sortedPosts.map((post) => {
         return (
           <div key={post.postId} className="home-feed-posts-card">
+            <div className="home-feed-posts-card_menu">
+              <input
+                className="home-feed-posts-card_menu-input"
+                type="checkbox"
+              />
+              <div className="home-feed-posts-card_menu-dots">
+                <span>&bull;</span>
+                <span>&bull;</span>
+                <span>&bull;</span>
+              </div>
+              <div className="home-feed-posts-card_menu-close">
+                <span>&times;</span>
+              </div>
+              <div
+                onClick={async () => {
+                  let thisPostId = post.postId;
+                  await services.deleteOnePost(thisPostId);
+                  await this.setState({
+                    sortedPosts: this.state.sortedPosts.filter((post) => {
+                      return post.postId !== thisPostId;
+                    }),
+                  });
+                }}
+                className="home-feed-posts-card_menu-dropdown"
+              >
+                <span className="home-feed-posts-card_menu-dropdown_delete">
+                  Delete post
+                </span>
+              </div>
+            </div>
             <Link
               to={
                 post.userHandle === this.props.userData.data.credentials.handle
@@ -195,7 +232,7 @@ class Profile extends Component {
   };
 
   render() {
-    console.log(this.props.userData)
+    console.log(this.props.userData);
     return this.props.userData ? (
       <Fragment>
         <section className="profile">
@@ -308,7 +345,6 @@ class Profile extends Component {
                   <button
                     onClick={async () => {
                       console.log("before", this.state.info);
-
                       try {
                         await services.editUserData(this.state.info);
                         console.log(this.state);
@@ -316,6 +352,29 @@ class Profile extends Component {
                         console.error(err);
                       }
                       await this.props.getUserData();
+                      await this.setState({ loading: true });
+                      await this.props.getAllPosts();
+                      if (this.props.allPosts) {
+                        await this.setState({ loading: false });
+                        await this.setState({
+                          sortedPosts: this.props.allPosts.data
+                            .filter((post) => {
+                              return (
+                                post.userHandle ===
+                                this.props.userData.data.credentials.handle
+                              );
+                            })
+                            .sort((a, b) => {
+                              return (
+                                Date.parse(b.createdAt) -
+                                Date.parse(a.createdAt)
+                              );
+                            }),
+                        });
+                      }
+                      if (this.state.sortedPosts.length === 0) {
+                        await this.setState({ empty: true });
+                      }
                       this.setState({ edit: false });
                     }}
                     className="profile-top-right-edit"
@@ -387,10 +446,14 @@ class Profile extends Component {
           )}
           <div className="profile-info-other-follows">
             <div className="profile-info-other-follows_following">
-                {this.props.userData.data.following && this.props.userData.data.following.length} Following
+              {this.props.userData.data.following &&
+                this.props.userData.data.following.length}{" "}
+              Following
             </div>
             <div className="profile-info-other-follows_followers">
-                {this.props.userData.data.followers && this.props.userData.data.followers.length} Followers
+              {this.props.userData.data.followers &&
+                this.props.userData.data.followers.length}{" "}
+              Followers
             </div>
           </div>
 

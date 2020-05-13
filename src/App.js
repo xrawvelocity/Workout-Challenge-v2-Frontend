@@ -49,6 +49,11 @@ export default class App extends Component {
                   path="/messages"
                   render={() => <Messages />}
                 ></Route>
+                <Route
+                  exact
+                  path="/messages/:username"
+                  render={props => <Messages {...props} />}
+                ></Route>
                 <Route exact path="/workout" render={() => <Workout />}></Route>
                 <Route exact path="/profile" render={() => <Profile />}></Route>
                 <Route exact path="/profile/:username" render={(props) => <OtherProfile {...props} />}></Route>

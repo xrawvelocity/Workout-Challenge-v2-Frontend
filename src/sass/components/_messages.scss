@@ -1,14 +1,70 @@
 .messages {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  
+  &-people {
+    width: 30%;
+    border-right: 3px solid #000;
+    max-height: 80vh;
+    min-height: 80vh;
+    overflow-y: scroll;
+
     display: flex;
-    justify-content: center;
-    width: 100%;
-    &-people {
-        width: 35%;
-        background-color: red;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    &-card {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      background-color: #343434;
+      padding: 0.5rem 1rem;
+      transition: all 0.2s ease-out;
+      margin-right: 8rem;
+
+      &,
+      &:link,
+      &:visited {
+        color: #eee;
+        text-decoration: none;
+      }
+
+      &:hover {
+        background-color: #565656;
+      }
+
+      &_selected {
+        @extend .messages-people-card;
+        background-color: #565656;
+      }
+
+      &_avatar {
+        margin-right: 2rem;
+        border-radius: 50%;
+        border: none;
+        height: 50px;
+        min-width: 50px;
+        max-width: 50px;
+        background-color: #222;
+        overflow: hidden;
+        display: block;
+
+        &-image {
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      &_username {
+        margin-top: 0.75rem;
+      }
     }
-    &-list {
-        width: 40%;
-        margin-right: 5rem;
-        background-color: blue;
-    }
+  }
+  &-list {
+    width: 35%;
+    margin-right: 5rem;
+    
+  }
 }

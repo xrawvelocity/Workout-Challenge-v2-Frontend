@@ -39,3 +39,13 @@ export const getOneUserData = (handle) => {
     });
   };
 };
+
+export const getAllUsersData = () => {
+  return async (dispatch) => {
+    const response = await services.getAllUsersData();
+    dispatch({
+      type: "GET_ALL_USERS_DATA",
+      payload: response,
+    });
+  };
+};

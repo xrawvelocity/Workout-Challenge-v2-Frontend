@@ -52,6 +52,38 @@ class Home extends Component {
       return this.state.sortedPosts.map((post) => {
         return (
           <div key={post.postId} className="home-feed-posts-card">
+            {post.userHandle === this.props.userData.data.credentials.handle ? (
+              <div className="home-feed-posts-card_menu">
+                <input
+                  className="home-feed-posts-card_menu-input"
+                  type="checkbox"
+                />
+                <div className="home-feed-posts-card_menu-dots">
+                  <span>&bull;</span>
+                  <span>&bull;</span>
+                  <span>&bull;</span>
+                </div>
+                <div className="home-feed-posts-card_menu-close">
+                  <span>&times;</span>
+                </div>
+                <div
+                  onClick={async () => {
+                    let thisPostId = post.postId;
+                    await services.deleteOnePost(thisPostId);
+                    await this.setState({
+                      sortedPosts: this.state.sortedPosts.filter((post) => {
+                        return post.postId !== thisPostId;
+                      }),
+                    });
+                  }}
+                  className="home-feed-posts-card_menu-dropdown"
+                >
+                  <span className="home-feed-posts-card_menu-dropdown_delete">
+                    Delete post
+                  </span>
+                </div>
+              </div>
+            ) : null}
             <Link
               to={
                 post.userHandle === this.props.userData.data.credentials.handle
@@ -135,7 +167,10 @@ class Home extends Component {
                 )}
                 <div>
                   {post.commentCount}{" "}
-                  <Link className="home-feed-posts-card-content-bottom_comment-parent" to={`/post/${post.postId}`}>
+                  <Link
+                    className="home-feed-posts-card-content-bottom_comment-parent"
+                    to={`/post/${post.postId}`}
+                  >
                     <FontAwesomeIcon
                       className="home-feed-posts-card-content-bottom_comment"
                       icon={faComment}

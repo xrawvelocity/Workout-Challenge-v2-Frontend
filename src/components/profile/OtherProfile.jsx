@@ -36,7 +36,6 @@ class OtherProfile extends Component {
   }
 
   hasLiked = (postId) => {
-    console.log(this.props.userData);
     if (this.props.userData.data.likes) {
       return this.props.userData.data.likes.some((like) => {
         return like.postId === postId;
@@ -45,7 +44,6 @@ class OtherProfile extends Component {
   };
 
   hasFollowed = (handle) => {
-    console.log(this.props.userData);
     if (this.props.userData.data.following) {
       return this.props.userData.data.following.some((follow) => {
         return follow.otherUser === handle;
@@ -97,15 +95,10 @@ class OtherProfile extends Component {
                     onClick={async (e) => {
                       e.stopPropagation();
                       await services.unlikePost(post.postId);
-                      await this.props.getAllPosts();
                       await this.props.getUserData();
-                      this.setState({
-                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
-                          return (
-                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                          );
-                        }),
-                      });
+                      await this.props.getOneUserData(
+                        this.props.match.params.username
+                      );
                     }}
                   >
                     {post.likeCount}{" "}
@@ -122,15 +115,10 @@ class OtherProfile extends Component {
                         .likePost(post.postId)
                         .then((data) => console.log(data))
                         .catch((err) => console.log(err));
-                      await this.props.getAllPosts();
                       await this.props.getUserData();
-                      this.setState({
-                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
-                          return (
-                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                          );
-                        }),
-                      });
+                      await this.props.getOneUserData(
+                        this.props.match.params.username
+                      );
                     }}
                   >
                     {post.likeCount}{" "}
@@ -214,6 +202,13 @@ class OtherProfile extends Component {
                     Follow
                   </button>
                 )}
+                <Link
+                  style={{ marginLeft: "30px" }}
+                  to={`/messages/${this.props.match.params.username}`}
+                  className="profile-top-right-edit"
+                >
+                  Message
+                </Link>
               </div>
             </div>
             <div className="profile-info">

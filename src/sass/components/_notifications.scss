@@ -1,0 +1,24 @@
+.home-feed-posts-card_notifications {
+  & {
+    @extend .home-feed-posts-card;
+    background-color: #232323;
+  }
+  &:hover {
+    background-color: rgba(200, 200, 200, 0.2);
+    cursor: pointer;
+  }
+
+  &_read {
+    @extend .home-feed-posts-card;
+    &:hover {
+      background-color: rgba(200, 200, 200, 0.1);
+      cursor: pointer;
+    }
+  }
+}
+
+.notifications {
+    display: flex;
+    flex-direction: column;
+    width: 78%;
+}

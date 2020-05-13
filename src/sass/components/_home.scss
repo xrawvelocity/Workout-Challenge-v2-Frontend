@@ -9,6 +9,9 @@
   &-nav {
     position: fixed;
     left: 10px;
+    padding-right: 30px;
+    height: 55vh;
+    border-right: 3px solid #000;
 
     &_sticky {
       display: inline-flex;
@@ -102,13 +105,89 @@
         }
 
         display: flex;
-        background-color: rgba(200, 200, 200, 0.5);
         border-radius: 3px;
         padding: 1rem 2rem;
         min-width: 900px;
         max-width: 900px;
         margin: 0rem .5rem 3rem;
         transition: all 0.2s ease-out;
+        position: relative;
+
+        &_menu {
+          position: absolute;
+          top: 10px;
+          right: 40px;
+          line-height: 0.5;
+          width: 30px;
+          height: 40px;
+          transition: all .2s ease-out;
+
+          &-input {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+
+            &:hover {
+              cursor: pointer;
+            }
+
+          }
+
+          &-input:checked ~ &-dropdown {
+            opacity: 1;
+          }
+
+          &-input:checked ~ &-dots {
+            transform: scale(0);
+          }
+          
+          &-input:checked ~ &-close {
+            transform: scale(2);
+          }
+
+          &-dots {
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all .2s ease-out;
+          }
+
+          &-close {
+            z-index: -1;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            transform: scale(0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all .2s ease-out;
+          }
+
+          &-dropdown {
+            opacity: 0;
+            background-color: #fff;
+            width: 150px;
+            height: auto;
+            transition: all .2s ease-out;
+            color: #222;
+            padding: 1rem 2rem;
+            display: block;
+
+            &:hover {
+              background-color: #d11;
+              color: #000;
+              cursor: pointer;
+            }
+            &_delete {
+              font-size: 2rem;
+              display: block;
+
+            }
+          }
+        }
 
         &-avatar {
           margin-right: 3rem;
@@ -117,7 +196,7 @@
           height: 70px;
           min-width: 70px;
           max-width: 70px;
-          background-color: #ccc;
+          background-color: #222;
           overflow: hidden;
           display: block;
 
@@ -238,7 +317,8 @@
                 width: 90%;
                 border: none;
                 padding: 0.5rem 1rem;
-                background-color: #333;
+                background-color: #232323;
+                // box-shadow : 0 .3rem 1rem #000;
                 color: #fff;
                 resize: none;
                 font-size: 2rem;
@@ -252,7 +332,8 @@
                 &:hover,
                 &:focus {
                   cursor: text;
-                  background-color: #222;
+                  background-color: #343434;
+                  // box-shadow: 0 1rem 3rem #000;
                 }
               }
               &-button {
@@ -279,17 +360,18 @@
 
             &_form {
               display: flex;
-              justify-content: center;
+              justify-content: start;
               align-items: center;
               min-height: 100%;
               width: 100%;
 
               &-input {
                 height: 100px;
-                width: 90%;
+                width: 80%;
                 border: none;
                 padding: 0.5rem 1rem;
                 background-color: transparent;
+                background-color: rgba(200, 200, 200, 0.1);
                 color: #fff;
                 resize: none;
                 font-size: 2rem;

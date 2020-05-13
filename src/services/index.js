@@ -10,6 +10,13 @@ const services = {
   getOnePost: async (postId) => {
     return await service.get(`/post/${postId}`);
   },
+  deleteOnePost: async (postId) => {
+    return await service.delete(`/post/${postId}`, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
   createPost: async (data) => {
     return await service.post("/posts", data, {
       headers: {
@@ -47,6 +54,13 @@ const services = {
     return await service.post("/signup", data);
   },
 
+  getAllUsersData: async () => {
+    return await service.get("/users", {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
   getOneUserData: async (handle) => {
     return await service.get(`/user/${handle}`);
   },
@@ -80,6 +94,13 @@ const services = {
   },
   unfollowUser: async (handle) => {
     return await service.get(`/user/${handle}/unfollow`, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
+  markNotificationRead: async (data) => {
+    return await service.post("/notifications", data, {
       headers: {
         Authorization: localStorage.FBIdToken,
       },

@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap);
 * {
   padding: 0;
   margin: 0;
@@ -68,13 +69,15 @@ nav ul {
   display: flex;
   align-items: center;
   width: 15%; }
+  .logo:hover {
+    cursor: default; }
   .logo-img {
     font-size: 8rem;
     color: #14110F;
     background-color: #04ED04;
     border-radius: 100%;
-    height: 5rem;
-    width: 5rem !important;
+    height: 6rem;
+    width: 6rem !important;
     padding: 1rem; }
 
 .title {
@@ -300,7 +303,10 @@ nav ul {
   margin-left: 12%; }
   .home-nav {
     position: fixed;
-    left: 10px; }
+    left: 10px;
+    padding-right: 30px;
+    height: 55vh;
+    border-right: 3px solid #000; }
     .home-nav_sticky {
       display: inline-flex;
       flex-direction: column;
@@ -352,19 +358,71 @@ nav ul {
     .home-feed-posts {
       display: flex;
       flex-direction: column; }
-      .home-feed-posts-card {
+      .home-feed-posts-card, .home-feed-posts-card_notifications, .home-feed-posts-card_notifications_read {
         display: flex;
-        background-color: rgba(200, 200, 200, 0.5);
         border-radius: 3px;
         padding: 1rem 2rem;
         min-width: 900px;
         max-width: 900px;
         margin: 0rem .5rem 3rem;
-        transition: all 0.2s ease-out; }
-        .home-feed-posts-card, .home-feed-posts-card:link, .home-feed-posts-card:visited {
+        transition: all 0.2s ease-out;
+        position: relative; }
+        .home-feed-posts-card, .home-feed-posts-card_notifications, .home-feed-posts-card_notifications_read, .home-feed-posts-card:link, .home-feed-posts-card_notifications:link, .home-feed-posts-card_notifications_read:link, .home-feed-posts-card:visited, .home-feed-posts-card_notifications:visited, .home-feed-posts-card_notifications_read:visited {
           z-index: 2;
           color: #eee;
           text-decoration: none; }
+        .home-feed-posts-card_menu {
+          position: absolute;
+          top: 10px;
+          right: 40px;
+          line-height: 0.5;
+          width: 30px;
+          height: 40px;
+          transition: all .2s ease-out; }
+          .home-feed-posts-card_menu-input {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            opacity: 0; }
+            .home-feed-posts-card_menu-input:hover {
+              cursor: pointer; }
+          .home-feed-posts-card_menu-input:checked ~ .home-feed-posts-card_menu-dropdown {
+            opacity: 1; }
+          .home-feed-posts-card_menu-input:checked ~ .home-feed-posts-card_menu-dots {
+            transform: scale(0); }
+          .home-feed-posts-card_menu-input:checked ~ .home-feed-posts-card_menu-close {
+            transform: scale(2); }
+          .home-feed-posts-card_menu-dots {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all .2s ease-out; }
+          .home-feed-posts-card_menu-close {
+            z-index: -1;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            transform: scale(0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all .2s ease-out; }
+          .home-feed-posts-card_menu-dropdown {
+            opacity: 0;
+            background-color: #fff;
+            width: 150px;
+            height: auto;
+            transition: all .2s ease-out;
+            color: #222;
+            padding: 1rem 2rem;
+            display: block; }
+            .home-feed-posts-card_menu-dropdown:hover {
+              background-color: #d11;
+              color: #000;
+              cursor: pointer; }
+            .home-feed-posts-card_menu-dropdown_delete {
+              font-size: 2rem;
+              display: block; }
         .home-feed-posts-card-avatar {
           margin-right: 3rem;
           border-radius: 50%;
@@ -372,7 +430,7 @@ nav ul {
           height: 70px;
           min-width: 70px;
           max-width: 70px;
-          background-color: #ccc;
+          background-color: #222;
           overflow: hidden;
           display: block; }
           .home-feed-posts-card-avatar-img {
@@ -450,7 +508,7 @@ nav ul {
                 width: 90%;
                 border: none;
                 padding: 0.5rem 1rem;
-                background-color: #333;
+                background-color: #232323;
                 color: #fff;
                 resize: none;
                 font-size: 2rem;
@@ -461,7 +519,7 @@ nav ul {
                   color: #eee; }
                 .home-feed-posts-card-content-bottom_comment-input:hover, .home-feed-posts-card-content-bottom_comment-input:focus {
                   cursor: text;
-                  background-color: #222; }
+                  background-color: #343434; }
               .home-feed-posts-card-content-bottom_comment-button {
                 border: none;
                 padding: 1rem 1.5rem;
@@ -480,16 +538,17 @@ nav ul {
             height: 120px; }
             .home-feed-posts-card-content-post_form {
               display: flex;
-              justify-content: center;
+              justify-content: start;
               align-items: center;
               min-height: 100%;
               width: 100%; }
               .home-feed-posts-card-content-post_form-input {
                 height: 100px;
-                width: 90%;
+                width: 80%;
                 border: none;
                 padding: 0.5rem 1rem;
                 background-color: transparent;
+                background-color: rgba(200, 200, 200, 0.1);
                 color: #fff;
                 resize: none;
                 font-size: 2rem;
@@ -616,18 +675,6 @@ nav ul {
     transform: scale(0.75); }
   100% {
     transform: scale(1); } }
-
-.messages {
-  display: flex;
-  justify-content: center;
-  width: 100%; }
-  .messages-people {
-    width: 35%;
-    background-color: red; }
-  .messages-list {
-    width: 40%;
-    margin-right: 5rem;
-    background-color: blue; }
 
 .form {
   display: flex;
@@ -812,6 +859,70 @@ nav ul {
     display: flex;
     flex-direction: column;
     align-items: flex-start; }
+
+.messages {
+  display: flex;
+  justify-content: center;
+  width: 100%; }
+  .messages-people {
+    width: 30%;
+    border-right: 3px solid #000;
+    max-height: 80vh;
+    min-height: 80vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; }
+    .messages-people-card, .messages-people-card_selected {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      background-color: #343434;
+      padding: 0.5rem 1rem;
+      transition: all 0.2s ease-out;
+      margin-right: 8rem; }
+      .messages-people-card, .messages-people-card_selected, .messages-people-card:link, .messages-people-card_selected:link, .messages-people-card:visited, .messages-people-card_selected:visited {
+        color: #eee;
+        text-decoration: none; }
+      .messages-people-card:hover, .messages-people-card_selected:hover {
+        background-color: #565656; }
+      .messages-people-card_selected {
+        background-color: #565656; }
+      .messages-people-card_avatar {
+        margin-right: 2rem;
+        border-radius: 50%;
+        border: none;
+        height: 50px;
+        min-width: 50px;
+        max-width: 50px;
+        background-color: #222;
+        overflow: hidden;
+        display: block; }
+        .messages-people-card_avatar-image {
+          object-fit: cover;
+          height: 100%;
+          width: 100%; }
+      .messages-people-card_username {
+        margin-top: 0.75rem; }
+  .messages-list {
+    width: 35%;
+    margin-right: 5rem; }
+
+.home-feed-posts-card_notifications {
+  background-color: #232323; }
+
+.home-feed-posts-card_notifications:hover {
+  background-color: rgba(200, 200, 200, 0.2);
+  cursor: pointer; }
+
+.home-feed-posts-card_notifications_read:hover {
+  background-color: rgba(200, 200, 200, 0.1);
+  cursor: pointer; }
+
+.notifications {
+  display: flex;
+  flex-direction: column;
+  width: 78%; }
 
 .grid {
   display: grid;
