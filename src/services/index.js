@@ -106,6 +106,38 @@ const services = {
       },
     });
   },
+
+  //{userTwoHandle, userTwoImageUrl}
+  createChat: async (data) => {
+    return await service.post("/chats", data, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
+
+  getAllChats: async () => {
+    return await service.get("/chats", {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
+  getOneChat: async (chatId) => {
+    return await service.get(`/chat/${chatId}`, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
+  //{body, handle}
+  sendMessage: async (chatId, data) => {
+    return await service.post(`/chat/${chatId}`, data, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
+  },
 };
 
 export default services;

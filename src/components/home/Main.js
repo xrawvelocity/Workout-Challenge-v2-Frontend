@@ -48,7 +48,7 @@ class Main extends Component {
             <Link
               className={
                 this.state.selected === "messages" ||
-                window.location.pathname === "/messages"
+                window.location.pathname.includes("/messages")
                   ? "home-nav_sticky_selected"
                   : "home-nav_sticky_default"
               }

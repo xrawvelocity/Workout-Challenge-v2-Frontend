@@ -1,27 +1,68 @@
 import React, { Component } from "react";
+import services from "./../../services";
 import { connect } from "react-redux";
 import { getUserData, getAllUsersData } from "../../actions";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 class Messages extends Component {
-  state = {};
+  constructor() {
+    super();
+    this.state = {
+      search: "",
+      body: "",
+      openChats: [],
+    };
+
+    this.mesRef = React.createRef();
+  }
+
+  mesRef = React.createRef();
 
   async componentDidMount() {
     await this.props.getUserData();
-    console.log(this.props);
+    await this.props.getAllUsersData();
+    let allChats = await services.getAllChats();
+    await this.setState({
+      actualChats: allChats.data,
+    });
+    this.scrollToBottom();
+    console.log("ALL CHATS----", allChats);
+    console.log("STATE--------", this.state);
+    console.log("PROPS--------", this.props);
   }
 
   showPeople = () => {
-    return this.props.userData.data.following.map((person) => {
+    return this.state.actualChats.map((chat) => {
+      let otherUser;
+      let otherUserImage;
+      if (chat.userOne === this.props.userData.data.credentials.handle) {
+        otherUser = chat.userTwo;
+        otherUserImage = chat.userTwoImage;
+        if (!this.state.openChats.includes(otherUser)) {
+          this.setState({
+            openChats: [...this.state.openChats, otherUser],
+          });
+        }
+      } else if (chat.userTwo === this.props.userData.data.credentials.handle) {
+        otherUser = chat.userOne;
+        otherUserImage = chat.userOneImage;
+        if (!this.state.openChats.includes(otherUser)) {
+          this.setState({
+            openChats: [...this.state.openChats, otherUser],
+          });
+        }
+      }
       return (
         <Link
           onClick={async () => {
-            await this.setState({ selectedUser: person.otherUser });
+            await this.setState({ selectedUser: otherUser });
           }}
-          to={`/messages/${person.otherUser}`}
+          to={`/messages/${otherUser}`}
           className={
             this.props.match
-              ? this.props.match.params.username === person.otherUser
+              ? this.props.match.params.username === otherUser
                 ? "messages-people-card_selected"
                 : "messages-people-card"
               : "messages-people-card"
@@ -30,34 +71,206 @@ class Messages extends Component {
           <div className="messages-people-card_avatar">
             <img
               className="messages-people-card_avatar-image"
-              src={person.otherUserImage}
+              src={otherUserImage}
               alt="avatar"
             />
           </div>
-          <div className="messages-people-card_username">
-            {person.otherUser}
-          </div>
+          <div className="messages-people-card_username">{otherUser}</div>
         </Link>
       );
     });
   };
 
-  showMessages = () => {
-    if (this.props.match && this.props.match.params.username) {
-      return <div>The user selected is {this.props.match.params.username}</div>;
-    } else {
-      return <div>No user selected</div>;
+  scrollToBottom = () => {
+    if (this.props.match) {
+      this.mesRef.current.scrollTop = this.mesRef.current.scrollHeight;
     }
   };
 
+  showChatbox = () => {
+    if (this.props.match && this.props.match.params.username) {
+      return (
+        <div className="chatbox">
+          <div className="chatbox__content">
+            <div className="chatbox__top">
+              <h1 className="chatbox__top-username">
+                {this.props.match.params.username}
+              </h1>
+              <Link to="/messages" className="chatbox__close">
+                &times;
+              </Link>
+            </div>
+            <div ref={this.mesRef} className="chatbox__middle">
+              <div className="chatbox__middle-content">
+                {this.showMessages()}
+              </div>
+            </div>
+            <div className="chatbox__bottom">
+              <form
+                onSubmit={(e) => this.submitMessage(e)}
+                className="chatbox__bottom-form"
+              >
+                <textarea
+                  onChange={async (e) => {
+                    await this.setState({
+                      body: e.target.value,
+                    });
+                    console.log(this.state.body);
+                  }}
+                  value={this.state.body}
+                  type="text"
+                  name="message"
+                  className="chatbox__bottom-form-message"
+                  placeholder="Type your message"
+                  autoFocus
+                  maxLength="200"
+                  required
+                />
+                <button className="chatbox__bottom-form-submit" type="submit">
+                  <FontAwesomeIcon icon={faPaperPlane} />
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return <div className="messages-list_empty">No user selected</div>;
+    }
+  };
+
+  showMessages = () => {
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 0.1);
+    let realChat = this.state.actualChats.filter((chat) => {
+      return (
+        chat.userOne === this.props.match.params.username ||
+        chat.userTwo === this.props.match.params.username
+      );
+    });
+    return realChat[0].messages.map((eachMessage) => {
+      if (
+        eachMessage.sender === this.props.userData.data.credentials.handle &&
+        eachMessage.receiver === this.props.match.params.username
+      ) {
+        return (
+          <div className="chatbox__middle-bubble chatbox__middle-bubble-sender">
+            {eachMessage.body}
+          </div>
+        );
+      } else if (
+        eachMessage.receiver === this.props.userData.data.credentials.handle &&
+        eachMessage.sender === this.props.match.params.username
+      ) {
+        return (
+          <div className="chatbox__middle-bubble chatbox__middle-bubble-receiver">
+            {eachMessage.body}
+          </div>
+        );
+      }
+    });
+  };
+
+  submitMessage = async (e) => {
+    e.preventDefault();
+    let realChat = this.state.actualChats.filter((chat) => {
+      return (
+        chat.userOne === this.props.match.params.username ||
+        chat.userTwo === this.props.match.params.username
+      );
+    });
+    if (this.state.body.trim() !== "") {
+      await services
+        .sendMessage(realChat[0].chatId, {
+          body: this.state.body,
+          handle: this.props.match.params.username,
+        })
+        .then((data) => console.log("success", data))
+        .catch((err) => console.log("failed", err));
+      let allChats = await services.getAllChats();
+      await this.setState({
+        actualChats: allChats.data,
+        body: "",
+      });
+      this.scrollToBottom();
+    } else {
+      console.log("MESSAGE MUST NOT BE EMPTY");
+    }
+  };
+
+  chatStarted = (handle) => {
+    return this.state.openChats.includes(handle);
+  };
+
+  showUsers = () => {
+    let actualUsers = this.props.allUsersData.data.filter((user) => {
+      return user.handle
+        .toLowerCase()
+        .includes(this.state.search.toLowerCase());
+    });
+    return actualUsers.map((user) => {
+      return (
+        <div
+          onClick={async () => {
+            await services.createChat({
+              userTwoHandle: user.handle,
+              userTwoImageUrl: user.imageUrl,
+            });
+            await this.setState({
+              search: "",
+            });
+            let allChats = await services.getAllChats();
+            await this.setState({
+              actualChats: allChats.data,
+            });
+            window.location.href = `/messages/${user.handle}`
+          }}
+          className="messages-people_search-results-each"
+        >
+          <div className="messages-people_search-results-each_avatar">
+            <img
+              src={user.imageUrl ? user.imageUrl : "./img/userdefault.png"}
+              alt="avatar"
+              className="messages-people_search-results-each_avatar-img"
+            />
+          </div>
+          <div className="messages-people_search-results-each_username">
+            {user.handle}
+          </div>
+          <div className="messages-people_search-results-each_username_action">
+            {this.chatStarted(user.handle) ? "Open Chat" : "Create Chat"}
+          </div>
+        </div>
+      );
+    });
+  };
+
   render() {
-    return (
-      this.props.userData && (
-        <main className="messages">
-          <section className="messages-people">{this.showPeople()}</section>
-          <section className="messages-list">{this.showMessages()}</section>
-        </main>
-      )
+    return this.props.userData && this.state.actualChats ? (
+      <main className="messages">
+        <section className="messages-people">
+          <input
+            className="messages-people_search"
+            type="text"
+            placeholder="Search for a user..."
+            maxLength="30"
+            onChange={(e) => {
+              this.setState({ search: e.target.value });
+            }}
+            value={this.state.search}
+          />
+          {this.state.search.trim() !== "" ? (
+            <div className="messages-people_search-results">
+              {this.showUsers()}
+            </div>
+          ) : null}
+          {this.showPeople()}
+        </section>
+        <section className="messages-list">{this.showChatbox()}</section>
+      </main>
+    ) : (
+      <div style={{ fontSize: 50 }} className="form-button_loading"></div>
     );
   }
 }

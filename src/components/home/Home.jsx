@@ -275,7 +275,7 @@ class Home extends Component {
             {this.showPosts()}
           </div>
         </section>
-        <section className="home-other">
+        {/* <section className="home-other">
           <div className="home-other-search">
             <img
               src="./icons/searchIcon.png"
@@ -341,7 +341,7 @@ class Home extends Component {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </Fragment>
     ) : null;
   }
