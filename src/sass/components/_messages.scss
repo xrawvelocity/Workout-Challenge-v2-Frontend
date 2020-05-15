@@ -25,10 +25,10 @@
         position: absolute;
         top: 7rem;
         left: 0;
-        width: 100%;
+        width: 90%;
         background-color: #000;
         height: 500px;
-        overflow-y: scroll;
+        // overflow-y: scroll;
 
         &-each {
             background-color: #454545;
@@ -40,18 +40,16 @@
             transition: all .2s ease-out;
             position: relative;
 
+            &,
+            &:link,
+            &:visited {
+                color: #eee;
+                text-decoration: none;
+            }
+
             &:hover {
                 background-color: #565656;
                 cursor: pointer;
-
-                &::after {
-                    content: "Create Chat";
-                    position: absolute;
-                    right: 0;
-                    margin-right: 2rem;
-                    font-size: 1.8rem;
-                    color: #cdcdcd
-                }
             }
 
             &_avatar {
@@ -66,7 +64,13 @@
                 }
             }
             &_username {
+                position: relative;
 
+                &_action {
+                    font-size: 1.6rem;
+                    position: absolute;
+                    right: 20px;
+                }
             }
         }
       }

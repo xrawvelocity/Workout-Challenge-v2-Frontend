@@ -16,6 +16,7 @@ class Main extends Component {
   state = {
     selected: "",
     notificationsClicked: false,
+    messagesClicked: false
   };
 
   async componentDidMount() {
@@ -56,14 +57,30 @@ class Main extends Component {
               onClick={() => {
                 this.setState({
                   selected: "messages",
+                  messagesClicked: true
                 });
               }}
             >
               Messages{" "}
               <FontAwesomeIcon
-                className="home-nav_sticky-icon"
+                className="home-nav_sticky-messages"
                 icon={faComments}
               />
+              {!this.state.messagesClicked && this.props.userData ? (
+                  this.props.userData.data.notifications.filter(
+                    (notification) => {
+                      return notification.read === false;
+                    }
+                  ).length !== 0 ? (
+                    <span className="home-nav_sticky-messages_number">
+                      {this.props.userData.data.notifications.filter(
+                        (notification) => {
+                          return notification.read === false;
+                        }
+                      ).length}
+                    </span>
+                  ) : null
+                ) : null}
             </Link>
 
             <Link

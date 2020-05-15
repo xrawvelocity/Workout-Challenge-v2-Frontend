@@ -263,7 +263,7 @@ nav ul {
     letter-spacing: 1rem;
     position: absolute;
     right: 10rem;
-    margin-top: 10rem; }
+    margin-top: 5rem; }
     .landing-heading span {
       display: block;
       margin: 2rem 0rem 0rem 0rem; }
@@ -346,6 +346,22 @@ nav ul {
           width: 20px;
           color: #14110F;
           background-color: #04ED04; }
+      .home-nav_sticky-messages {
+        display: flex;
+        position: relative; }
+        .home-nav_sticky-messages_number {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          margin-left: 2.7rem;
+          font-size: 1.6rem;
+          font-weight: 700;
+          border-radius: 50%;
+          height: 20px;
+          width: 20px;
+          color: #14110F;
+          background-color: #04ED04; }
       .home-nav_sticky > * {
         transition: all 0.2s ease-out; }
       .home-nav_sticky > *:hover {
@@ -364,7 +380,7 @@ nav ul {
         padding: 1rem 2rem;
         min-width: 900px;
         max-width: 900px;
-        margin: 0rem .5rem 3rem;
+        margin: 0rem 0.5rem 3rem;
         transition: all 0.2s ease-out;
         position: relative; }
         .home-feed-posts-card, .home-feed-posts-card_notifications, .home-feed-posts-card_notifications_read, .home-feed-posts-card:link, .home-feed-posts-card_notifications:link, .home-feed-posts-card_notifications_read:link, .home-feed-posts-card:visited, .home-feed-posts-card_notifications:visited, .home-feed-posts-card_notifications_read:visited {
@@ -378,7 +394,7 @@ nav ul {
           line-height: 0.5;
           width: 30px;
           height: 40px;
-          transition: all .2s ease-out; }
+          transition: all 0.2s ease-out; }
           .home-feed-posts-card_menu-input {
             position: absolute;
             height: 100%;
@@ -396,7 +412,7 @@ nav ul {
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all .2s ease-out; }
+            transition: all 0.2s ease-out; }
           .home-feed-posts-card_menu-close {
             z-index: -1;
             position: absolute;
@@ -406,13 +422,13 @@ nav ul {
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all .2s ease-out; }
+            transition: all 0.2s ease-out; }
           .home-feed-posts-card_menu-dropdown {
             opacity: 0;
             background-color: #fff;
             width: 150px;
             height: auto;
-            transition: all .2s ease-out;
+            transition: all 0.2s ease-out;
             color: #222;
             padding: 1rem 2rem;
             display: block; }
@@ -569,6 +585,17 @@ nav ul {
                 margin: 0 1rem;
                 font-size: 2rem;
                 transition: all 0.2s ease-out; }
+                .home-feed-posts-card-content-post_form-button_success {
+                  border: none;
+                  padding: 1rem 1.5rem;
+                  border-radius: 3px;
+                  text-transform: uppercase;
+                  margin: 0 1rem;
+                  font-size: 2rem;
+                  background-color: #04ED04;
+                  color: #14110F; }
+                  .home-feed-posts-card-content-post_form-button_success:hover {
+                    cursor: wait; }
                 .home-feed-posts-card-content-post_form-button:hover {
                   background-color: #04ED04;
                   color: #14110F;
@@ -682,14 +709,14 @@ nav ul {
   align-items: flex-start;
   flex-direction: column;
   position: absolute;
-  right: 5rem;
-  margin-top: 10rem; }
+  right: 17rem;
+  margin-top: 3rem; }
   .form-input, .profile-info_edit {
     border: none;
     font-size: 3rem;
     padding: 1rem 1.5rem;
     margin: 1rem 0 3rem;
-    width: 80%; }
+    width: 100%; }
   .form-label {
     font-size: 3rem; }
   .form-button {
@@ -777,7 +804,8 @@ nav ul {
   display: flex;
   flex-direction: column;
   padding: 3rem;
-  margin-top: -3rem; }
+  margin-top: -3rem;
+  margin-left: 45rem; }
   .profile-top {
     display: flex;
     justify-content: flex-start;
@@ -881,10 +909,9 @@ nav ul {
         position: absolute;
         top: 7rem;
         left: 0;
-        width: 100%;
+        width: 90%;
         background-color: #000;
-        height: 500px;
-        overflow-y: scroll; }
+        height: 500px; }
         .messages-people_search-results-each {
           background-color: #454545;
           border-top: 2px solid #000;
@@ -894,20 +921,22 @@ nav ul {
           padding: .5rem 1rem;
           transition: all .2s ease-out;
           position: relative; }
+          .messages-people_search-results-each, .messages-people_search-results-each:link, .messages-people_search-results-each:visited {
+            color: #eee;
+            text-decoration: none; }
           .messages-people_search-results-each:hover {
             background-color: #565656;
             cursor: pointer; }
-            .messages-people_search-results-each:hover::after {
-              content: "Create Chat";
-              position: absolute;
-              right: 0;
-              margin-right: 2rem;
-              font-size: 1.8rem;
-              color: #cdcdcd; }
           .messages-people_search-results-each_avatar {
             height: 60px;
             min-width: 60px;
             max-width: 60px; }
+          .messages-people_search-results-each_username {
+            position: relative; }
+            .messages-people_search-results-each_username_action {
+              font-size: 1.6rem;
+              position: absolute;
+              right: 20px; }
     .messages-people-card, .messages-people-card_selected {
       display: flex;
       align-items: flex-start;
@@ -1145,7 +1174,11 @@ nav ul {
 .notifications {
   display: flex;
   flex-direction: column;
-  width: 78%; }
+  width: 50%;
+  min-height: 50vh;
+  justify-content: center; }
+  .notifications_none {
+    align-self: center; }
 
 .grid {
   display: grid;

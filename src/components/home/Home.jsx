@@ -8,6 +8,7 @@ import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 //redux
 import { connect } from "react-redux";
 import { getAllPosts, getUserData } from "../../actions";
+
 import { Link } from "react-router-dom";
 
 class Home extends Component {
@@ -192,19 +193,6 @@ class Home extends Component {
     }
   };
 
-  showWorkouts = (type, author, title, likes) => {
-    return (
-      <div className="home-other-workouts-card">
-        <div>
-          <div className="home-other-workouts-card_type">{type}</div>
-          <div className="home-other-workouts-card_author">&bull; {author}</div>
-        </div>
-        <div className="home-other-workouts-card_title">{title}</div>
-        <div className="home-other-workouts-card_likes">Likes: {likes}</div>
-      </div>
-    );
-  };
-
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -275,73 +263,6 @@ class Home extends Component {
             {this.showPosts()}
           </div>
         </section>
-        {/* <section className="home-other">
-          <div className="home-other-search">
-            <img
-              src="./icons/searchIcon.png"
-              alt="search"
-              className="home-other-search_icon"
-            />
-            <input
-              type="text"
-              className="home-other-search_input"
-              placeholder="Search..."
-            />
-          </div>
-          <div className="home-other-workouts">
-            <h3 className="home-other-workouts_title">Recommended Workouts</h3>
-            {this.showWorkouts(
-              "Bodyweight",
-              "Victor",
-              "Simple Full Body Home Workout",
-              "121"
-            )}
-            {this.showWorkouts("Yoga", "Amanda", "Morning Yoga Routine", "132")}
-          </div>
-          <div className="home-other-people">
-            <h3 className="home-other-people_title">Who to follow</h3>
-            <div className="home-other-people-card">
-              <div className="home-feed-posts-card-avatar">
-                <img
-                  src="./img/avatar.jpg"
-                  alt="avatar"
-                  className="home-feed-posts-card-avatar-img"
-                />
-              </div>
-              <div className="home-other-people-card-middle">
-                <div className="home-other-people-card-middle_name">Pepe</div>
-                <div className="home-other-people-card-middle_username">
-                  @pepeworkout2
-                </div>
-              </div>
-              <div className="home-other-people-card-button">
-                <button className="home-other-people-card-button_follow">
-                  Follow
-                </button>
-              </div>
-            </div>
-            <div className="home-other-people-card">
-              <div className="home-feed-posts-card-avatar">
-                <img
-                  src="./img/avatar.jpg"
-                  alt="avatar"
-                  className="home-feed-posts-card-avatar-img"
-                />
-              </div>
-              <div className="home-other-people-card-middle">
-                <div className="home-other-people-card-middle_name">Jose</div>
-                <div className="home-other-people-card-middle_username">
-                  @joseworkout3
-                </div>
-              </div>
-              <div className="home-other-people-card-button">
-                <button className="home-other-people-card-button_following">
-                  Following
-                </button>
-              </div>
-            </div>
-          </div>
-        </section> */}
       </Fragment>
     ) : null;
   }

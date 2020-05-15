@@ -47,7 +47,7 @@ export default class App extends Component {
                 <Route
                   exact
                   path="/messages"
-                  render={() => <Messages />}
+                  render={(props) => <Messages {...props} />}
                 ></Route>
                 <Route
                   exact
@@ -57,7 +57,7 @@ export default class App extends Component {
                 <Route exact path="/workout" render={() => <Workout />}></Route>
                 <Route exact path="/profile" render={() => <Profile />}></Route>
                 <Route exact path="/profile/:username" render={(props) => <OtherProfile {...props} />}></Route>
-                <Route exact path="/post" render={() => <AddPost />}></Route>
+                <Route exact path="/post" render={(props) => <AddPost {...props} />}></Route>
                 <Route exact path="/post/:postId" render={(props) => <Post {...props} />}></Route>
                 <Route exact path="/notifications" render={(props) => <Notifications {...props} />}></Route>
               </Switch>

@@ -1,8 +1,9 @@
+/* eslint-disable array-callback-return */
 import React, { Component } from "react";
 import services from "./../../services";
 import { connect } from "react-redux";
 import { getUserData, getAllUsersData } from "../../actions";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
@@ -27,6 +28,7 @@ class Messages extends Component {
     await this.setState({
       actualChats: allChats.data,
     });
+
     this.scrollToBottom();
     console.log("ALL CHATS----", allChats);
     console.log("STATE--------", this.state);
@@ -82,7 +84,7 @@ class Messages extends Component {
   };
 
   scrollToBottom = () => {
-    if (this.props.match) {
+    if (this.props.match && this.props.match.params.username) {
       this.mesRef.current.scrollTop = this.mesRef.current.scrollHeight;
     }
   };
@@ -210,39 +212,67 @@ class Messages extends Component {
         .includes(this.state.search.toLowerCase());
     });
     return actualUsers.map((user) => {
-      return (
-        <div
-          onClick={async () => {
-            await services.createChat({
-              userTwoHandle: user.handle,
-              userTwoImageUrl: user.imageUrl,
-            });
-            await this.setState({
-              search: "",
-            });
-            let allChats = await services.getAllChats();
-            await this.setState({
-              actualChats: allChats.data,
-            });
-            window.location.href = `/messages/${user.handle}`
-          }}
-          className="messages-people_search-results-each"
-        >
-          <div className="messages-people_search-results-each_avatar">
-            <img
-              src={user.imageUrl ? user.imageUrl : "./img/userdefault.png"}
-              alt="avatar"
-              className="messages-people_search-results-each_avatar-img"
-            />
+      if (this.chatStarted(user.handle)) {
+        return (
+          <Link
+            onClick={() => {
+              this.setState({
+                search: "",
+              });
+            }}
+            to={`/messages/${user.handle}`}
+            className="messages-people_search-results-each"
+          >
+            <div className="messages-people_search-results-each_avatar">
+              <img
+                src={user.imageUrl ? user.imageUrl : "./img/userdefault.png"}
+                alt="avatar"
+                className="messages-people_search-results-each_avatar-img"
+              />
+            </div>
+            <div className="messages-people_search-results-each_username">
+              {user.handle}
+            </div>
+            <div className="messages-people_search-results-each_username_action">
+              Open Chat
+            </div>
+          </Link>
+        );
+      } else {
+        return (
+          <div
+            onClick={async () => {
+              await services.createChat({
+                userTwoHandle: user.handle,
+              });
+              await this.setState({
+                search: "",
+              });
+              console.log("user clicked: ", user);
+              let allChats = await services.getAllChats();
+              await this.setState({
+                actualChats: allChats.data,
+              });
+              this.props.history.push(`/messages/${user.handle}`);
+            }}
+            className="messages-people_search-results-each"
+          >
+            <div className="messages-people_search-results-each_avatar">
+              <img
+                src={user.imageUrl ? user.imageUrl : "./img/userdefault.png"}
+                alt="avatar"
+                className="messages-people_search-results-each_avatar-img"
+              />
+            </div>
+            <div className="messages-people_search-results-each_username">
+              {user.handle}
+            </div>
+            <div className="messages-people_search-results-each_username_action">
+              Create Chat
+            </div>
           </div>
-          <div className="messages-people_search-results-each_username">
-            {user.handle}
-          </div>
-          <div className="messages-people_search-results-each_username_action">
-            {this.chatStarted(user.handle) ? "Open Chat" : "Create Chat"}
-          </div>
-        </div>
-      );
+        );
+      }
     });
   };
 

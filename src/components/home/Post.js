@@ -94,7 +94,7 @@ class Post extends Component {
   render() {
     console.log(this.props.onePost);
     return this.state.onePost ? (
-      <section style={{ width: "60%" }} className="home-feed">
+      <section style={{ width: "50%" }} className="home-feed">
         <div className="home-feed-posts">
           <div className="home-feed-posts-card">
             <div className="home-feed-posts-card_menu">

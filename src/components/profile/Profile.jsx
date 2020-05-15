@@ -139,12 +139,19 @@ class Profile extends Component {
                       await services.unlikePost(post.postId);
                       await this.props.getAllPosts();
                       await this.props.getUserData();
-                      this.setState({
-                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
-                          return (
-                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                          );
-                        }),
+                      await this.setState({
+                        sortedPosts: this.props.allPosts.data
+                          .filter((post) => {
+                            return (
+                              post.userHandle ===
+                              this.props.userData.data.credentials.handle
+                            );
+                          })
+                          .sort((a, b) => {
+                            return (
+                              Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                            );
+                          }),
                       });
                     }}
                   >
@@ -164,12 +171,19 @@ class Profile extends Component {
                         .catch((err) => console.log(err));
                       await this.props.getAllPosts();
                       await this.props.getUserData();
-                      this.setState({
-                        sortedPosts: this.props.allPosts.data.sort((a, b) => {
-                          return (
-                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                          );
-                        }),
+                      await this.setState({
+                        sortedPosts: this.props.allPosts.data
+                          .filter((post) => {
+                            return (
+                              post.userHandle ===
+                              this.props.userData.data.credentials.handle
+                            );
+                          })
+                          .sort((a, b) => {
+                            return (
+                              Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                            );
+                          }),
                       });
                     }}
                   >

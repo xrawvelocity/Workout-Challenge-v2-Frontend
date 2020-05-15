@@ -1,15 +1,15 @@
 .form {
   @include centerFlex(column, center, flex-start);
   position: absolute;
-  right: 5rem;
-  margin-top: 10rem;
+  right: 17rem;
+  margin-top: 3rem;
 
   &-input {
     border: none;
     font-size: 3rem;
     padding: 1rem 1.5rem;
     margin: 1rem 0 3rem;
-    width: 80%;
+    width: 100%;
   }
 
   &-label {
