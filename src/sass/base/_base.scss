@@ -18,11 +18,28 @@ html {
   // background-size: cover;
   // background-attachment: fixed;
   scroll-behavior: smooth;
+
+  @include respond(normal-desktop) {
+    //width < 1600px
+    font-size: 60%;
+  }
+  @include respond(tab-land) {
+    //width < 1440px
+    font-size: 56.25%;
+  }
+  @include respond(tab-port) {
+    //width < 1040px
+    font-size: 50%;
+  }
+  @include respond(phone) {
+    //width < 700px
+    font-size: 40%;
+  }
 }
 
 body {
-  font-family: "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 

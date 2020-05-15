@@ -26,8 +26,20 @@ nav ul {
   align-items: center;
   width: 15%;
 
+  @include respond(phone) {
+    width: 100%;
+    justify-content: center;
+
+  }
+
+  &,
+  &:link,
+  &:visited {
+    text-decoration: none;
+  }
+
   &:hover {
-    cursor: default;
+    cursor: pointer;
   }
 
   &-img {
@@ -49,7 +61,10 @@ nav ul {
   font-weight: 700;
   line-height: 1;
   display: flex;
-  // flex-direction: column;
+  
+  @include respond(phone) {
+    font-size: 5rem;
+  }
 }
 
 .title-green {
@@ -96,6 +111,10 @@ nav ul {
   &:hover {
     color: $green;
     cursor: pointer;
+  }
+
+  @include respond(phone) {
+    display: none;
   }
 }
 

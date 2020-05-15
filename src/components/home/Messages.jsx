@@ -84,13 +84,17 @@ class Messages extends Component {
               : "messages-people-card"
           }
         >
-          <div className="messages-people-card_avatar">
+          <Link
+            to={`/profile/${otherUser}`}
+            className="messages-people-card_avatar"
+          >
             <img
-              className="messages-people-card_avatar-image"
-              src={otherUserImage}
+              src={otherUserImage ? otherUserImage : "./img/userdefault.png"}
               alt="avatar"
+              className="messages-people-card_avatar-image"
             />
-          </div>
+          </Link>
+
           <div className="messages-people-card_username">{otherUser}</div>
         </Link>
       );
@@ -229,10 +233,10 @@ class Messages extends Component {
       if (this.chatStarted(user.handle)) {
         return (
           <Link
-            onClick={()=>{
-                this.setState({
-                    search: ""
-                })
+            onClick={() => {
+              this.setState({
+                search: "",
+              });
             }}
             to={`/messages/${user.handle}`}
             className="messages-people_search-results-each"
@@ -263,12 +267,12 @@ class Messages extends Component {
               await this.setState({
                 search: "",
               });
-              console.log("user clicked: ", user)
+              console.log("user clicked: ", user);
               let allChats = await services.getAllChats();
               await this.setState({
                 actualChats: allChats.data,
               });
-              this.props.history.push(`/messages/${user.handle}`)
+              this.props.history.push(`/messages/${user.handle}`);
             }}
             className="messages-people_search-results-each"
           >

@@ -63,6 +63,7 @@ class Main extends Component {
             >
               Messages{" "}
               <FontAwesomeIcon
+                style={{marginLeft: "20px"}}
                 className="home-nav_sticky-messages"
                 icon={faComments}
               />
@@ -163,8 +164,7 @@ class Main extends Component {
 
             <Link
               className={
-                this.state.selected === "post" ||
-                window.location.pathname === "/post"
+                window.location.pathname === "/post" || this.state.selected === "post"
                   ? "home-nav_sticky_selected"
                   : "home-nav_sticky_default"
               }

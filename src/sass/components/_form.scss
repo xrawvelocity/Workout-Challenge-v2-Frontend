@@ -4,27 +4,65 @@
   right: 17rem;
   margin-top: 3rem;
 
+  @include respond(normal-desktop) {
+    right: 7rem;
+  }
+  @include respond(tab-land) {
+    right: 4rem;
+  }
+  @include respond(tab-port) {
+    right: 2rem;
+  }
+  @include respond(phone) {
+    height: 100%;
+    right: 0rem;
+    width: 80%;
+  }
+
   &-input {
     border: none;
     font-size: 3rem;
     padding: 1rem 1.5rem;
     margin: 1rem 0 3rem;
     width: 100%;
+
+    @include respond(normal-desktop) {
+      font-size: 2.4rem;
+      width: 90%;
+    }
+    @include respond(tab-land) {
+      font-size: 2rem;
+      width: 80%;
+    }
+    @include respond(phone) {
+      font-size: 3.6rem;
+    }
   }
 
   &-label {
     font-size: 3rem;
+
+    @include respond(normal-desktop) {
+      font-size: 2.4rem;
+    }
+    @include respond(tab-land) {
+      font-size: 2rem;
+    }
+    @include respond(phone) {
+      font-size: 3rem;
+    }
   }
 
   &-button {
     @extend .landing-heading-btn;
     margin-top: 3rem;
-    font-weight: 700;
+    font-weight: 700;  
+    height: 40px;
   }
 
   &-error {
-      font-size: 2rem;
-      color: red;
+    font-size: 2rem;
+    color: red;
   }
 
   &-member {
@@ -35,6 +73,18 @@
     display: inline-block;
     width: 220px;
 
+    @include respond(normal-desktop) {
+      font-size: 1.6rem;
+    }
+    @include respond(tab-land) {
+      font-size: 1.4rem;
+      width: 150px;
+    }
+    @include respond(phone) {
+      font-size: 2.4rem;
+      width: 180px;
+    }
+
     & span {
       display: inline-block;
     }
@@ -42,7 +92,7 @@
 }
 
 .form-button_loading {
-  color: #ffffff;
+  color: #fff;
   font-size: 20px;
   text-indent: -9999em;
   overflow: hidden;
@@ -56,6 +106,11 @@
   transform: translateZ(0);
   -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
   animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+
+  &_black {
+    color: #000;
+    margin: 0 auto;
+  }
 }
 @-webkit-keyframes load6 {
   0% {

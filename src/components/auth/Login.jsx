@@ -45,7 +45,7 @@ export default class Login extends Component {
         <main>
           <div className="landing">
             <div className="landing-image">
-              <img src="./img/workoutLanding.jpg" alt="landing" />
+              <img src="https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2397x1600/5ee21529db5b4961f73e697ebe9e215d/photo-1574680096145-d05b474e2155.jpg" alt="landing" />
             </div>
 
             <form onSubmit={(e) => this.handleSubmit(e)} className="form">
@@ -83,7 +83,7 @@ export default class Login extends Component {
                   </button>
                 ) : (
                   <button disabled type="submit" className="form-button">
-                    <div className="form-button_loading"></div>
+                    <div className="form-button_loading form-button_loading_black"></div>
                   </button>
                 )}
                 <div className="form-member">

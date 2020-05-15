@@ -10,7 +10,7 @@ export default class Landing extends Component {
         <main>
           <div className="landing">
             <div className="landing-image">
-              <img src="./img/workoutLanding.jpg" alt="landing" />
+              <img src="https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2397x1600/5ee21529db5b4961f73e697ebe9e215d/photo-1574680096145-d05b474e2155.jpg" alt="landing" />
             </div>
             <div className="landing-heading">
               <span>Stay Active</span>

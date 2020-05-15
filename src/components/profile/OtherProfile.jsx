@@ -202,13 +202,6 @@ class OtherProfile extends Component {
                     Follow
                   </button>
                 )}
-                <Link
-                  style={{ marginLeft: "30px" }}
-                  to={`/messages/${this.props.match.params.username}`}
-                  className="profile-top-right-edit"
-                >
-                  Message
-                </Link>
               </div>
             </div>
             <div className="profile-info">

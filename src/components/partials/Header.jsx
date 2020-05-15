@@ -15,13 +15,13 @@ export default class Header extends Component {
     return (
       <nav>
         <div className="nav">
-          <div className="logo">
+          <Link to="/" className="logo">
             <FontAwesomeIcon className="logo-img" icon={faRunning} />
             <div className="title">
               <span><span className="title-green">fit</span><span></span></span>
               <span><span className="title-green"></span><span>social</span></span>
             </div>
-          </div>
+          </Link>
           <ul>
             {localStorage.getItem("FBIdToken") ? (
               <Fragment>
