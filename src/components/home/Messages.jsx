@@ -1,9 +1,8 @@
-/* eslint-disable array-callback-return */
 import React, { Component } from "react";
 import services from "./../../services";
 import { connect } from "react-redux";
 import { getUserData, getAllUsersData } from "../../actions";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
@@ -28,6 +27,21 @@ class Messages extends Component {
     await this.setState({
       actualChats: allChats.data,
     });
+    // if (this.props.match.params) {
+    //   if (this.state.actualChats && this.props.match.params.username) {
+    //     let addedChats = this.state.actualChats.filter((chat) => {
+    //       return (
+    //         chat.userOne.handle === this.props.match.params.username ||
+    //         chat.userTwo.handle === this.props.match.params.username
+    //       );
+    //     });
+    //     console.log(addedChats)
+    //     // services.createChat({
+    //     //     userTwoHandle: this.props.match.params.username,
+    //     //     userTwoImageUrl: "d"
+    //     // })
+    //   }
+    // }
 
     this.scrollToBottom();
     console.log("ALL CHATS----", allChats);
@@ -215,10 +229,10 @@ class Messages extends Component {
       if (this.chatStarted(user.handle)) {
         return (
           <Link
-            onClick={() => {
-              this.setState({
-                search: "",
-              });
+            onClick={()=>{
+                this.setState({
+                    search: ""
+                })
             }}
             to={`/messages/${user.handle}`}
             className="messages-people_search-results-each"
@@ -244,16 +258,17 @@ class Messages extends Component {
             onClick={async () => {
               await services.createChat({
                 userTwoHandle: user.handle,
+                userTwoImageUrl: user.imageUrl,
               });
               await this.setState({
                 search: "",
               });
-              console.log("user clicked: ", user);
+              console.log("user clicked: ", user)
               let allChats = await services.getAllChats();
               await this.setState({
                 actualChats: allChats.data,
               });
-              this.props.history.push(`/messages/${user.handle}`);
+              this.props.history.push(`/messages/${user.handle}`)
             }}
             className="messages-people_search-results-each"
           >
