@@ -18,7 +18,7 @@ class Nofitications extends Component {
       .catch((err) => {
         console.log(err.code);
         localStorage.removeItem("FBIdToken");
-        this.props.history.push("/login");
+        window.location.href = "/login"
       });
     await services.markNotificationRead(
       this.props.userData.data.notifications.map((a) => a.notificationId)

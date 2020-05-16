@@ -27,7 +27,7 @@ class Post extends Component {
       .catch((err) => {
         console.log(err.code);
         localStorage.removeItem("FBIdToken");
-        this.props.history.push("/login");
+        window.location.href = "/login"
       });
     await this.setState({ loading: true });
     await this.props.getOnePost(this.props.match.params.postId);
@@ -103,9 +103,9 @@ class Post extends Component {
   render() {
     console.log(this.props.onePost);
     return this.state.onePost ? (
-      <section style={{ width: "50%" }} className="home-feed">
+      <section className="home-feed">
         <div className="home-feed-posts">
-          <div className="home-feed-posts-card">
+          <div style={{marginTop: "20px"}} className="home-feed-posts-card">
             <div className="home-feed-posts-card_menu">
               <input
                 className="home-feed-posts-card_menu-input"
@@ -221,14 +221,14 @@ class Post extends Component {
                   type="text"
                   maxLength="200"
                   value={this.state.body}
-                  placeholder="Say what you think..."
+                  placeholder="Add a comment..."
                   className="home-feed-posts-card-content-bottom_comment-input"
                 />
                 <button
                   onClick={this.postComment}
                   className="home-feed-posts-card-content-bottom_comment-button"
                 >
-                  Comment
+                  Post
                 </button>
               </div>
             </div>

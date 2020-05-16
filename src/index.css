@@ -2,9 +2,10 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; }
   *:focus, *:active {
-    outline: none; }
+    outline: none !important; }
 
 html {
   font-size: 62.5%;
@@ -439,6 +440,10 @@ nav ul {
           width: 20px;
           color: #14110F;
           background-color: #04ED04; }
+          @media only screen and (max-width: 65em) {
+            .home-nav_bottom-messages_number {
+              left: 0;
+              margin-left: 4rem; } }
       .home-nav_bottom > * {
         transition: all 0.2s ease-out; }
       .home-nav_bottom > *:hover {
@@ -641,6 +646,9 @@ nav ul {
             flex-direction: column;
             padding: 1rem 0rem;
             width: 700px; }
+            @media only screen and (max-width: 65em) {
+              .home-feed-posts-card-content_comment {
+                width: 100%; } }
           .home-feed-posts-card-content-top {
             display: flex; }
             .home-feed-posts-card-content-top_name {
@@ -698,6 +706,9 @@ nav ul {
                 resize: none;
                 font-size: 2rem;
                 transition: all 0.2s ease-out; }
+                @media only screen and (max-width: 65em) {
+                  .home-feed-posts-card-content-bottom_comment-input, .messages-people_search {
+                    width: 100%; } }
                 .home-feed-posts-card-content-bottom_comment-input:required, .messages-people_search:required {
                   box-shadow: none; }
                 .home-feed-posts-card-content-bottom_comment-input::placeholder, .messages-people_search::placeholder {
@@ -711,9 +722,13 @@ nav ul {
                 border-radius: 3px;
                 text-transform: uppercase;
                 background-color: #eee;
-                margin: 0 0 0 3rem;
+                margin-left: 3rem;
                 font-size: 2rem;
                 transition: all 0.2s ease-out; }
+                @media only screen and (max-width: 65em) {
+                  .home-feed-posts-card-content-bottom_comment-button {
+                    font-size: 1.8rem;
+                    margin-left: 1rem; } }
                 .home-feed-posts-card-content-bottom_comment-button:hover {
                   background-color: #04ED04;
                   color: #14110F;
@@ -744,6 +759,9 @@ nav ul {
                 align-items: center;
                 height: 100%;
                 width: 100%; }
+                @media only screen and (max-width: 65em) {
+                  .home-feed-posts-card-content-post_form_add {
+                    position: relative; } }
               .home-feed-posts-card-content-post_form-input {
                 height: 100px;
                 width: 80%;
@@ -775,17 +793,11 @@ nav ul {
                 margin: 0 1rem;
                 font-size: 2rem;
                 transition: all 0.2s ease-out; }
-                .home-feed-posts-card-content-post_form-button_success {
-                  border: none;
-                  padding: 1rem 1.5rem;
-                  border-radius: 3px;
-                  text-transform: uppercase;
-                  margin: 0 1rem;
-                  font-size: 2rem;
-                  background-color: #04ED04;
-                  color: #14110F; }
-                  .home-feed-posts-card-content-post_form-button_success:hover {
-                    cursor: wait; }
+                @media only screen and (max-width: 65em) {
+                  .home-feed-posts-card-content-post_form-button_add {
+                    position: absolute;
+                    bottom: 10rem;
+                    right: 2rem; } }
                 .home-feed-posts-card-content-post_form-button:hover {
                   background-color: #04ED04;
                   color: #14110F;
@@ -1045,11 +1057,19 @@ nav ul {
   padding: 3rem;
   margin-top: -3rem;
   margin-left: 45rem; }
+  @media only screen and (max-width: 65em) {
+    .profile {
+      width: 100%;
+      padding: 0;
+      margin: 0; } }
   .profile-top {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding-bottom: 5rem; }
+    @media only screen and (max-width: 65em) {
+      .profile-top {
+        padding: 3rem 3rem 5rem; } }
     .profile-top-left {
       display: flex;
       align-items: center; }
@@ -1058,6 +1078,10 @@ nav ul {
         width: 100px;
         border-radius: 50%;
         overflow: hidden; }
+        @media only screen and (max-width: 65em) {
+          .profile-top-left-avatar {
+            height: 60px;
+            width: 60px; } }
         .profile-top-left-avatar_image {
           object-fit: cover;
           height: 100%;
@@ -1095,6 +1119,9 @@ nav ul {
   .profile-info {
     display: flex;
     flex-direction: column; }
+    @media only screen and (max-width: 65em) {
+      .profile-info {
+        padding: 0rem 3rem; } }
     .profile-info_edit {
       background-color: #333;
       color: #eee;
@@ -1119,6 +1146,9 @@ nav ul {
         display: flex;
         font-size: 2rem;
         margin-top: 5rem; }
+        @media only screen and (max-width: 65em) {
+          .profile-info-other-follows {
+            padding: 0rem 3rem; } }
         .profile-info-other-follows_followers {
           margin-left: 3rem; }
   .profile-content {
@@ -1140,10 +1170,17 @@ nav ul {
     flex-direction: column;
     justify-content: flex-start;
     position: relative; }
+    @media only screen and (max-width: 65em) {
+      .messages-people {
+        width: 100%;
+        min-height: 70vh; } }
     .messages-people_search {
       margin: 1rem 0rem 4rem 0 !important;
       width: 90%;
       height: 6rem; }
+      @media only screen and (max-width: 65em) {
+        .messages-people_search {
+          width: 100%; } }
       .messages-people_search-results {
         position: absolute;
         top: 7rem;
@@ -1156,9 +1193,9 @@ nav ul {
           border-top: 2px solid #000;
           display: flex;
           align-items: center;
-          margin-top: .5rem;
-          padding: .5rem 1rem;
-          transition: all .2s ease-out;
+          margin-top: 0.5rem;
+          padding: 0.5rem 1rem;
+          transition: all 0.2s ease-out;
           position: relative; }
           .messages-people_search-results-each, .messages-people_search-results-each:link, .messages-people_search-results-each:visited {
             color: #eee;
@@ -1170,6 +1207,11 @@ nav ul {
             height: 60px;
             min-width: 60px;
             max-width: 60px; }
+            @media only screen and (max-width: 65em) {
+              .messages-people_search-results-each_avatar {
+                height: 40px;
+                min-width: 40px;
+                max-width: 40px; } }
           .messages-people_search-results-each_username {
             position: relative; }
             .messages-people_search-results-each_username_action {
@@ -1184,6 +1226,9 @@ nav ul {
       padding: 0.5rem 1rem;
       width: 90%;
       transition: all 0.2s ease-out; }
+      @media only screen and (max-width: 65em) {
+        .messages-people-card, .messages-people-card_selected {
+          width: 100%; } }
       .messages-people-card, .messages-people-card_selected, .messages-people-card:link, .messages-people-card_selected:link, .messages-people-card:visited, .messages-people-card_selected:visited {
         color: #eee;
         text-decoration: none; }
@@ -1201,6 +1246,11 @@ nav ul {
         background-color: #222;
         overflow: hidden;
         display: block; }
+        @media only screen and (max-width: 65em) {
+          .messages-people-card_avatar {
+            height: 40px;
+            min-width: 40px;
+            max-width: 40px; } }
         .messages-people-card_avatar-image {
           object-fit: cover;
           height: 100%;
@@ -1212,8 +1262,16 @@ nav ul {
     margin-right: 5rem;
     display: flex;
     justify-content: center; }
+    @media only screen and (max-width: 65em) {
+      .messages-list {
+        display: fixed;
+        width: 0;
+        margin: 0; } }
     .messages-list_empty {
       margin-top: 5rem; }
+      @media only screen and (max-width: 65em) {
+        .messages-list_empty {
+          display: none; } }
 
 .chatbox {
   position: fixed;
@@ -1226,6 +1284,13 @@ nav ul {
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   transition: all 0.2s ease-out; }
+  @media only screen and (max-width: 65em) {
+    .chatbox {
+      top: 0;
+      z-index: 1000000;
+      right: 0;
+      width: 100%;
+      height: 100%; } }
   .chatbox__content {
     height: 80rem;
     width: 100%;
@@ -1237,6 +1302,9 @@ nav ul {
     overflow: hidden;
     opacity: 1;
     transition: all 0.3s ease-in-out; }
+    @media only screen and (max-width: 65em) {
+      .chatbox__content {
+        height: 100%; } }
   .chatbox__top {
     width: 100%;
     height: 10%;
@@ -1245,7 +1313,13 @@ nav ul {
     align-items: center;
     background-color: #222;
     color: #ddd;
-    font-size: 1.6rem; }
+    font-size: 2rem; }
+    @media only screen and (max-width: 65em) {
+      .chatbox__top {
+        font-size: 2.4rem; } }
+    @media only screen and (max-width: 65em) {
+      .chatbox__top {
+        height: 10rem; } }
     .chatbox__top-username {
       margin-left: 3rem; }
   .chatbox__middle {
@@ -1276,7 +1350,10 @@ nav ul {
       padding: 10px;
       cursor: default;
       border-radius: 15px;
-      font-size: 1.6rem; }
+      font-size: 2rem; }
+      @media only screen and (max-width: 65em) {
+        .chatbox__middle-bubble {
+          font-size: 2.4rem; } }
       .chatbox__middle-bubble-receiver {
         float: left;
         background-color: #999; }
@@ -1302,10 +1379,14 @@ nav ul {
   .chatbox__bottom {
     width: 100%;
     height: 10%;
-    font-size: 1.6rem;
+    font-size: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center; }
+    @media only screen and (max-width: 65em) {
+      .chatbox__bottom {
+        height: 10rem;
+        font-size: 2.4rem; } }
     .chatbox__bottom-form {
       height: 100%;
       width: auto;
@@ -1323,6 +1404,9 @@ nav ul {
         background-color: #232323;
         color: #ddd;
         outline: none; }
+        @media only screen and (max-width: 65em) {
+          .chatbox__bottom-form-message {
+            font-size: 2.4rem; } }
         .chatbox__bottom-form-message:required {
           box-shadow: none; }
       .chatbox__bottom-form-submit {
@@ -1335,7 +1419,7 @@ nav ul {
         font-weight: 700;
         text-transform: uppercase;
         background-color: #232323;
-        transition: all .1s ease-out; }
+        transition: all 0.1s ease-out; }
         .chatbox__bottom-form-submit:hover {
           color: #04ED04;
           background-color: #000;
@@ -1353,7 +1437,7 @@ nav ul {
   .chatbox__close, .chatbox__close:link, .chatbox__close:visited {
     color: #777;
     position: relative;
-    bottom: .2rem;
+    bottom: 0.2rem;
     right: 3rem;
     font-size: 3rem;
     text-decoration: none;
@@ -1416,6 +1500,10 @@ nav ul {
   width: 50%;
   min-height: 50vh;
   justify-content: center; }
+  @media only screen and (max-width: 65em) {
+    .notifications {
+      width: 100%;
+      margin: 3rem 0 3rem 2rem; } }
   .notifications_none {
     align-self: center; }
 

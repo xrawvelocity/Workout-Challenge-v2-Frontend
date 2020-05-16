@@ -20,7 +20,7 @@ class AddPost extends Component {
       .catch((err) => {
         console.log(err.code);
         localStorage.removeItem("FBIdToken");
-        this.props.history.push("/login");
+        window.location.href = "/login";
       });
   }
 
@@ -51,8 +51,8 @@ class AddPost extends Component {
 
   render() {
     return (
-      <div style={{marginTop: "120px"}} className="home-feed-posts-card">
-        <div className="home-feed-posts-card-avatar">
+      <div style={{ marginTop: "120px" }} className="home-feed-posts-card">
+        <div className="home-feed-posts-card-avatar home-feed-posts-card-avatar-post">
           <img
             src={
               this.props.userData
@@ -73,28 +73,20 @@ class AddPost extends Component {
               onChange={(e) => this.handleChange(e)}
               type="text"
               name="body"
-              style={{height: "250px", fontSize: "22px"}}
+              autoFocus
+              style={{ height: "250px", fontSize: "22px" }}
               maxLength="300"
               value={this.state.body}
               placeholder="What's on your mind..."
               required
             />
-            {this.state.success ? (
-              <button
-                disabled
-                className="home-feed-posts-card-content-post_form-button_success"
-                type="submit"
-              >
-                Success
-              </button>
-            ) : (
-              <button
-                className="home-feed-posts-card-content-post_form-button"
-                type="submit"
-              >
-                Post
-              </button>
-            )}
+
+            <button
+              className="home-feed-posts-card-content-post_form-button home-feed-posts-card-content-post_form-button_add"
+              type="submit"
+            >
+              Post
+            </button>
           </form>
         </div>
       </div>

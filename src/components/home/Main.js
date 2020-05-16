@@ -28,7 +28,7 @@ class Main extends Component {
       .catch((err) => {
         console.log(err.code);
         localStorage.removeItem("FBIdToken");
-        this.props.history.push("/login");
+        window.location.href = "/login";
       });
   }
 
@@ -228,27 +228,29 @@ class Main extends Component {
                 });
               }}
             >
-              <FontAwesomeIcon
-                className="home-nav_bottom-messages"
-                icon={faComments}
-              />
-              {!this.state.messagesClicked && this.props.userData ? (
-                this.props.userData.data.notifications.filter(
-                  (notification) => {
-                    return notification.read === false;
-                  }
-                ).length !== 0 ? (
-                  <span className="home-nav_bottom-messages_number">
-                    {
-                      this.props.userData.data.notifications.filter(
-                        (notification) => {
-                          return notification.read === false;
-                        }
-                      ).length
+              <div className="home-nav_bottom-messages">
+                <FontAwesomeIcon
+                  className="home-nav_bottom-icon"
+                  icon={faComments}
+                />
+                {!this.state.messagesClicked && this.props.userData ? (
+                  this.props.userData.data.notifications.filter(
+                    (notification) => {
+                      return notification.read === false;
                     }
-                  </span>
-                ) : null
-              ) : null}
+                  ).length !== 0 ? (
+                    <span className="home-nav_bottom-messages_number">
+                      {
+                        this.props.userData.data.notifications.filter(
+                          (notification) => {
+                            return notification.read === false;
+                          }
+                        ).length
+                      }
+                    </span>
+                  ) : null
+                ) : null}
+              </div>
             </Link>
 
             <Link

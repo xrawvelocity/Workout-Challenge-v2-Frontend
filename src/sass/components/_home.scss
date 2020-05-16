@@ -104,6 +104,11 @@
           width: 20px;
           color: $black;
           background-color: $green;
+
+          @include respond(tab-port){
+            left: 0;
+            margin-left: 4rem;
+          }
         }
       }
 
@@ -323,7 +328,7 @@
               font-weight: 700;
               width: 100px;
             }
-            
+
             &:hover {
               background-color: #d11;
               color: #000;
@@ -393,6 +398,10 @@
             flex-direction: column;
             padding: 1rem 0rem;
             width: 700px;
+
+            @include respond(tab-port) {
+              width: 100%;
+            }
           }
 
           &-top {
@@ -484,6 +493,11 @@
                 resize: none;
                 font-size: 2rem;
                 transition: all 0.2s ease-out;
+
+                @include respond(tab-port) {
+                  width: 100%;
+                }
+
                 &:required {
                   box-shadow: none;
                 }
@@ -503,9 +517,14 @@
                 border-radius: 3px;
                 text-transform: uppercase;
                 background-color: #eee;
-                margin: 0 0 0 3rem;
+                margin-left: 3rem;
                 font-size: 2rem;
                 transition: all 0.2s ease-out;
+
+                @include respond(tab-port) {
+                  font-size: 1.8rem;
+                  margin-left: 1rem;
+                }
 
                 &:hover {
                   background-color: $green;
@@ -547,6 +566,10 @@
                 align-items: center;
                 height: 100%;
                 width: 100%;
+
+                @include respond(tab-port){
+                  position: relative;
+                }
               }
 
               &-input {
@@ -588,18 +611,12 @@
                 font-size: 2rem;
                 transition: all 0.2s ease-out;
 
-                &_success {
-                  border: none;
-                  padding: 1rem 1.5rem;
-                  border-radius: 3px;
-                  text-transform: uppercase;
-                  margin: 0 1rem;
-                  font-size: 2rem;
-                  background-color: $green;
-                  color: $black;
-
-                  &:hover {
-                    cursor: wait;
+                &_add {
+                  
+                  @include respond(tab-port){
+                    position: absolute;
+                    bottom: 10rem;
+                    right: 2rem;
                   }
                 }
 

@@ -24,6 +24,11 @@
     min-height: 50vh;
     justify-content: center;
 
+    @include respond(tab-port) {
+      width: 100%;
+      margin: 3rem 0 3rem 2rem;
+    }
+
     &_none {
         align-self: center;
     }

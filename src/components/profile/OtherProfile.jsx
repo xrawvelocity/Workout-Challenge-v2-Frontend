@@ -29,7 +29,7 @@ class OtherProfile extends Component {
       .catch((err) => {
         console.log(err.code);
         localStorage.removeItem("FBIdToken");
-        this.props.history.push("/login");
+        window.location.href = "/login"
       });
     console.log(this.props.match.params);
     await this.props.getOneUserData(this.props.match.params.username);

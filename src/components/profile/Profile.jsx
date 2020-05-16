@@ -35,7 +35,7 @@ class Profile extends Component {
       .catch((err) => {
         console.log(err.code);
         localStorage.removeItem("FBIdToken");
-        this.props.history.push("/login");
+        window.location.href = "/login"
       });
     await this.setState({ loading: true });
     await this.props.getAllPosts();

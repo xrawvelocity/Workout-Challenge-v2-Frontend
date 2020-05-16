@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import services from "./../../services";
 import { connect } from "react-redux";
 import { getUserData, getAllUsersData } from "../../actions";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,6 +16,7 @@ class Messages extends Component {
     };
 
     this.mesRef = React.createRef();
+    this.message = React.createRef();
   }
 
   mesRef = React.createRef();
@@ -29,7 +30,7 @@ class Messages extends Component {
       .catch((err) => {
         console.log(err.code);
         localStorage.removeItem("FBIdToken");
-        this.props.history.push("/login");
+        window.location.href = "/login";
       });
     await this.props.getAllUsersData();
     let allChats = await services.getAllChats();
@@ -147,6 +148,7 @@ class Messages extends Component {
                     console.log(this.state.body);
                   }}
                   value={this.state.body}
+                  ref={(input)=> { this.message = input; }}
                   type="text"
                   name="message"
                   className="chatbox__bottom-form-message"
@@ -222,6 +224,7 @@ class Messages extends Component {
         actualChats: allChats.data,
         body: "",
       });
+      this.message.focus();
       this.scrollToBottom();
     } else {
       console.log("MESSAGE MUST NOT BE EMPTY");
@@ -269,10 +272,19 @@ class Messages extends Component {
         return (
           <div
             onClick={async () => {
-              await services.createChat({
-                userTwoHandle: user.handle,
-                userTwoImageUrl: user.imageUrl,
-              });
+              await services
+                .createChat({
+                  userTwoHandle: user.handle,
+                  userTwoImageUrl: user.imageUrl,
+                })
+                .then((data) => {
+                  console.log(data);
+                })
+                .catch((err) => {
+                  console.log(err.code);
+                  localStorage.removeItem("FBIdToken");
+                  window.location.href = "/login";
+                });
               await this.setState({
                 search: "",
               });
