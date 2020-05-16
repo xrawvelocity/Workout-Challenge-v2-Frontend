@@ -21,7 +21,16 @@ class OtherProfile extends Component {
   };
 
   async componentDidMount() {
-    await this.props.getUserData();
+    await this.props
+      .getUserData()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.code);
+        localStorage.removeItem("FBIdToken");
+        this.props.history.push("/login");
+      });
     console.log(this.props.match.params);
     await this.props.getOneUserData(this.props.match.params.username);
     console.log(this.props);

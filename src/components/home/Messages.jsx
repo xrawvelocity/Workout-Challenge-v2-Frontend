@@ -21,7 +21,16 @@ class Messages extends Component {
   mesRef = React.createRef();
 
   async componentDidMount() {
-    await this.props.getUserData();
+    await this.props
+      .getUserData()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.code);
+        localStorage.removeItem("FBIdToken");
+        this.props.history.push("/login");
+      });
     await this.props.getAllUsersData();
     let allChats = await services.getAllChats();
     await this.setState({

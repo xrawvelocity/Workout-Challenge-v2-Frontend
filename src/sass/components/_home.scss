@@ -6,12 +6,120 @@
   margin-top: 15rem;
   padding-top: 5rem;
 
+  @include respond(tab-port) {
+    margin: 5rem 0 10rem;
+  }
+
   &-nav {
     position: fixed;
     left: 10px;
     padding-right: 30px;
     height: 55vh;
     border-right: 3px solid #000;
+
+    @include respond(tab-port) {
+      display: none;
+    }
+
+    &_bottom {
+      display: none;
+
+      @include respond(tab-port) {
+        position: fixed;
+        z-index: 1000;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        // align-items: center;
+        background-color: #000;
+        padding-top: 4rem;
+        font-size: 4rem;
+      }
+
+      &_default {
+        display: flex;
+        &,
+        &:link,
+        &:visited {
+          color: #eee;
+          text-decoration: none;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &_selected {
+        display: flex;
+        &,
+        &:link,
+        &:visited {
+          color: $green;
+          text-decoration: none;
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &-icon {
+        margin-left: 1rem;
+      }
+
+      &-notifications {
+        display: flex;
+        position: relative;
+        &_number {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          margin-left: 2.7rem;
+          font-size: 1.6rem;
+          font-weight: 700;
+          border-radius: 50%;
+          height: 20px;
+          width: 20px;
+          color: $black;
+          background-color: $green;
+        }
+      }
+
+      &-messages {
+        display: flex;
+        position: relative;
+
+        &_number {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          margin-left: 4.7rem;
+          left: 72%;
+          font-size: 1.6rem;
+          font-weight: 700;
+          border-radius: 50%;
+          height: 20px;
+          width: 20px;
+          color: $black;
+          background-color: $green;
+        }
+      }
+
+      & > * {
+        transition: all 0.2s ease-out;
+      }
+
+      & > *:hover {
+        color: $green;
+        cursor: pointer;
+      }
+
+      & > *:not(:last-child) {
+        margin-bottom: 3rem;
+      }
+    }
 
     &_sticky {
       display: inline-flex;
@@ -107,6 +215,10 @@
   &-feed {
     width: 45%;
 
+    @include respond(tab-port) {
+      width: 100%;
+    }
+
     &-posts {
       display: flex;
       flex-direction: column;
@@ -133,6 +245,11 @@
         transition: all 0.2s ease-out;
         position: relative;
 
+        @include respond(tab-port) {
+          min-width: 95%;
+          max-width: 95%;
+        }
+
         &_menu {
           position: absolute;
           top: 10px;
@@ -141,6 +258,11 @@
           width: 30px;
           height: 40px;
           transition: all 0.2s ease-out;
+
+          @include respond(tab-port) {
+            right: 3%;
+            top: 8%;
+          }
 
           &-input {
             position: absolute;
@@ -192,8 +314,16 @@
             transition: all 0.2s ease-out;
             color: #222;
             padding: 1rem 2rem;
+            text-align: center;
             display: block;
 
+            @include respond(tab-port) {
+              transform: translateX(-75%);
+              background-color: #d11;
+              font-weight: 700;
+              width: 100px;
+            }
+            
             &:hover {
               background-color: #d11;
               color: #000;
@@ -217,17 +347,31 @@
           overflow: hidden;
           display: block;
 
+          @include respond(tab-port) {
+            height: 50px;
+            min-width: 50px;
+            max-width: 50px;
+          }
+
           &-img {
             object-fit: cover;
             height: 100%;
             width: 100%;
           }
         }
+        &-avatar-post {
+          display: none;
+        }
         &-content {
           display: flex;
           flex-direction: column;
           padding: 2rem 3rem;
           width: 700px;
+
+          @include respond(tab-port) {
+            min-width: 73vw;
+            max-width: 73vw;
+          }
 
           &,
           &:link,
@@ -371,9 +515,23 @@
               }
             }
           }
+
           &-post {
             width: 100%;
             height: 120px;
+
+            @include respond(tab-port) {
+              width: 100%;
+              height: 300px;
+            }
+
+            &_home {
+              width: 100%;
+              height: 120px;
+              @include respond(tab-port) {
+                display: none;
+              }
+            }
 
             &_form {
               display: flex;
@@ -381,6 +539,15 @@
               align-items: center;
               min-height: 100%;
               width: 100%;
+
+              &_add {
+                display: flex;
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+              }
 
               &-input {
                 height: 100px;
@@ -393,6 +560,12 @@
                 resize: none;
                 font-size: 2rem;
                 transition: all 0.2s ease-out;
+
+                @include respond(tab-port) {
+                  width: 100%;
+                  margin-bottom: 3rem;
+                }
+
                 &:required {
                   box-shadow: none;
                 }

@@ -19,7 +19,16 @@ class Post extends Component {
 
   async componentDidMount() {
     dayjs.extend(relativeTime);
-    await this.props.getUserData();
+    await this.props
+      .getUserData()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.code);
+        localStorage.removeItem("FBIdToken");
+        this.props.history.push("/login");
+      });
     await this.setState({ loading: true });
     await this.props.getOnePost(this.props.match.params.postId);
     console.log(this.props.onePost);

@@ -30,6 +30,8 @@ class Home extends Component {
       })
       .catch((err) => {
         console.log(err.code);
+        localStorage.removeItem("FBIdToken");
+        this.props.history.push("/login");
       });
 
     this.setState({
@@ -225,7 +227,7 @@ class Home extends Component {
         <section className="home-feed">
           <div className="home-feed-posts">
             <div className="home-feed-posts-card">
-              <div className="home-feed-posts-card-avatar">
+              <div className="home-feed-posts-card-avatar-post">
                 <img
                   src={
                     this.props.userData
@@ -233,10 +235,10 @@ class Home extends Component {
                       : "./img/userdefault.png"
                   }
                   alt="avatar"
-                  className="home-feed-posts-card-avatar-img"
+                  className="home-feed-posts-card-avatar-post-img"
                 />
               </div>
-              <div className="home-feed-posts-card-content-post">
+              <div className="home-feed-posts-card-content-post_home">
                 <form
                   className="home-feed-posts-card-content-post_form"
                   onSubmit={(e) => this.submitPost(e)}

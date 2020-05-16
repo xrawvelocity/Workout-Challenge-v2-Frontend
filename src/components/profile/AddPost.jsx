@@ -19,6 +19,8 @@ class AddPost extends Component {
       })
       .catch((err) => {
         console.log(err.code);
+        localStorage.removeItem("FBIdToken");
+        this.props.history.push("/login");
       });
   }
 
@@ -63,7 +65,7 @@ class AddPost extends Component {
         </div>
         <div className="home-feed-posts-card-content-post">
           <form
-            className="home-feed-posts-card-content-post_form"
+            className="home-feed-posts-card-content-post_form_add"
             onSubmit={(e) => this.submitPost(e)}
           >
             <textarea

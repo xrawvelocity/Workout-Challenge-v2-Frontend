@@ -27,15 +27,18 @@ class Profile extends Component {
   };
 
   async componentDidMount() {
-    await this.props.getUserData();
-    await this.setState({ loading: true });
     await this.props
-      .getAllPosts()
-      .then((data) => console.log(data))
+      .getUserData()
+      .then((data) => {
+        console.log(data);
+      })
       .catch((err) => {
-        console.error(err);
-        window.location.href = "/";
+        console.log(err.code);
+        localStorage.removeItem("FBIdToken");
+        this.props.history.push("/login");
       });
+    await this.setState({ loading: true });
+    await this.props.getAllPosts();
     if (this.props.allPosts) {
       await this.setState({ loading: false });
       await this.setState({

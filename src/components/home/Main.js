@@ -16,11 +16,20 @@ class Main extends Component {
   state = {
     selected: "",
     notificationsClicked: false,
-    messagesClicked: false
+    messagesClicked: false,
   };
 
   async componentDidMount() {
-    await this.props.getUserData();
+    await this.props
+      .getUserData()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.code);
+        localStorage.removeItem("FBIdToken");
+        this.props.history.push("/login");
+      });
   }
 
   render() {
@@ -57,31 +66,33 @@ class Main extends Component {
               onClick={() => {
                 this.setState({
                   selected: "messages",
-                  messagesClicked: true
+                  messagesClicked: true,
                 });
               }}
             >
               Messages{" "}
               <FontAwesomeIcon
-                style={{marginLeft: "20px"}}
+                style={{ marginLeft: "20px" }}
                 className="home-nav_sticky-messages"
                 icon={faComments}
               />
               {!this.state.messagesClicked && this.props.userData ? (
-                  this.props.userData.data.notifications.filter(
-                    (notification) => {
-                      return notification.read === false;
-                    }
-                  ).length !== 0 ? (
-                    <span className="home-nav_sticky-messages_number">
-                      {this.props.userData.data.notifications.filter(
+                this.props.userData.data.notifications.filter(
+                  (notification) => {
+                    return notification.read === false;
+                  }
+                ).length !== 0 ? (
+                  <span className="home-nav_sticky-messages_number">
+                    {
+                      this.props.userData.data.notifications.filter(
                         (notification) => {
                           return notification.read === false;
                         }
-                      ).length}
-                    </span>
-                  ) : null
-                ) : null}
+                      ).length
+                    }
+                  </span>
+                ) : null
+              ) : null}
             </Link>
 
             <Link
@@ -112,11 +123,13 @@ class Main extends Component {
                     }
                   ).length !== 0 ? (
                     <span className="home-nav_sticky-notifications_number">
-                      {this.props.userData.data.notifications.filter(
-                        (notification) => {
-                          return notification.read === false;
-                        }
-                      ).length}
+                      {
+                        this.props.userData.data.notifications.filter(
+                          (notification) => {
+                            return notification.read === false;
+                          }
+                        ).length
+                      }
                     </span>
                   ) : null
                 ) : null}
@@ -164,7 +177,8 @@ class Main extends Component {
 
             <Link
               className={
-                window.location.pathname === "/post" || this.state.selected === "post"
+                window.location.pathname === "/post" ||
+                this.state.selected === "post"
                   ? "home-nav_sticky_selected"
                   : "home-nav_sticky_default"
               }
@@ -177,6 +191,158 @@ class Main extends Component {
             >
               Post{" "}
               <FontAwesomeIcon className="home-nav_sticky-icon" icon={faPen} />
+            </Link>
+          </div>
+        </section>
+        <section className="home-nav_bottom">
+          <div className="home-nav_bottom">
+            <Link
+              className={
+                this.state.selected === "home" ||
+                window.location.pathname === "/"
+                  ? "home-nav_bottom_selected"
+                  : "home-nav_bottom_default"
+              }
+              to="/"
+              onClick={() => {
+                this.setState({
+                  selected: "home",
+                });
+              }}
+            >
+              <FontAwesomeIcon className="home-nav_bottom-icon" icon={faHome} />
+            </Link>
+
+            <Link
+              className={
+                this.state.selected === "messages" ||
+                window.location.pathname.includes("/messages")
+                  ? "home-nav_bottom_selected"
+                  : "home-nav_bottom_default"
+              }
+              to="/messages"
+              onClick={() => {
+                this.setState({
+                  selected: "messages",
+                  messagesClicked: true,
+                });
+              }}
+            >
+              <FontAwesomeIcon
+                className="home-nav_bottom-messages"
+                icon={faComments}
+              />
+              {!this.state.messagesClicked && this.props.userData ? (
+                this.props.userData.data.notifications.filter(
+                  (notification) => {
+                    return notification.read === false;
+                  }
+                ).length !== 0 ? (
+                  <span className="home-nav_bottom-messages_number">
+                    {
+                      this.props.userData.data.notifications.filter(
+                        (notification) => {
+                          return notification.read === false;
+                        }
+                      ).length
+                    }
+                  </span>
+                ) : null
+              ) : null}
+            </Link>
+
+            <Link
+              className={
+                this.state.selected === "notifications" ||
+                window.location.pathname === "/notifications"
+                  ? "home-nav_bottom_selected"
+                  : "home-nav_bottom_default"
+              }
+              to="/notifications"
+              onClick={async () => {
+                await this.setState({
+                  selected: "notifications",
+                  notificationsClicked: true,
+                });
+              }}
+            >
+              <div className="home-nav_bottom-notifications">
+                <FontAwesomeIcon
+                  className="home-nav_bottom-icon"
+                  icon={faBell}
+                ></FontAwesomeIcon>
+                {!this.state.notificationsClicked && this.props.userData ? (
+                  this.props.userData.data.notifications.filter(
+                    (notification) => {
+                      return notification.read === false;
+                    }
+                  ).length !== 0 ? (
+                    <span className="home-nav_bottom-notifications_number">
+                      {
+                        this.props.userData.data.notifications.filter(
+                          (notification) => {
+                            return notification.read === false;
+                          }
+                        ).length
+                      }
+                    </span>
+                  ) : null
+                ) : null}
+              </div>
+            </Link>
+
+            <Link
+              className={
+                this.state.selected === "workout" ||
+                window.location.pathname === "/workout"
+                  ? "home-nav_bottom_selected"
+                  : "home-nav_bottom_default"
+              }
+              to="/workout"
+              onClick={() => {
+                this.setState({
+                  selected: "workout",
+                });
+              }}
+            >
+              <FontAwesomeIcon
+                className="home-nav_bottom-icon"
+                icon={faDumbbell}
+              />
+            </Link>
+
+            <Link
+              className={
+                this.state.selected === "profile" ||
+                window.location.pathname === "/profile"
+                  ? "home-nav_bottom_selected"
+                  : "home-nav_bottom_default"
+              }
+              to="/profile"
+              onClick={() => {
+                this.setState({
+                  selected: "profile",
+                });
+              }}
+            >
+              <FontAwesomeIcon className="home-nav_bottom-icon" icon={faUser} />
+            </Link>
+
+            <Link
+              className={
+                window.location.pathname === "/post" ||
+                this.state.selected === "post"
+                  ? "home-nav_bottom_selected"
+                  : "home-nav_bottom_default"
+              }
+              to="/post"
+              onClick={() => {
+                this.setState({
+                  selected: "post",
+                });
+              }}
+            >
+              <FontAwesomeIcon className="home-nav_bottom-icon" icon={faPen} />
             </Link>
           </div>
         </section>
