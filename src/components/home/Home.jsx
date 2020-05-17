@@ -266,7 +266,9 @@ class Home extends Component {
           </div>
         </section>
       </Fragment>
-    ) : null;
+    ) : (
+      <div style={{marginTop: "50px", fontSize: 50 }} className="form-button_loading"></div>
+    );
   }
 }
 

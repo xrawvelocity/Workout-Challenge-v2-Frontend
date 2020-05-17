@@ -348,7 +348,7 @@ class Messages extends Component {
         <section className="messages-list">{this.showChatbox()}</section>
       </main>
     ) : (
-      <div style={{ fontSize: 50 }} className="form-button_loading"></div>
+      <div style={{marginTop: "50px", fontSize: 50 }} className="form-button_loading"></div>
     );
   }
 }
