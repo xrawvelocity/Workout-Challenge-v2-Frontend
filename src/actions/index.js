@@ -49,3 +49,13 @@ export const getAllUsersData = () => {
     });
   };
 };
+
+export const getAllChats = () => {
+  return async (dispatch) => {
+    const response = await services.getAllChats();
+    dispatch({
+      type: "GET_ALL_CHATS",
+      payload: response,
+    });
+  };
+};

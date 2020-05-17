@@ -1,7 +1,8 @@
+/* eslint-disable array-callback-return */
 import React, { Component } from "react";
 import services from "./../../services";
 import { connect } from "react-redux";
-import { getUserData, getAllUsersData } from "../../actions";
+import { getUserData, getAllUsersData, getAllChats } from "../../actions";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
@@ -35,9 +36,9 @@ class Messages extends Component {
         window.location.href = "/login";
       });
     await this.props.getAllUsersData();
-    let allChats = await services.getAllChats();
+    await this.props.getAllChats();
     await this.setState({
-      actualChats: allChats.data,
+      actualChats: this.props.allChatsData.data,
     });
     const rootRef = firebase.database().ref();
     // rootRef.update({ chats: this.state.actualChats });
@@ -50,7 +51,7 @@ class Messages extends Component {
       console.log(snap.val())
     });
     this.scrollToBottom();
-    console.log("ALL CHATS----", allChats);
+    console.log("ALL CHATS----", this.props.allChatsData);
     console.log("STATE--------", this.state);
     console.log("PROPS--------", this.props);
   }
@@ -59,9 +60,11 @@ class Messages extends Component {
     return this.state.actualChats.map((chat) => {
       let otherUser;
       let otherUserImage;
+      let userReadChat;
       if (chat.userOne === this.props.userData.data.credentials.handle) {
         otherUser = chat.userTwo;
         otherUserImage = chat.userTwoImage;
+        userReadChat = chat.userOneRead
         if (!this.state.openChats.includes(otherUser)) {
           this.setState({
             openChats: [...this.state.openChats, otherUser],
@@ -70,6 +73,7 @@ class Messages extends Component {
       } else if (chat.userTwo === this.props.userData.data.credentials.handle) {
         otherUser = chat.userOne;
         otherUserImage = chat.userOneImage;
+        userReadChat = chat.userTwoRead
         if (!this.state.openChats.includes(otherUser)) {
           this.setState({
             openChats: [...this.state.openChats, otherUser],
@@ -81,14 +85,15 @@ class Messages extends Component {
           onClick={async () => {
             await this.setState({ selectedUser: otherUser });
             console.log(this.state.selectedUser);
+            await services.markMessagesRead(chat.chatId)
           }}
           to={`/messages/${otherUser}`}
           className={
             this.props.match
               ? this.props.match.params.username === otherUser
-                ? "messages-people-card_selected"
-                : "messages-people-card"
-              : "messages-people-card"
+                ? `messages-people-card_selected${!userReadChat ? "-unread" : ""}`
+                : `messages-people-card${!userReadChat ? "-unread" : ""}`
+              : `messages-people-card${!userReadChat ? "-unread" : ""}`
           }
         >
           <Link
@@ -225,9 +230,9 @@ class Messages extends Component {
       // const chatRef = dbRefChat.child("wCoK7ODpIpJXI9eCYQgy");
       // const messageRef = chatRef.child("messages");
       // messageRef.update({body: this.state.body});
-      let allChats = await services.getAllChats();
+      await this.props.getAllChats();
       await this.setState({
-        actualChats: allChats.data,
+        actualChats: this.props.allChatsData.data,
         body: "",
       });
       const rootRef = firebase.database().ref();
@@ -297,9 +302,9 @@ class Messages extends Component {
                 search: "",
               });
               console.log("user clicked: ", user);
-              let allChats = await services.getAllChats();
+              await this.props.getAllChats();
               await this.setState({
-                actualChats: allChats.data,
+                actualChats: this.props.allChatsData.data,
               });
               this.props.history.push(`/messages/${user.handle}`);
             }}
@@ -354,9 +359,9 @@ class Messages extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { userData: state.userData, allUsersData: state.allUsersData };
+  return { userData: state.userData, allUsersData: state.allUsersData, allChatsData: state.allChatsData };
 };
 
-export default connect(mapStateToProps, { getUserData, getAllUsersData })(
+export default connect(mapStateToProps, { getUserData, getAllUsersData, getAllChats })(
   Messages
 );

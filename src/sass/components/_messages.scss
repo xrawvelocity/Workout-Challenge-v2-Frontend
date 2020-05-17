@@ -120,9 +120,18 @@
         background-color: #565656;
       }
 
+      &-unread {
+        @extend .messages-people-card;
+        background-color: #233423;
+      }
+
       &_selected {
         @extend .messages-people-card;
         box-shadow: 0 0.5rem 0 $green;
+        &-unread {
+          @extend .messages-people-card_selected;
+          background-color: #233423;
+        }
       }
 
       &_avatar {

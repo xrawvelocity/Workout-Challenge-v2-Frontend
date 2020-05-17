@@ -1236,7 +1236,7 @@ nav ul {
               font-size: 1.6rem;
               position: absolute;
               right: 20px; }
-    .messages-people-card, .messages-people-card_selected {
+    .messages-people-card, .messages-people-card-unread, .messages-people-card_selected, .messages-people-card_selected-unread {
       display: flex;
       align-items: flex-start;
       margin-bottom: 2rem;
@@ -1245,15 +1245,19 @@ nav ul {
       width: 90%;
       transition: all 0.2s ease-out; }
       @media only screen and (max-width: 65em) {
-        .messages-people-card, .messages-people-card_selected {
+        .messages-people-card, .messages-people-card-unread, .messages-people-card_selected, .messages-people-card_selected-unread {
           width: 100%; } }
-      .messages-people-card, .messages-people-card_selected, .messages-people-card:link, .messages-people-card_selected:link, .messages-people-card:visited, .messages-people-card_selected:visited {
+      .messages-people-card, .messages-people-card-unread, .messages-people-card_selected, .messages-people-card_selected-unread, .messages-people-card:link, .messages-people-card-unread:link, .messages-people-card_selected:link, .messages-people-card_selected-unread:link, .messages-people-card:visited, .messages-people-card-unread:visited, .messages-people-card_selected:visited, .messages-people-card_selected-unread:visited {
         color: #eee;
         text-decoration: none; }
-      .messages-people-card:hover, .messages-people-card_selected:hover {
+      .messages-people-card:hover, .messages-people-card-unread:hover, .messages-people-card_selected:hover, .messages-people-card_selected-unread:hover {
         background-color: #565656; }
-      .messages-people-card_selected {
+      .messages-people-card-unread {
+        background-color: #233423; }
+      .messages-people-card_selected, .messages-people-card_selected-unread {
         box-shadow: 0 0.5rem 0 #04ED04; }
+        .messages-people-card_selected-unread {
+          background-color: #233423; }
       .messages-people-card_avatar {
         margin-right: 2rem;
         border-radius: 50%;

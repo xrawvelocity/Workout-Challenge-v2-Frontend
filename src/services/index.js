@@ -137,6 +137,13 @@ const services = {
         Authorization: localStorage.FBIdToken,
       },
     });
+  },  
+  markMessagesRead: async (chatId) => {
+    return await service.post(`/chat/${chatId}/notifications`, {
+      headers: {
+        Authorization: localStorage.FBIdToken,
+      },
+    });
   },
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { Component, Fragment } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getUserData } from "../../actions";
+import { getUserData, getAllChats } from "../../actions";
 
 class Main extends Component {
   state = {
@@ -22,6 +23,16 @@ class Main extends Component {
   async componentDidMount() {
     await this.props
       .getUserData()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.code);
+        localStorage.removeItem("FBIdToken");
+        window.location.href = "/login";
+      });
+    await this.props
+      .getAllChats()
       .then((data) => {
         console.log(data);
       })
@@ -76,19 +87,33 @@ class Main extends Component {
                 className="home-nav_sticky-messages"
                 icon={faComments}
               />
-              {!this.state.messagesClicked && this.props.userData ? (
-                this.props.userData.data.notifications.filter(
-                  (notification) => {
-                    return notification.read === false;
-                  }
-                ).length !== 0 ? (
+              {!this.state.messagesClicked &&
+              this.props.userData &&
+              this.props.allChatsData ? (
+                this.props.allChatsData.data.filter((chat) => {
+                  if (
+                    chat.userOne === this.props.userData.data.credentials.handle
+                  )
+                    return chat.userOneRead === false;
+                  else if (
+                    chat.userTwo === this.props.userData.data.credentials.handle
+                  )
+                    return chat.userTwoRead === false;
+                }).length !== 0 ? (
                   <span className="home-nav_sticky-messages_number">
                     {
-                      this.props.userData.data.notifications.filter(
-                        (notification) => {
-                          return notification.read === false;
-                        }
-                      ).length
+                      this.props.allChatsData.data.filter((chat) => {
+                        if (
+                          chat.userOne ===
+                          this.props.userData.data.credentials.handle
+                        )
+                          return chat.userOneRead === false;
+                        else if (
+                          chat.userTwo ===
+                          this.props.userData.data.credentials.handle
+                        )
+                          return chat.userTwoRead === false;
+                      }).length
                     }
                   </span>
                 ) : null
@@ -233,19 +258,35 @@ class Main extends Component {
                   className="home-nav_bottom-icon"
                   icon={faComments}
                 />
-                {!this.state.messagesClicked && this.props.userData ? (
-                  this.props.userData.data.notifications.filter(
-                    (notification) => {
-                      return notification.read === false;
-                    }
-                  ).length !== 0 ? (
+                {!this.state.messagesClicked &&
+                this.props.userData &&
+                this.props.allChatsData ? (
+                  this.props.allChatsData.data.filter((chat) => {
+                    if (
+                      chat.userOne ===
+                      this.props.userData.data.credentials.handle
+                    )
+                      return chat.userOneRead === false;
+                    else if (
+                      chat.userTwo ===
+                      this.props.userData.data.credentials.handle
+                    )
+                      return chat.userTwoRead === false;
+                  }).length !== 0 ? (
                     <span className="home-nav_bottom-messages_number">
                       {
-                        this.props.userData.data.notifications.filter(
-                          (notification) => {
-                            return notification.read === false;
-                          }
-                        ).length
+                        this.props.allChatsData.data.filter((chat) => {
+                          if (
+                            chat.userOne ===
+                            this.props.userData.data.credentials.handle
+                          )
+                            return chat.userOneRead === false;
+                          else if (
+                            chat.userTwo ===
+                            this.props.userData.data.credentials.handle
+                          )
+                            return chat.userTwoRead === false;
+                        }).length
                       }
                     </span>
                   ) : null
@@ -354,7 +395,7 @@ class Main extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { userData: state.userData };
+  return { userData: state.userData, allChatsData: state.allChatsData };
 };
 
-export default connect(mapStateToProps, { getUserData })(Main);
+export default connect(mapStateToProps, { getUserData, getAllChats })(Main);
