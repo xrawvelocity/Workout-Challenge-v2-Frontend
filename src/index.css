@@ -675,7 +675,7 @@ nav ul {
               transition: all 0.1s ease-out;
               color: #d22; }
               .home-feed-posts-card-content-bottom_liked:hover {
-                color: #a22;
+                color: #eee;
                 cursor: pointer; }
               .home-feed-posts-card-content-bottom_liked:active {
                 animation: unlike 0.6s ease-out;
@@ -735,11 +735,7 @@ nav ul {
                   cursor: pointer; }
           .home-feed-posts-card-content-post {
             width: 100%;
-            height: 120px; }
-            @media only screen and (max-width: 65em) {
-              .home-feed-posts-card-content-post {
-                width: 100%;
-                height: 300px; } }
+            height: 300px; }
             .home-feed-posts-card-content-post_home {
               width: 100%;
               height: 120px; }
@@ -793,11 +789,15 @@ nav ul {
                 margin: 0 1rem;
                 font-size: 2rem;
                 transition: all 0.2s ease-out; }
-                @media only screen and (max-width: 65em) {
-                  .home-feed-posts-card-content-post_form-button_add {
-                    position: absolute;
-                    bottom: 10rem;
-                    right: 2rem; } }
+                .home-feed-posts-card-content-post_form-button_add {
+                  position: absolute;
+                  bottom: 7rem;
+                  right: 11rem; }
+                  @media only screen and (max-width: 65em) {
+                    .home-feed-posts-card-content-post_form-button_add {
+                      position: absolute;
+                      bottom: 10rem;
+                      right: 2rem; } }
                 .home-feed-posts-card-content-post_form-button:hover {
                   background-color: #04ED04;
                   color: #14110F;
@@ -1186,11 +1186,10 @@ nav ul {
         top: 7rem;
         left: 0;
         width: 90%;
-        background-color: #000;
+        background-color: rgba(0, 0, 0, 0.3);
         height: 500px; }
         .messages-people_search-results-each {
           background-color: #454545;
-          border-top: 2px solid #000;
           display: flex;
           align-items: center;
           margin-top: 0.5rem;
@@ -1443,6 +1442,10 @@ nav ul {
     text-decoration: none;
     display: inline-block;
     line-height: 1; }
+    @media only screen and (max-width: 65em) {
+      .chatbox__close, .chatbox__close:link, .chatbox__close:visited {
+        font-size: 6rem;
+        color: #d11; } }
   .chatbox__close:hover {
     color: red; }
   .chatbox-form {

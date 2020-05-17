@@ -105,7 +105,7 @@
           color: $black;
           background-color: $green;
 
-          @include respond(tab-port){
+          @include respond(tab-port) {
             left: 0;
             margin-left: 4rem;
           }
@@ -444,7 +444,7 @@
               transition: all 0.1s ease-out;
               color: #d22;
               &:hover {
-                color: #a22;
+                color: #eee;
                 cursor: pointer;
               }
               &:active {
@@ -537,12 +537,7 @@
 
           &-post {
             width: 100%;
-            height: 120px;
-
-            @include respond(tab-port) {
-              width: 100%;
-              height: 300px;
-            }
+            height: 300px;
 
             &_home {
               width: 100%;
@@ -567,7 +562,7 @@
                 height: 100%;
                 width: 100%;
 
-                @include respond(tab-port){
+                @include respond(tab-port) {
                   position: relative;
                 }
               }
@@ -612,8 +607,10 @@
                 transition: all 0.2s ease-out;
 
                 &_add {
-                  
-                  @include respond(tab-port){
+                  position: absolute;
+                    bottom: 7rem;
+                    right: 11rem;
+                  @include respond(tab-port) {
                     position: absolute;
                     bottom: 10rem;
                     right: 2rem;

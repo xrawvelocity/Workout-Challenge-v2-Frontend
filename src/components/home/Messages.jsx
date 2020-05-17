@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
+import * as firebase from "firebase";
+
 class Messages extends Component {
   constructor() {
     super();
@@ -37,22 +39,16 @@ class Messages extends Component {
     await this.setState({
       actualChats: allChats.data,
     });
-    // if (this.props.match.params) {
-    //   if (this.state.actualChats && this.props.match.params.username) {
-    //     let addedChats = this.state.actualChats.filter((chat) => {
-    //       return (
-    //         chat.userOne.handle === this.props.match.params.username ||
-    //         chat.userTwo.handle === this.props.match.params.username
-    //       );
-    //     });
-    //     console.log(addedChats)
-    //     // services.createChat({
-    //     //     userTwoHandle: this.props.match.params.username,
-    //     //     userTwoImageUrl: "d"
-    //     // })
-    //   }
-    // }
-
+    const rootRef = firebase.database().ref();
+    // rootRef.update({ chats: this.state.actualChats });
+    rootRef.on("child_changed", (snap) => {
+      this.setState({
+        actualChats: snap.val().filter(chat=>{
+          return chat.userOne === this.props.userData.data.credentials.handle || chat.userTwo === this.props.userData.data.credentials.handle
+        }),
+      });
+      console.log(snap.val())
+    });
     this.scrollToBottom();
     console.log("ALL CHATS----", allChats);
     console.log("STATE--------", this.state);
@@ -84,6 +80,7 @@ class Messages extends Component {
         <Link
           onClick={async () => {
             await this.setState({ selectedUser: otherUser });
+            console.log(this.state.selectedUser);
           }}
           to={`/messages/${otherUser}`}
           className={
@@ -145,10 +142,11 @@ class Messages extends Component {
                     await this.setState({
                       body: e.target.value,
                     });
-                    console.log(this.state.body);
                   }}
                   value={this.state.body}
-                  ref={(input)=> { this.message = input; }}
+                  ref={(input) => {
+                    this.message = input;
+                  }}
                   type="text"
                   name="message"
                   className="chatbox__bottom-form-message"
@@ -173,7 +171,7 @@ class Messages extends Component {
   showMessages = () => {
     setTimeout(() => {
       this.scrollToBottom();
-    }, 0.1);
+    }, 200);
     let realChat = this.state.actualChats.filter((chat) => {
       return (
         chat.userOne === this.props.match.params.username ||
@@ -218,14 +216,24 @@ class Messages extends Component {
           handle: this.props.match.params.username,
         })
         .then((data) => console.log("success", data))
-        .catch((err) => console.log("failed", err));
+        .catch((err) => {
+          console.log("failed", err);
+          // localStorage.removeItem("FBIdToken");
+          // window.location.href = "/login";
+        });
+      // const dbRefChat = rootRef.child("chats");
+      // const chatRef = dbRefChat.child("wCoK7ODpIpJXI9eCYQgy");
+      // const messageRef = chatRef.child("messages");
+      // messageRef.update({body: this.state.body});
       let allChats = await services.getAllChats();
       await this.setState({
         actualChats: allChats.data,
         body: "",
       });
-      this.message.focus();
-      this.scrollToBottom();
+      const rootRef = firebase.database().ref();
+      rootRef.update({ chats: this.state.actualChats });
+      // this.message.focus();
+      // this.scrollToBottom();
     } else {
       console.log("MESSAGE MUST NOT BE EMPTY");
     }
