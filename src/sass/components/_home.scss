@@ -365,7 +365,25 @@
           }
         }
         &-avatar-post {
-          display: none;
+          margin-right: 3rem;
+          border-radius: 50%;
+          border: none;
+          height: 70px;
+          min-width: 70px;
+          max-width: 70px;
+          background-color: #222;
+          overflow: hidden;
+          display: block;
+
+          @include respond(tab-port) {
+            display: none;
+          }
+
+          &-img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+          }
         }
         &-content {
           display: flex;
@@ -608,8 +626,8 @@
 
                 &_add {
                   position: absolute;
-                    bottom: 7rem;
-                    right: 11rem;
+                  bottom: 7rem;
+                  right: 11rem;
                   @include respond(tab-port) {
                     position: absolute;
                     bottom: 10rem;
