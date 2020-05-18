@@ -17,7 +17,6 @@ class Main extends Component {
   state = {
     selected: "",
     notificationsClicked: false,
-    messagesClicked: false,
   };
 
   async componentDidMount() {
@@ -249,7 +248,6 @@ class Main extends Component {
               onClick={() => {
                 this.setState({
                   selected: "messages",
-                  messagesClicked: true,
                 });
               }}
             >
@@ -258,9 +256,7 @@ class Main extends Component {
                   className="home-nav_bottom-icon"
                   icon={faComments}
                 />
-                {!this.state.messagesClicked &&
-                this.props.userData &&
-                this.props.allChatsData ? (
+                {this.props.userData && this.props.allChatsData ? (
                   this.props.allChatsData.data.filter((chat) => {
                     if (
                       chat.userOne ===

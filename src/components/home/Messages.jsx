@@ -44,11 +44,14 @@ class Messages extends Component {
     // rootRef.update({ chats: this.state.actualChats });
     rootRef.on("child_changed", (snap) => {
       this.setState({
-        actualChats: snap.val().filter(chat=>{
-          return chat.userOne === this.props.userData.data.credentials.handle || chat.userTwo === this.props.userData.data.credentials.handle
+        actualChats: snap.val().filter((chat) => {
+          return (
+            chat.userOne === this.props.userData.data.credentials.handle ||
+            chat.userTwo === this.props.userData.data.credentials.handle
+          );
         }),
       });
-      console.log(snap.val())
+      console.log(snap.val());
     });
     this.scrollToBottom();
     console.log("ALL CHATS----", this.props.allChatsData);
@@ -64,7 +67,7 @@ class Messages extends Component {
       if (chat.userOne === this.props.userData.data.credentials.handle) {
         otherUser = chat.userTwo;
         otherUserImage = chat.userTwoImage;
-        userReadChat = chat.userOneRead
+        userReadChat = chat.userOneRead;
         if (!this.state.openChats.includes(otherUser)) {
           this.setState({
             openChats: [...this.state.openChats, otherUser],
@@ -73,7 +76,7 @@ class Messages extends Component {
       } else if (chat.userTwo === this.props.userData.data.credentials.handle) {
         otherUser = chat.userOne;
         otherUserImage = chat.userOneImage;
-        userReadChat = chat.userTwoRead
+        userReadChat = chat.userTwoRead;
         if (!this.state.openChats.includes(otherUser)) {
           this.setState({
             openChats: [...this.state.openChats, otherUser],
@@ -85,13 +88,19 @@ class Messages extends Component {
           onClick={async () => {
             await this.setState({ selectedUser: otherUser });
             console.log(this.state.selectedUser);
-            await services.markMessagesRead(chat.chatId)
+            await services.markMessagesRead(chat.chatId);
+            await this.props.getAllChats();
+            await this.setState({
+              actualChats: this.props.allChatsData.data,
+            });
           }}
           to={`/messages/${otherUser}`}
           className={
             this.props.match
               ? this.props.match.params.username === otherUser
-                ? `messages-people-card_selected${!userReadChat ? "-unread" : ""}`
+                ? `messages-people-card_selected${
+                    !userReadChat ? "-unread" : ""
+                  }`
                 : `messages-people-card${!userReadChat ? "-unread" : ""}`
               : `messages-people-card${!userReadChat ? "-unread" : ""}`
           }
@@ -353,15 +362,24 @@ class Messages extends Component {
         <section className="messages-list">{this.showChatbox()}</section>
       </main>
     ) : (
-      <div style={{marginTop: "50px", fontSize: 50 }} className="form-button_loading"></div>
+      <div
+        style={{ marginTop: "50px", fontSize: 50 }}
+        className="form-button_loading"
+      ></div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return { userData: state.userData, allUsersData: state.allUsersData, allChatsData: state.allChatsData };
+  return {
+    userData: state.userData,
+    allUsersData: state.allUsersData,
+    allChatsData: state.allChatsData,
+  };
 };
 
-export default connect(mapStateToProps, { getUserData, getAllUsersData, getAllChats })(
-  Messages
-);
+export default connect(mapStateToProps, {
+  getUserData,
+  getAllUsersData,
+  getAllChats,
+})(Messages);
