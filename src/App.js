@@ -8,7 +8,7 @@ import Main from "./components/home/Main";
 import jwtDecode from "jwt-decode";
 import Profile from "./components/profile/Profile";
 import OtherProfile from "./components/profile/OtherProfile";
-import Workout from "./components/profile/Workout";
+// import Workout from "./components/profile/Workout";
 import Header from "./components/partials/Header";
 import Home from "./components/home/Home";
 import Messages from "./components/home/Messages";
