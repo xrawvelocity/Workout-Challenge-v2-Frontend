@@ -1,5 +1,5 @@
 import axios from "axios";
-let baseURL = "https://us-east1-workoutchallenge30day.cloudfunctions.net/api";
+let baseURL = "https://cors-anywhere.herokuapp.com/us-east1-workoutchallenge30day.cloudfunctions.net/api";
 
 const service = axios.create({ withCredentials: true, baseURL });
 
